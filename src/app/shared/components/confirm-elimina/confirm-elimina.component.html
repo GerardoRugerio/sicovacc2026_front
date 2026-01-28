@@ -1,0 +1,27 @@
+<div class="modal fade" id="deleteConfirm" #modalRef data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form [formGroup]="confirmForm">
+          <div class="container text-center">
+            <div class="row mx-2">
+              <div class="col-12">
+                <h1 style="font-size: 80px;"><i class="bi bi-exclamation-circle text-primary"></i></h1>
+                <h3>¡Atención!</h3>
+                <h6>Se requiere la confirmación del texto requerido para realizar la {{text_change}}</h6>
+                <input type="text" class="form-control text-center" [placeholder]="'Palabra: '+elimina_text | titlecase" formControlName="text">
+                @if(isValidField('text')) {
+                  <span class="text-danger">{{getFieldErrors('text')}}</span>
+                }
+              </div>
+              <div class="col-12 py-3">
+                <button class="btn btn-main-action mx-1" (click)="confirm()">Confirmar</button>
+                <button class="btn btn-secondary mx-1" (click)="close()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

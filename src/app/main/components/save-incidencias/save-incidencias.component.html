@@ -1,0 +1,148 @@
+<div class="modal fade" id="registIncidentes" #registIncidentes data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" data-bs-focus="false"
+aria-labelledby="registIncidentesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-header text-white">
+        <h5 class="modal-title" id="registIncidentesLabel">{{incidente() ? 'Actualización' : 'Captura'}} del incidente {{getTipo(tipo)}}</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body bg-body">
+        <form [formGroup]="incidentesForm">
+          <div class="row d-flex justify-content-center align-items-center shadow-lg rounded-3 py-3 mt-1 mb-2 mx-0">
+            <div class="col-3">
+              <shared-selector [inputAnio]="anio_input()" [disabled]="id_incidente() !== undefined ? true : false" (anio)="getAnio($event)"/>
+            </div>
+            <div class="col-3">
+              <strong>Demarcación Territorial</strong>
+              <input type="text" class="form-control text-center" [value]="id_incidente() !== undefined ? incidente()?.nombre_delegacion : delegacion()" disabled>
+            </div>
+            <div class="col-3">
+              <strong>Unidad Territorial *</strong>
+              @if(id_incidente() !== undefined) {
+                <input type="text" class="form-select text-center" [value]="incidente()?.nombre_colonia+' ('+incidente()?.clave_colonia+')'" disabled>
+              } @else {
+                <select class="form-select text-center" (change)="getMesas()" formControlName="clave_colonia">
+                <option value="">Seleccionar</option>
+                @for(colonia of listaColonias(); track $index) {
+                  <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+                }
+                </select>
+                @if(isValidField('clave_colonia')) {
+                  <span class="text-danger">{{getFieldErrors('clave_colonia')}}</span>
+                }
+              }
+            </div>
+            <div class="col-3">
+              <strong>Número de Mesa *</strong>
+              <select class="form-select text-center" (change)="activeForm()" formControlName="num_mro">
+                <option value="">Seleccionar</option>
+                @for(mesa of listaMesas(); track $index) {
+                  <option [value]="mesa.id+'-'+mesa.tipo">{{mesa.nombre}}{{getTipoMesa(mesa.tipo!)}}</option>
+                }
+              </select>
+              @if(isValidField('num_mro')) {
+                <span class="text-danger">{{getFieldErrors('num_mro')}}</span>
+              }
+            </div>
+            <div class="col-6 py-2 mt-2">
+              <div class="row">
+                <div class="col-6">
+                  <strong>Fecha del incidente *</strong>
+                  <input type="date" class="form-control text-center" formControlName="fecha">
+                  @if(isValidField('fecha')) {
+                    <span class="text-danger">{{getFieldErrors('fecha')}}</span>
+                  }
+                </div>
+                <div class="col-6">
+                  <strong>Hora del incidente *</strong>
+                  <input type="time" class="form-control text-center" formControlName="hora">
+                  @if(isValidField('hora')) {
+                    <span class="text-danger">{{getFieldErrors('hora')}}</span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row shadow-lg rounded-3 py-3 mt-3 mb-2 mx-0 px-3">
+            <div class="col-12">
+              <strong>Seleccionar incidente(s) *</strong>
+            </div>
+            <div class="col-12 border-2 rounded-3 px-3 py-2 border-danger"
+            [class]="{'border': invalid()}">
+              <div class="form-check form-check-inline py-2">
+                <input type="checkbox" class="form-check-input" id="incidente_1" formControlName="incidente_1" (change)="checkIncidentes()">
+                <label for="incidente_1" class="form-check-label">1. Objeciones manifestadas por cualquier persona representante de la COPACO.</label>
+              </div>
+              <div class="form-check form-check-inline py-2">
+                <input type="checkbox" class="form-check-input" id="incidente_2" formControlName="incidente_2" (change)="checkIncidentes()">
+                <label for="incidente_2" class="form-check-label">2. Suspensión del Cómputo y Validación de Resultados.</label>
+              </div>
+              <div class="form-check form-check-inline py-2">
+                <input type="checkbox" class="form-check-input" id="incidente_3" formControlName="incidente_3" (change)="checkIncidentes()">
+                <label for="incidente_3" class="form-check-label">3. No se realizó la carga de los datos SEI.</label>
+              </div>
+              <div class="form-check form-check-inline py-2">
+                <input type="checkbox" class="form-check-input" id="incidente_4" formControlName="incidente_4" (change)="checkIncidentes()">
+                <label for="incidente_4" class="form-check-label">4. Los datos cargados en el sistema no coinciden con el Acta de escrutinio y Cómputo de la Mesa (Resultados SEI).</label>
+              </div>
+              <div class="form-check form-check-inline py-2">
+                <input type="checkbox" class="form-check-input" id="incidente_5" formControlName="incidente_5" (change)="checkIncidentes()">
+                <label for="incidente_5" class="form-check-label">5. Otros.</label>
+              </div>
+            </div>
+            @if(invalid()) {
+              <div class="col-12">
+                <span class="text-danger">Por lo menos uno de los incidentes debe ser seleccionado.</span>
+              </div>
+            }
+          </div>
+          <div class="row shadow-lg rounded-3 py-3 mt-3 mb-2 mx-0">
+            <div class="col-12">
+              <strong>Participantes *</strong>
+              <input type="text" class="form-control" formControlName="participantes" [maxlength]="maxlength/2">
+              <shared-warnings [maxlength]="maxlength/2" [form]="incidentesForm" [field]="'participantes'"/>
+            </div>
+            <div class="col-12">
+              <strong>Hechos ocurridos *</strong>
+              <textarea type="text" class="form-control" rows="4" formControlName="hechos" [maxlength]="maxlength"></textarea>
+              <shared-warnings [maxlength]="maxlength" [form]="incidentesForm" [field]="'hechos'"/>
+            </div>
+            <div class="col-12">
+              <strong>Acciones tomadas *</strong>
+              <textarea type="text" class="form-control" rows="4" formControlName="acciones" [maxlength]="maxlength"></textarea>
+              <shared-warnings [maxlength]="maxlength" [form]="incidentesForm" [field]="'acciones'"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      @if(!cierreValidacion()) {
+        <div class="modal-footer bg-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-4 d-flex justify-content-start align-items-center">
+                @if(id_incidente() !== undefined) {
+                  <button class="btn btn-warning" (click)="activaEditar()">Editar incidente</button>
+                }
+              </div>
+              <div class="col-4"><p class="text-primary fw-bold">Los campos marcados con un asterisco "*", son obligatorios</p></div>
+              <div class="col-4 d-flex justify-content-end align-items-center">
+                @if(!cierreValidacion()) {
+                  @if(active && editar()) {
+                    <button class="btn btn-main-action" (click)="sendIncidente()">{{incidente() !== undefined ? 'Actualizar' : 'Registrar'}} incidente</button>
+                  } @else {
+                    @if(id_incidente() !== undefined) {
+                      <button class="btn btn-danger" (click)="deleteIncidente()">Eliminar incidente</button>
+                    }
+                  }
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+@if(showModal()) {
+  <main-confirma-accion (close)="getClose($event)" (confirm)="getConfirm($event)"/>
+}

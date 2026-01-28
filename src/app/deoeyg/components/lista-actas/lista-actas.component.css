@@ -1,0 +1,25 @@
+select {
+  text-transform: none;
+}
+
+form {
+  position:sticky;
+  top:100px;
+  background-color: #FFF;
+  z-index: 100;
+}
+
+thead tr:first-child th {
+  top: 193px;
+  position:sticky;
+  background-color: #32215C !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  border: solid 1px #32215C !important;
+  z-index: 10;
+}
+
+table{
+  border: solid 1px #522A78 !important;
+}

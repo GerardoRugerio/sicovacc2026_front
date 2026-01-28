@@ -1,0 +1,122 @@
+<!-- <h3>Actas Capturadas por Unidad Territorial</h3>
+<div class="row">
+  <div class="col-3">
+    <main-buscadores (anio)="getAnioConsulta($event)"/>
+  </div>
+  <div class="col-9">
+    <form [formGroup]="myForm">
+        <div class="row">
+          <div class="col-4">
+            <strong>Seleccionar distrito</strong>
+            <select class="form-select text-center" formControlName="distrito" (change)="getListaUTs()">
+              <option value="">Seleccionar</option>
+              @for(distrito of distritos; track $index) {
+                <option [value]="distrito.id">{{distrito.nombre}}</option>
+              }
+            </select>
+          </div>
+          <div class="col-4">
+            <strong>Seleccionar Unidad Territorial</strong>
+            <select class="form-select text-center" formControlName="clave_colonia" (change)="getListaActas()">
+              <option value="">Seleccionar</option>
+              @for(colonia of colonias; track $index) {
+                <option [value]="colonia.id">{{colonia.nombre}}</option>
+              }
+            </select>
+          </div>
+          <div class="col-4">
+            <strong>Clave de la UT</strong>
+            <input type="text" class="form-control text-center" [value]="clave" disabled>
+          </div>
+        </div>
+      </form>
+  </div>
+</div>
+<div class="row py-3">
+  <div class="col-12 pt-5">
+    <h4>Lista de Actas capturadas en esta Unidad Territorial</h4>
+  </div>
+  <div class="col-12">
+    <deoeyg-actas-table [lista_actas]="actas" (id_acta)="getIdActa($event)"/>
+  </div>
+</div>
+<shared-confirm-elimina [elimina_text]="'Eliminar Acta'" [text_change]="'eliminación del Acta.'" (confirmar)="getDeleteConfirm($event)"/> -->
+
+<h3>Actas Capturadas por Unidad Territorial</h3>
+<form [formGroup]="centralForm">
+  <div class="row shadow-lg rounded-3 py-3 my-3 mx-0">
+    <div class="col-12 pb-2">
+      <h5>Seleccionar parámetros de búsqueda para las actas por Unidad Territorial</h5>
+    </div>
+    <div class="col-3">
+      <shared-selector (anio)="getAnio($event)"/>
+    </div>
+    <div class="col-3">
+      <strong>Distrito</strong>
+      <select class="form-select text-center" formControlName="distrito" (change)="getColonias()">
+        <option value="">Seleccionar</option>
+        @for(distrito of listaDistritos(); track $index) {
+          <option [value]="distrito.id">{{distrito.nombre}}</option>
+        }
+      </select>
+    </div>
+    <div class="col-3">
+      <strong>Unidad Territorial</strong>
+      <select class="form-select text-center" formControlName="clave_colonia" (change)="getActas()">
+        <option value="">Seleccionar</option>
+        @for(colonia of listaColonias(); track $index) {
+          <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+        }
+      </select>
+    </div>
+    <div class="col-3">
+      <strong>Clave de la UT</strong>
+      <input type="text" class="form-control text-center" [value]="clave" disabled>
+    </div>
+  </div>
+</form>
+<div class="row shadow-lg rouded-3 py-3 my-4 mx-0">
+  <div class="col-12">
+    @if(listaActas().length > 0) {
+      <table class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Número de Mesa</th>
+            <th>Eliminar Acta</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(acta of listaActas(); track i; let i = $index) {
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{acta.nombre_colonia}}</td>
+              <td>{{acta.num_mro}} {{getTextos(acta.tipo_mro)}}</td>
+              <td>
+                <button class="btn btn-danger" (click)="deleteActa(acta.id_acta)"><img src="assets/trash-16.svg" alt="trash"></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Número de Mesa</th>
+            <th>Eliminar Acta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="4">No hay información</td>
+          </tr>
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+

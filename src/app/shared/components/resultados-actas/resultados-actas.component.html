@@ -1,0 +1,51 @@
+<h3>Actas de Cómputo Total y Actas de Validación</h3>
+<form [formGroup]="constanciasForm">
+  <div class="row mx-0 shadow-lg rounded-3 py-3 my-2">
+    <div class="col-6">
+      <shared-selector (anio)="getAnio($event)"/>
+    </div>
+    <div class="col-6">
+      <strong>Unidad Territorial</strong>
+      <select class="form-select text-center" formControlName="clave_colonia">
+        <option value="">Seleccionar</option>
+        @for(colonia of listaColonias(); track $index) {
+          <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+        }
+      </select>
+    </div>
+  </div>
+</form>
+<div class="row mx-0 shadow-lg rounded-3 py-3 my-4">
+  @for(constancia of listaConstancias; track $index) {
+    <div class="col-4">
+      <button class="btn" [class]="{'btn-main-action':constancia.id == 'proyectosParticipantes', 'btn-primary': constancia.id == 'WORD', 'btn-danger': constancia.id == 'PDF'}"
+      (click)="download(constancia.id)" [disabled]="!active">
+        <i class="bi" [class]="{'bi-filetype-pdf': constancia.id == 'PDF', 'bi-file-earmark-word': constancia.id == 'WORD', 'bi-file-earmark-spreadsheet-fill': constancia.id == 'proyectosParticipantes'}"></i>
+        {{constancia.nombre}} @if(constancia.id !== 'proyectosParticipantes'){ {{getTipo()}} }
+      </button>
+    </div>
+  }
+</div>
+@if(active) {
+  <div class="row mx-0 shadow-lg rounded-3 py-3 my-4">
+    @for(reporte of listaReportes; track $index) {
+      <div class="col-3">
+        <a (click)="download(reporte.id)">
+          <div class="card">
+            <div class="card-body">
+              <div class="row p-0 m-0">
+                <div class="col-3">
+                  <h1><i class="bi bi-file-earmark-spreadsheet-fill"></i></h1>
+                </div>
+                <div class="col-9">
+                  <h5 class="card-title">{{reporte.nombre}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    }
+  </div>
+}
+

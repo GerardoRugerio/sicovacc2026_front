@@ -1,0 +1,65 @@
+<div class="modal fade" id="datosProyecto" #registIncidentes data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" data-bs-focus="false"
+aria-labelledby="datosProyectoLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-header">
+        <h5 class="modal-title text-white" id="datosProyectoLabel">Descripción del proyecto</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body bg-body">
+        <form [formGroup]="descripcionForm">
+          <div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
+            <div class="col-3">
+              <strong>Número de proyecto</strong>
+              <input type="text" class="form-control text-center" formControlName="num_proyecto">
+            </div>
+            <div class="col-3">
+              <strong>Fecha/hora de presentación</strong>
+              <input type="text" class="form-control text-center" formControlName="fecha">
+            </div>
+            <div class="col-3">
+              <strong>Costo aproximado</strong>
+              <input type="text" class="form-control text-center" formControlName="costo_aproximado">
+            </div>
+            <div class="col-3">
+              <strong>Folio</strong>
+              <input type="text" class="form-control text-center" formControlName="folio_proy_web">
+            </div>
+          </div>
+          <div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+            <div class="col-12">
+              <strong>Rubro general</strong>
+              <input type="text" class="form-control text-center" formControlName="rubro_general">
+            </div>
+            <div class="col-12 my-2">
+              <strong>Nombre del proyecto</strong>
+              <input type="text" class="form-control text-center" formControlName="nom_proyecto">
+            </div>
+            <div class="col-6 my-2">
+              <strong>Nombre del ciudadano que presenta</strong>
+              <input type="text" class="form-control text-center" formControlName="ciudadano_presenta">
+            </div>
+            <div class="col-6 my-2">
+              <strong>Población beneficiada</strong>
+              <input type="text" class="form-control text-center" formControlName="poblacion_benef">
+            </div>
+          </div>
+          <div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+            <div class="col-12">
+              <strong>Ubicación geográfica</strong>
+              <textarea class="form-control text-center" formControlName="ubicacion_exacta" cols="auto" rows="auto"></textarea>
+            </div>
+            <div class="col-12 my-2">
+              <strong>Descripción del proyecto</strong>
+              <textarea class="form-control text-center" formControlName="descripcion" cols="auto" rows="4"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

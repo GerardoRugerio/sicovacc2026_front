@@ -1,0 +1,50 @@
+@if(showMenu()) {
+  <div class="container-fixed" id="sidenav">
+    <nav class="nav_custom">
+      <h3 class="text-center text-white" [class]="{'pb-2': userRole()}">SICOVACC</h3>
+      @if(perfil()) {
+        <h4 class="text-center pb-1">{{perfil()}}</h4>
+      }
+      <hr>
+      <ul class="list_custom text-start px-1">
+        @for(main of listaItems; track $index) {
+          <div class="pb-1">
+            @if(main.rol?.includes(userRole()!)) {
+              @if(main.lista) {
+                <li class="list_custom__item__select list_custom__item--click">
+                  <div class="list_custom__button my-1 list_custom__button--click" [id]="main.id_secundario" (click)="openMenu(main.id!, main.id_secundario!)">
+                    <a class="nav__link">{{main.descripcion}}</a>
+                    <img src="assets/arrow.svg" alt="Flecha" class="list__arrow">
+                  </div>
+                  <ul class="list__show text-start" [id]="main.id">
+                    @for(item of main.items; track $index) {
+                      @if(!item.inicioValidacion || item.inicioValidacion == inicioValidacion()) {
+                        <li class="list__inside pb-1">
+                          @if(item.nombre?.match('Limpieza')) {
+                            <a class="nav__link nav__link--inside" (click)="cleanDB()">{{item.nombre}}</a>
+                          } @else {
+                            <a class="nav__link nav__link--inside" [routerLink]="['/',main.modo, main.path, item.end_point]" routerLinkActive="nav__link--inside-selected">{{item.nombre}}</a>
+                          }
+                        </li>
+                      }
+
+                    }
+                  </ul>
+                </li>
+              } @else {
+                <li class="list_custom__item" [routerLink]="['/',main.modo, main.path, main.end_point]" routerLinkActive="list_custom__item--selected" (click)="main.modo.match('distrital') ? closeMenu() : null">
+                  <div class="list_custom__button my-1">
+                    <a class="nav__link">{{main.descripcion}}</a>
+                  </div>
+                </li>
+              }
+            }
+          </div>
+        }
+      </ul>
+      <div class="pb-5 text-center" [class]="{'pt-2': userRole()! > 2}">
+        <shared-logout-button/>
+      </div>
+    </nav>
+  </div>
+}

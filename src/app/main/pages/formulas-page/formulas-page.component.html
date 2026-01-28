@@ -1,0 +1,60 @@
+<h3>Consulta de Candidaturas</h3>
+<form [formGroup]="formulasForm" class="fixed">
+  <div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
+    <div class="col-6">
+      <strong>Demarcación Territorial</strong>
+      <input type="text" class="form-control text-center" [value]="delegacion()" disabled>
+    </div>
+    <div class="col-6">
+      <strong>Unidad Territorial</strong>
+      <select class="form-select text-center" formControlName="clave_colonia" (change)="getFormulas()">
+        <option value="">Seleccionar</option>
+        @for(colonia of listaColonias(); track $index) {
+          <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+        }
+      </select>
+    </div>
+  </div>
+</form>
+<div class="row shadow-lg rounded-3 py-4 my-4 mx-0">
+  <div class="col-12">
+    @if(listaFormulas() !== undefined) {
+      <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Letra de Candidatura</th>
+            <th>Nombre de la Persona Candidata</th>
+            <th>Género</th>
+            <th>Edad</th>
+            <th>Folio</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(formula of listaFormulas(); track $index) {
+            <tr>
+              <td>{{formula.secuencial}}</td>
+              <td>{{formula.nombre | uppercase}}</td>
+              <td>{{formula.genero}}</td>
+              <td>{{formula.edad}}</td>
+              <td>{{formula.folio}}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Letra de Candidatura</th>
+            <th>Nombre de la Persona Candidata</th>
+            <th>Género</th>
+            <th>Edad</th>
+            <th>Folio</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

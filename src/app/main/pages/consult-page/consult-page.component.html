@@ -1,0 +1,73 @@
+<h3>Consulta de {{ubicacion()}} por Unidad Territorial</h3>
+<form [formGroup]="proyectosForm" class="fixed">
+  <div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
+    @if(ubicacion().match('proyectos')) {
+      <div class="col-4">
+        <shared-selector [filtrar]="true" (anio)="getAnio($event)"/>
+      </div>
+    }
+    <div [class]="{'col-4': ubicacion() == 'proyectos', 'col-6': ubicacion() !== 'proyectos'}">
+      <strong>Demarcación Territorial</strong>
+      <input type="text" class="form-control text-center" [value]="delegacion()" disabled>
+    </div>
+    <div [class]="{'col-4': ubicacion() == 'proyectos', 'col-6': ubicacion() !== 'proyectos'}">
+      <strong>Unidad Territorial</strong>
+      <select class="form-select text-center" formControlName="clave_colonia" (change)="getProyectos()">
+        <option value="">Seleccionar</option>
+        @for(colonia of listaColonias(); track $index) {
+          <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+        }
+      </select>
+    </div>
+  </div>
+</form>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+  <div class="col-12">
+    @if(listaProyectos() == undefined) {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+      <thead>
+        <tr>
+          <th>Número de proyecto</th>
+          <th>Nombre del proyecto</th>
+          <th>Ciudadano que lo presenta</th>
+          <th>Folio</th>
+          <th>Fecha y hora</th>
+          <th>Ver más</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+      <thead>
+        <tr>
+          <th>Número de proyecto</th>
+          <th>Nombre del proyecto</th>
+          <th>Ciudadano que lo presenta</th>
+          <th>Folio</th>
+          <th>Fecha y hora</th>
+          <th>Ver más</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(proyecto of listaProyectos(); track i; let i = $index) {
+          <tr [class]="{'table-primary':num_proyecto() == proyecto.num_proyecto}">
+            <td>{{proyecto.num_proyecto}}</td>
+            <td>{{proyecto.nom_proyecto}}</td>
+            <td>{{proyecto.ciudadano_presenta}}</td>
+            <td>{{proyecto.folio_proy_web}}</td>
+            <td>{{proyecto.fecha}}</td>
+            <td>
+              <button class="btn btn-main-action" (click)="openModal(proyecto.num_proyecto!)"><i class="bi bi-eye-fill"></i></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    }
+  </div>
+</div>
+@if(showModal()) {
+  <main-descripcion [proyecto]="proyecto()" (reset)="getReset($event)"/>
+}

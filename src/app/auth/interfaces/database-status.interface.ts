@@ -1,0 +1,34 @@
+export interface Status {
+  datosSEI:         boolean;
+  inicioValidacion: boolean;
+  cierreValidacion: boolean;
+  mesasNI:          MesasNI;
+  incidentes:       Incidentes;
+  conteo:           Conteo;
+}
+
+export interface Conteo {
+  conteo_C:   ConteoC;
+  conteo_CC1: ConteoC;
+  conteo_CC2: ConteoC;
+}
+
+export interface ConteoC {
+  id_distrito:      number;
+  actasCapturadas:  number;
+  actasPorCapturar: number;
+  UTValidadas:      number;
+  UTPorValidar:     number;
+}
+
+export interface Incidentes {
+  incidentes_C:   number;
+  incidentes_CC1: number;
+  incidentes_CC2: number;
+}
+
+export interface MesasNI {
+  mesasNI_C:   number;
+  mesasNI_CC1: number;
+  mesasNI_CC2: number;
+}

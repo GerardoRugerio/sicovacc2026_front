@@ -1,0 +1,111 @@
+<!-- <h3>Proyectos por Unidad Territorial</h3>
+<div class="container-fluid shadow-sm rounded-3 pt-5">
+  <h5 class="pb-3">Seleccionar parámetros de búsqueda para los proyectos por UT.</h5>
+  <div class="row">
+    <div class="col-3">
+      <main-buscadores (anio)="getAnio($event)"/>
+    </div>
+    <div class="col-9">
+      <form [formGroup]="myForm">
+        <div class="row">
+          <div class="col-4">
+            <strong>Selección de distrito</strong>
+            <select class="form-select text-center border-secondary" formControlName="id_distrito" (change)="getListaColonias()">
+              <option value="">Seleccionar distrito</option>
+              @for(distrito of distritos; track $index) {
+                <option [value]="distrito.id">{{distrito.nombre}}</option>
+              }
+            </select>
+          </div>
+          <div class="col-4">
+            <strong>Selección de UT</strong>
+            <select class="form-select text-center border-secondary" formControlName="clave_colonia" (change)="getListaProyectos()">
+              <option value="">Seleccionar Unidad Territorial</option>
+              @for(colonia of colonias; track $index) {
+                <option [value]="colonia.id">{{colonia.nombre}}</option>
+              }
+            </select>
+          </div>
+          <div class="col-4">
+            <strong>Clave de la UT</strong>
+            <input type="text" class="form-control text-center border-secondary bg-light" [value]="clave_colonia" disabled>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row pt-5 pb-2">
+    <h5>Lista de Proyectos por Unidad Territorial</h5>
+    <div class="col-12">
+      <admin-projects-table [lista_proyectos]="lista_proyectos" [anio]="anio" (confirm)="getDeleteConfirm($event)"/>
+    </div>
+  </div>
+</div> -->
+<h3>Proyectos por Unidad Territorial</h3>
+<form [formGroup]="adminForm">
+  <div class="row shadow-lg rounded-3 my-2 py-3 mx-0">
+    <div class="col-12">
+      <h5>Seleccionar los parámetros de búsqueda de los proyectos por Unidad Territorial</h5>
+    </div>
+    <div class="col-3">
+      <shared-selector (anio)="getAnio($event)"/>
+    </div>
+    <div class="col-3">
+      <strong>Distrito</strong>
+      <select class="form-select text-center" formControlName="id_distrito" (change)="getColonias()">
+        <option value="">Seleccionar</option>
+        @for(distrito of listaDistritos(); track $index) {
+          <option [value]="distrito.id">{{distrito.nombre}}</option>
+        }
+      </select>
+    </div>
+    <div class="col-3">
+      <strong>Unidad Territorial</strong>
+      <select class="form-select text-center" formControlName="clave_colonia" (change)="getProyectos()">
+        <option value="">Seleccionar</option>
+        @for(colonia of listaColonias(); track $index) {
+          <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+        }
+      </select>
+    </div>
+    <div class="col-3">
+      <strong>Clave de la UT</strong>
+      <input type="text" class="form-control text-center" [value]="clave" disabled>
+    </div>
+  </div>
+  <div class="row shadow-lg rounded-3 my-4 py-3 mx-0">
+    <div class="col-12">
+      @if(listaProyectos().length > 0) {
+        <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped row-border hover">
+          <thead>
+            <tr>
+              <th>Número de Proyecto</th>
+              <th>Nombre de la Delegación</th>
+              <th>Nombre del Proyecto</th>
+              <th>Folio</th>
+              <th>Eliminar proyecto</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      } @else {
+        <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped row-border hover">
+          <thead>
+            <tr>
+              <th>Número de Proyecto</th>
+              <th>Nombre de la Delegación</th>
+              <th>Nombre del Proyecto</th>
+              <th>Folio</th>
+              <th>Eliminar proyecto</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</form>
+
+

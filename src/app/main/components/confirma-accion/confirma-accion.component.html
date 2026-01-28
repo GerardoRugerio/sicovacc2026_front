@@ -1,0 +1,50 @@
+<div class="modal fade" id="confirmaAccion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmaAccionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+      <div class="modal-body" >
+        <div class="row p-0 m-0">
+          <form [formGroup]="accessForm">
+            <div class="col-12 py-3">
+              <img src="assets/logo-header.png" alt="Logo IECM">
+            </div>
+            <div class="col-12">
+                <h3 style="font-size: 30px;"><strong>SICOVACC</strong></h3>
+                <h4 style="font-size: 18px;">Sistema de Cómputos y Validaciones para las Consultas Ciudadanas</h4>
+                <h5 style="font-size: 15px;">Jornada de Consulta 2026 - 2027</h5>
+            </div>
+            <div class="col-12 pt-3 mb-3">
+              <h6 style="font-size: 13px;">Para conceder permiso proporcione sus credenciales de acceso</h6>
+              <div class="input-group px-2">
+                <span class="input-group-text border-secondary"><i style="font-size: 20px;" class="bi bi-person-fill p-0 m-0" ></i></span>
+                <input type="text" id="nombre_usuario" class="form-control text-center border-secondary" placeholder="Usuario" aria-label="label_user" formControlName="usuario" autocomplete="off">
+              </div>
+              @if(isValidField('usuario')) {
+                <span class="text-danger">{{getFieldErrors('usuario')}}</span>
+              }
+            </div>
+            <div class="col-12 pt-3 mb-3">
+              <div class="input-group px-2">
+                <span class="input-group-text border-secondary"><i style="font-size: 20px;" class="bi bi-key-fill p-0 m-0" ></i></span>
+                <input type="password" id="contrasena" class="form-control text-center border-secondary" placeholder="Contraseña" aria-label="label_password" formControlName="contrasena" autocomplete="off">
+              </div>
+              @if(isValidField('contrasena')) {
+                <span class="text-danger">{{getFieldErrors('contrasena')}}</span>
+              }
+            </div>
+            <div class="col-12 pt-1 text-center">
+              <div class="px-2">
+                <button class="btn btn-main-action" (click)="acceder()">Acceder</button>
+              </div>
+            </div>
+            <div class="col-12 pt-2 mb-3 text-center">
+              <div class="px-2">
+                <button class="btn btn-secondary" (click)="cerrar()">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

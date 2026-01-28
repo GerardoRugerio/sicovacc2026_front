@@ -1,0 +1,19 @@
+<h3>Lista de usuarios conectados</h3>
+<div class="container shadow-lg border-3 py-2 mt-3">
+  <table class="table table-bordered table-striped row-border hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(usuario of lista_usuarios(); track i; let i = $index) {
+        <tr>
+          <td>{{i+1}}</td>
+          <td>{{usuario}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

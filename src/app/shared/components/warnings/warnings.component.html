@@ -1,0 +1,16 @@
+<div class="container-fluid p-0 m-0">
+  <div class="row p-0 m-0">
+    <div class="col-6 p-0 m-0">
+      @if(isValidField() && getFieldLengthErrors() == 'Campo obligatorio') {
+        <span class="float-start text-danger">{{getFieldLengthErrors()}}</span>
+      }
+    </div>
+    <div class="col-6 p-0 m-0">
+      @if(getFieldLengthErrors() !== 'Campo obligatorio') {
+        <span class="float-end" [class]="{'text-danger' : touched()}">{{getFieldLengthErrors()}}</span>
+      } @else {
+        <span class="float-end">0/{{maxlength()}}</span>
+      }
+    </div>
+  </div>
+</div>

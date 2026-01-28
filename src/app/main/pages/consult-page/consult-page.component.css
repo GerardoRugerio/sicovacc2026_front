@@ -1,0 +1,25 @@
+select {
+  text-transform: none;
+}
+
+thead tr:first-child th {
+  position: sticky;
+  top:193px !important;
+  background-color: #32215C !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
+
+table {
+  border: solid 1px #522A78 !important;
+}
+
+
+.fixed {
+  position: sticky !important;
+  top: 100px !important;
+  background-color: white;
+  width: 100%;
+  z-index: 1;
+}

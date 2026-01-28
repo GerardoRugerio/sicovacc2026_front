@@ -1,0 +1,31 @@
+<div class="container">
+  <h3>Importación de Votos SEI y Proyectos Participantes</h3>
+  <div class="row shadow-lg pt-3 pb-4 rounded-3">
+    <h5 class="">Seleccionar parámetros de búsqueda</h5>
+    <div class="col-4">
+      <main-buscadores (anio)="getAnio($event)"/>
+      <!-- <strong>Seleccionar año</strong>
+      <select class="form-select text-center border-secondary" formControlName="tipo_eleccion" (change)="getEleccion()">
+        <option value="">Seleccionar</option>
+        <option value="1">PRESUPUESTO PARTICIPATIVO 2025</option>
+      </select> -->
+    </div>
+    <div class="col-4">
+      <form [formGroup]="form">
+        <strong>Seleccionar distrito</strong>
+        <select class="form-select text-center border-secondary" [disabled]="eleccion == '' ? true : false" formControlName="distrito">
+          <option value="TODOS">TODOS</option>
+          @for(distrito of distritos; track $index) {
+            <option [value]="distrito.id">{{distrito.nombre}}</option>
+          }
+        </select>
+      </form>
+      </div>
+      <div class="col-2 d-flex justify-content-center align-items-center">
+        <button class="btn btn-main-action" [disabled]="eleccion == '' ? true : false" (click)="importDB('importarVotosSEI')"><i class="bi bi-arrow-down"></i> Importar SEI</button>
+      </div>
+      <div class="col-2 d-flex justify-content-center align-items-center">
+        <button class="btn btn-main-action" [disabled]="eleccion == '' ? true : false" (click)="importDB('importarProyectos')"><i class="bi bi-arrow-down"></i> Importar Proyectos</button>
+      </div>
+    </div>
+</div>

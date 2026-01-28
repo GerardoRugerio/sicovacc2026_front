@@ -1,0 +1,227 @@
+<!-- <h3>{{computo | titlecase}} de la validación</h3>
+<div class="container shadow-lg py-3 mt-2 rounded-3">
+  <h4>Registro de asistencias</h4>
+  <form [formGroup]="computoForm">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-8">
+        <table class="table table-borderless" >
+          <thead>
+            <tr>
+              <th></th>
+              <th style="width:200px;">Número de asistentes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Asistencia de los MSPEN</td>
+              <td>
+                <input type="number" id="MSPEN" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event,1)" (keyup)="next($event, 'COPACO')"  formControlName="MSPEN">
+                @if(isValidField('MSPEN')) {
+                  <span class="text-danger">{{getFieldErrors('MSPEN')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Asistencia de las personas integrantes de la COPACO</td>
+              <td>
+                <input type="number" id="COPACO" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event, 1)" (keyup)="next($event, 'personas')" formControlName="COPACO">
+                @if(isValidField('COPACO')) {
+                  <span class="text-danger">{{getFieldErrors('COPACO')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Asistencia de las personas observadoras</td>
+              <td>
+                <input type="number" id="personas" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event, 2)" (keyup)="next($event, 'presentaron')" formControlName="personasObservadoras">
+                @if(isValidField('personasObservadoras')) {
+                  <span class="text-danger">{{getFieldErrors('personasObservadoras')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Asistencia de las personas que presentaron proyecto</td>
+              <td>
+                <input type="number" id="presentaron" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event, 2)" (keyup)="next($event, 'medios')" formControlName="presentaronProyecto">
+                @if(isValidField('presentaronProyecto')) {
+                  <span class="text-danger">{{getFieldErrors('presentaronProyecto')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Asistencia de medios de comunicación</td>
+              <td>
+                <input type="number" id="medios" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event, 2)" (keyup)="next($event, 'otros')" formControlName="mediosComunicacion">
+                @if(isValidField('mediosComunicacion')) {
+                  <span class="text-danger">{{getFieldErrors('mediosComunicacion')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Otro</td>
+              <td>
+                <input type="number" id="otros" class="form-control text-center border-secondary" (keydown)="onlyNumbers($event, 2)" (keyup)="next($event, 'fecha')" formControlName="otros">
+                @if(isValidField('otros')) {
+                  <span class="text-danger">{{getFieldErrors('otros')}}</span>
+                }
+              </td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>
+                <input type="number" class="form-control text-center border-secondary" [value]="total()" disabled>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row pt-3">
+      <div class="col-6 px-5">
+        <strong>Fecha de {{computo}} de la validación *</strong>
+        <input type="date" id="fecha" class="form-control text-center border-secondary" formControlName="fecha">
+        @if(isValidField('fecha')) {
+          <span class="text-danger">{{getFieldErrors('fecha')}}</span>
+        }
+      </div>
+      <div class="col-6 px-5">
+        <strong>Hora de {{computo}} de la validación *</strong>
+        <input type="time" id="hora" class="form-control text-center border-secondary" formControlName="hora">
+        @if(isValidField('hora')) {
+          <span class="text-danger">{{getFieldErrors('hora')}}</span>
+        }
+      </div>
+    </div>
+    <div class="col-12 px-5 mx-0 pt-4">
+      <strong>Observaciones *</strong>
+      <textarea id="observaciones " class="form-control border-secondary" formControlName="observaciones" maxlength="500"></textarea>
+      <shared-warnings [maxlength]="maxlength" [field]="'observaciones'" [form]="computoForm" [touched]="touched()"/>
+    </div>
+    <div class="row pt-3 pb-2">
+      <div class="col-12 d-flex justify-content-end align-items-center px-5">
+        @if(computo == 'inicio') {
+            <button class="btn" [class]="{'btn-main-action':!inicioValidacion, 'btn-warning': inicioValidacion}"
+            (click)="sendComputo(!inicioValidacion ? 1 : 2)" [disabled]="cierreValidacion">
+              <i class="bi" [class]="{'bi-floppy-fill': !inicioValidacion, 'bi-pencil-fill': inicioValidacion}"></i>
+              {{inicioValidacion ? 'Actualizar' : 'Registrar'}} inicio</button>
+        } @else {
+        }
+      </div>
+    </div>
+  </form>
+</div> -->
+
+<h3>{{computo() | titlecase}} de los Cómputos y la Validación</h3>
+<div class="container shadow-lg rounded-3 py-3 my-2">
+  <form [formGroup]="computoForm">
+    <div class="row mx-0">
+      <div class="col-12"><h4>Registro de asistencias</h4></div>
+    </div>
+    <div class="row mx-0">
+      <div class="col-6"></div>
+      <div class="col-6"><b>Número de asistentes</b></div>
+    </div>
+    <div class="row mx-0">
+      <div class="col-6">Asistencia de los MSPEN</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="MSPEN" formControlName="MSPEN"
+        (keydown)="limitNumbers($event, 1)" (keyup)="nextField($event, 'COPACO')">
+        <!-- <input type="number" class="form-control text-center" id="MSPEN" formControlName="MSPEN"
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'COPACO')"> -->
+        @if(isValid('MSPEN')) {
+          <span class="text-danger">{{getFieldErrors('MSPEN')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Asistencia de las personas integrantes de la COPACO</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="COPACO" formControlName="COPACO"
+        (keydown)="limitNumbers($event, 1)" (keyup)="nextField($event, 'observadoras')">
+        @if(isValid('COPACO')) {
+          <span class="text-danger">{{getFieldErrors('COPACO')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Asistencia de las personas observadoras</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center"  id="observadoras" formControlName="personasObservadoras"
+        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'presentaron')">
+        @if(isValid('personasObservadoras')) {
+          <span class="text-danger">{{getFieldErrors('personasObservadoras')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Asistencia de las personas que presentaron proyecto</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="presentaron" formControlName="presentaronProyecto"
+        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'medios')">
+        @if(isValid('presentaronProyecto')) {
+          <span class="text-danger">{{getFieldErrors('presentaronProyecto')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Asistencia de medios de comunicación</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="medios" formControlName="mediosComunicacion"
+        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'otros')">
+        @if(isValid('mediosComunicacion')) {
+          <span class="text-danger">{{getFieldErrors('mediosComunicacion')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Otros</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="otros" formControlName="otros"
+        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'fecha')">
+        @if(isValid('otros')) {
+          <span class="text-danger">{{getFieldErrors('otros')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-2">
+      <div class="col-6">Total</div>
+      <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <input type="text" class="form-control text-center" [value]="total()" disabled>
+      </div>
+    </div>
+    <div class="row mx-0 pt-4">
+      <div class="col-6">
+        <strong>Fecha de {{this.computo()}} de los Cómputos y la Validación</strong>
+        <input type="date" class="form-control text-center" id="fecha" formControlName="fecha"
+        (keyup)="nextField($event, 'hora')">
+        @if(isValid('fecha')) {
+          <span class="text-danger">{{getFieldErrors('fecha')}}</span>
+        }
+      </div>
+      <div class="col-6">
+        <strong>Hora de {{this.computo()}} de los Cómputos y la Validación</strong>
+        <input type="time" class="form-control text-center" id="hora" formControlName="hora"
+        (keyup)="nextField($event, 'observaciones')">
+        @if(isValid('hora')) {
+          <span class="text-danger">{{getFieldErrors('hora')}}</span>
+        }
+      </div>
+    </div>
+    <div class="row mx-0 pt-4">
+      <div class="col-12">
+        <strong>Observaciones</strong>
+        <textarea class="form-control" rows="auto" id="observaciones" formControlName="observaciones"
+        (keyup)="nextField($event, 'submit')" (keypress)="block($event)"></textarea>
+        <shared-warnings [maxlength]="maxlength()" [form]="computoForm" [field]="'observaciones'" [touched]="touched()" />
+      </div>
+    </div>
+  </form>
+  <div class="row mx-0 pb-2 pt-4">
+    <div class="col-12 d-flex justify-content-end align-items-center">
+      <button class="btn" [class]="{'btn-main-action': !buttonStyle(), 'btn-warning': buttonStyle()}" (click)="sendDatos()"
+      [hidden]="computo() == 'conclusión' && totalCapturadas() > 0" [disabled]="computo() == 'inicio' && cierreValidacion()">
+        <i class="bi" [class]="{'bi-floppy-fill':!buttonStyle(), 'bi-pencil-fill': buttonStyle()}"></i> {{buttonStyle() ? 'Actualizar' : 'Guardar'}} datos
+      </button>
+    </div>
+  </div>
+</div>

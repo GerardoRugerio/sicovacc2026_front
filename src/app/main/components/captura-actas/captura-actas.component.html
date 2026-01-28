@@ -1,0 +1,311 @@
+<div class="modal fade border-2" id="capturaActas" data-bs-backdrop="static" data-bs-keyboard="false" data-bs-focus="false"
+aria-labelledby="capturaActasLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-header">
+        <h5 class="text-white">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de Acta de Escrutinio y Cómputo {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal(false)" autofocus="false" tabindex="-1"></button>
+      </div>
+      <div class="modal-body bg-body">
+        <form [formGroup]="actasForm">
+          <div class="row shadow-lg rounded py-3 mt-1 mb-2 mx-0">
+            <div class="col-3">
+              <shared-selector [inputAnio]="inputAnio()" [disabled]="id_acta() !== undefined ? true : false" (anio)="getAnio($event)"/>
+            </div>
+            <div class="col-3">
+              <strong>Demarcación Territorial</strong>
+              <input type="text" class="form-control text-center" [value]="id_acta() !== undefined ? datos()?.nombre_delegacion : delegacion()" disabled>
+            </div>
+            <div class="col-3">
+              <strong>Unidad Territorial *</strong>
+              @if(id_acta() !== undefined) {
+                <input type="text" class="form-select text-center" [value]="datos()?.nombre_colonia+' ('+datos()?.clave_colonia+')'" disabled>
+              } @else {
+                <select class="form-select text-center" formControlName="clave_colonia"
+                [class]="{'border-2':isValid('clave_colonia'), 'border-danger':isValid('clave_colonia')}" (change)="getMesas()">
+                  <option value="">Seleccionar</option>
+                  @for(colonia of listaColonias(); track $index) {<option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>}
+                </select>
+              }
+              @if(isValid('clave_colonia')) {<span class="text-danger">{{getFieldErrors('clave_colonia')}}</span>}
+            </div>
+            <div class="col-3">
+              <strong>Número de Mesa *</strong>
+              @if(id_acta() !== undefined) {
+                <input type="text" class="form-select text-center" [value]="datos()?.mro! + getTextos(datos()?.tipo_mro!)[2]" disabled>
+              } @else {
+                <select class="form-select text-center" formControlName="num_mro"
+                [class]="{'border-2':isValid('num_mro'), 'border-danger':isValid('num_mro')}" (change)="getIntegraciones()">
+                  <option value="">Seleccionar</option>
+                  @for(mesa of listaMesas(); track $index) {
+                    <option [value]="mesa.id+'-'+mesa.tipo">{{mesa.nombre}} {{getTextos(mesa.tipo!)[2]}}</option>
+                  }
+                </select>
+              }
+              @if(isValid('num_mro')) {<span class="text-danger">{{getFieldErrors('num_mro')}}</span>}
+            </div>
+            @if(numMro.value !== '' && datos() !== undefined) {
+              <div class="d-flex justify-content-center align-items-center">
+                @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
+                  <div class="col-3 mt-3">
+                    <div class="form-check form-check-inline py-2 my-3">
+                      <input type="checkbox" class="form-check-input" id="levantada_distrito" formControlName="levantada_distrito" (change)="activaLevantadaDis(true)">
+                      <label for="levantada_distrito" class="form-check-label">¿Levantada en distrito?</label>
+                    </div>
+                  </div>
+                }
+                <div class="col-3 mt-3">
+                  <div class="form-check form-check-inline py-2 my-3">
+                    <input type="checkbox" class="form-check-input" id="coordinador_sino" formControlName="coordinador_sino" (change)="activaIntegrantes()">
+                    <label for="coordinador_sino" class="form-check-label">¿Asistió algún integrante de la comisión de participación?</label>
+                  </div>
+                </div>
+                <div class="col-3 mt-3">
+                  <strong>Número de integrantes {{coordinador ? '*' : ''}}</strong>
+                  <select class="form-select text-center" formControlName="num_integrantes"
+                  [class]="{'border-2':isValid('num_integrantes'), 'border-danger':isValid('num_integrantes')}" [disabled]="!coordinador">
+                    <option value="">Seleccionar</option>
+                    @for(integrante of listaIntegrantes(); track $index) {
+                      <option [value]="integrante.id">{{integrante.nombre}}</option>
+                    }
+                  </select>
+                  @if(isValid('num_integrantes')) {<span class="text-danger">{{getFieldErrors('num_integrantes')}}</span>}
+                </div>
+                <div class="col-3 mt-3">
+                  <div class="form-check form-check-inline py-2 my-3">
+                    <input type="checkbox" class="form-check-input" id="observador_sino" formControlName="observador_sino">
+                    <label for="observador_sino" class="form-check-label">¿Asistió algún observador?</label>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          @if((numMro.value !== '' && datos() !== undefined)) {
+            <div class="row d-flex justify-content-end align-items-center shadow-lg rounded-3 py-3 my-3 mx-0">
+              @if(!levDistrito) {
+                @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
+                  <div class="col-3">
+                    <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong>
+                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
+                    [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}"
+                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'adicionales')">
+                    @if(isValid('bol_recibidas')) {<span class="text-danger">{{getFieldErrors('bol_recibidas')}}</span>}
+                  </div>
+                  <div class="col-3">
+                    <strong>{{anio() > 1 ? 'Boletas de Opinión Adicionales' : 'Boletas adicionales'}} *</strong>
+                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="adicionales" formControlName="bol_adicionales"
+                    [class]="{'border-2':isValid('bol_adicionales'), 'border-danger':isValid('bol_adicionales')}"
+                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'sobrantes')">
+                    @if(isValid('bol_adicionales')) {<span class="text-danger">{{getFieldErrors('bol_adicionales')}}</span>}
+                  </div>
+                  <div class="col-3">
+                    <strong>{{anio() > 1 ? 'Boletas de Opinión sobrantes inutilizadas' : 'Boletas sobrantes'}} *</strong>
+                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="sobrantes" formControlName="bol_sobrantes"
+                    [class]="{'border-2':isValid('bol_sobrantes'), 'border-danger':isValid('bol_sobrantes')}"
+                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'total')">
+                    @if(isValid('bol_sobrantes')) {<span class="text-danger">{{getFieldErrors('bol_sobrantes')}}</span>}
+                  </div>
+                }
+              }
+              <div class="col-3">
+                <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[0] : 'Total ciudadanos'}} *</strong>
+                <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="total" formControlName="total_ciudadanos"
+                [class]="{'border-2':isValid('total_ciudadanos'), 'border-danger':isValid('total_ciudadanos')}"
+                (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, tipoMesa == 4 || datos()?.tipo_mro! == 4 || tipoMesa == 3 || datos()?.tipo_mro! == 3 ? 'recibidas' : '0')">
+                @if(isValid('total_ciudadanos')) {<span class="text-danger">{{getFieldErrors('total_ciudadanos')}}</span>}
+              </div>
+              @if(tipoMesa > 2 || datos()?.tipo_mro! > 2) {
+                <div class="col-3" [class]="{'pt-4': anio() > 1 && datos()?.tipo_mro == 4 || anio() > 1 && this.tipoMesa == 4 || anio() > 1 && datos()?.tipo_mro == 3 || anio() > 1 && this.tipoMesa == 3}">
+                    <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong>
+                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
+                    [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}" [disabled]="tipoMesa !== 4 ? true : false"
+                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, '0')">
+                    @if(isValid('bol_recibidas')) {<span class="text-danger">{{getFieldErrors('bol_recibidas')}}</span>}
+                </div>
+              }
+              @if(levDistrito) {
+                <div class="col-12 mt-3">
+                <strong>Seleccionar una incidencia {{levDistrito ? '*' : ''}}</strong>
+                <div class="container-fluid py-2 px-0 m-0 text-center rounded-3 mx-0 border-2 border-danger"
+                [class]="{'border': isValid('razon_distrital')}">
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_1" name="razon_distrital" value="i1" formControlName="razon_distrital">
+                      <label for="razon_distrital_1" class="form-check-label">1. Paquetes que presentaron muestras de alteración.</label>
+                    </div>
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_2" name="razon_distrital" value="i2" formControlName="razon_distrital">
+                      <label for="razon_distrital_2" class="form-check-label">2. Errores y alteraciones evidentes que generan duda sobre el resultado.</label>
+                    </div>
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_3" name="razon_distrital" value="i3" formControlName="razon_distrital">
+                      <label for="razon_distrital_3" class="form-check-label">3. Acta de Mesa Ilegible.</label>
+                    </div>
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_4" name="razon_distrital" value="i4" formControlName="razon_distrital">
+                      <label for="razon_distrital_4" class="form-check-label">4. Diferencia entre los datos de la opinión SEI.</label>
+                    </div>
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_5" name="razon_distrital" value="i5" formControlName="razon_distrital">
+                      <label for="razon_distrital_5" class="form-check-label">5. Existe empate</label>
+                    </div>
+                    <div class="form-check form-check-inline py-2">
+                      <input type="radio" class="form-check-input" id="razon_distrital_6" name="razon_distrital" value="i6" formControlName="razon_distrital">
+                      <label for="razon_distrital_6" class="form-check-label">6. Existen más opiniones nulas que el total de opiniones válidas en el Acta.</label>
+                    </div>
+                  </div>
+                  @if(isValid('razon_distrital')) {
+                    <span class="text-danger">Es obligatorio seleccionar un incidente para capturar el acta como levantada en dirección distrital.</span>
+                  }
+                </div>
+              }
+            </div>
+            <div class="row shadow-lg rounded-3 py-3 my-3 mx-0">
+              <div class="col-12">
+                <table class="table table-bordered table-striped row-border hover" formArrayName="integraciones">
+                  <thead>
+                    <tr>
+                      <th>{{anio() < 2 ? 'Letra de Candidatura' : 'Número de Proyecto'}}</th>
+                      <th>{{anio() < 2 ? 'Nombre de la Persona Candidata' : 'Nombre del proyecto'}}</th>
+                      @if(anio() > 1) {
+                        <th>Rubro general</th>
+                      }
+                      <th>{{anio() < 2 ? 'Total de Votos' : 'Resultados del Escrutinio y Cómputo'}} *</th>
+                      <th>{{anio() < 2 ? 'SEI' : 'Opinión SEI'}}</th>
+                      <th>{{anio() < 2 ? 'Total' : 'Total (SEI+Mesa)'}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(integracion of listaIntegraciones.controls; track i; let i = $index) {
+                      <tr [formGroupName]="i">
+                        <td>{{integracion.get('secuencial')?.value}}</td>
+                        <td>{{integracion.get('nom_p')?.value}}</td>
+                        @if(anio() > 1) {
+                          <td>{{integracion.get('rubro_general')?.value}}</td>
+                        }
+                        <td style="width:200px;">
+                          <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" [id]="i" formControlName="votos"
+                          [class]="{'border-2':isValidVotosField('integraciones',i,'votos'), 'border-danger':isValidVotosField('integraciones',i,'votos')}"
+                          (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, (i+1) == listaIntegraciones.length ? 'nulas' : (i+1).toString())">
+                          @if(isValidVotosField('integraciones',i,'votos')) {<span class="text-danger">{{getVotosFieldErrors('integraciones',i,'votos')}}</span>}
+                        </td>
+                        <td>{{integracion.get('votos_sei')?.value}}</td>
+                        <td>{{+integracion.get('votos_sei')?.value + +integracion.get('votos')?.value}}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-end align-items-center shadow-lg rounded-3 py-3 mt-4 mx-0">
+              <div class="col-4">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th colspan="2">{{anio() < 2 ? 'En ' : ''}}Mesa{{anio() < 2 ? '' : ' receptora de Opinión'}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{anio() < 2 ? 'Votos' : 'Opiniones'}} nul{{anio() < 2 ? 'o' : 'a'}}s *</td>
+                      <td style="width:200px;">
+                        <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" [class]="{'border-2':isValid('bol_nulas'), 'border-danger':isValid('bol_nulas')}" id="nulas" formControlName="bol_nulas"
+                        (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'submit')">
+                        @if(isValid('bol_nulas')) {<span class="text-danger">{{getFieldErrors('bol_nulas')}}</span>}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{{anio() < 2 ? 'Votación' : 'Opinión'}} total emitida</td>
+                      <td><input type="text" class="form-control text-center" [value]="totalEmitida" disabled></td>
+                    </tr>
+                    @if(anio() < 2) {
+                      <tr>
+                        <td>Votación total efectiva</td>
+                        <td><input type="text" class="form-control text-center" [value]="sumaVotos()" disabled></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+              @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
+                <div class="col-4">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">{{anio() < 2 ? '' : 'Recepción electrónica '}}SEI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{anio() < 2 ? 'Votos' : 'Opiniones'}} nul{{anio() < 2 ? 'o' : 'a'}}s</td>
+                        <td style="width:200px;"><input type="text" class="form-control text-center" [value]="datos()?.bol_nulas_sei" disabled></td>
+                      </tr>
+                      <tr>
+                        <td>{{anio() < 2 ? 'Votación total emitida' : 'Total de opiniones computadas'}}</td>
+                        <td><input type="text" class="form-control text-center" [value]="datos()?.opi_total_sei" disabled></td>
+                      </tr>
+                      @if(anio() < 2) {
+                        <tr>
+                          <td>Votación total efectiva</td>
+                          <td><input type="text" class="form-control text-center" [value]="sumaVotosSEI()" disabled></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-4">
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Total{{anio() < 2 ? '' : 'es (SEI + Mesa)'}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{anio() < 2 ? 'Votos nulos' : 'Total (Papeletas/Opiniones) nulas'}}</td>
+                        <td style="width:200px;"><input type="text" class="form-control text-center" [value]="totalNulasMesaSEI" disabled></td>
+                      </tr>
+                      <tr>
+                        <td>{{anio() < 2 ? 'Votación total emitida' : 'Total de opiniones (Emitidas/Computadas)'}}</td>
+                        <td><input type="text" class="form-control text-center" [value]="totalEmitidaMesaSEI" disabled></td>
+                      </tr>
+                      @if(anio() < 2) {
+                        <tr>
+                          <td>Votación total efectiva</td>
+                          <td><input type="text" class="form-control text-center" [value]="totalEfectivaMesaSEI" disabled></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          }
+        </form>
+      </div>
+      @if(numMro.value !== '' && datos() !== undefined) {
+        @if(!cierreValidacion()) {
+          <div class="modal-footer bg-body">
+            <div class="container-fluid p-0 m-0">
+              <div class="row">
+                <div class="col-4 d-flex justify-content-start align-items-center">
+                  @if(id_acta() !== undefined) {
+                    <button class="btn" [disabled]="rol() !== 1 && editForm() ? true : false" [class]="{'btn-secondary': editForm(), 'btn-warning': !editForm()}"
+                    (click)="activaEdit()">{{editForm() ? 'Editando' : 'Editar'}} datos</button>
+                  }
+                </div>
+                <div class="col-4">
+                  <p class="text-primary fw-bold">Los campos marcados con un asterisco "*", son obligatorios</p>
+                </div>
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                  <button class="btn btn-main-action" (click)="sendDatos()" [hidden]="id_acta() !== undefined && !editForm()">{{id_acta() !== undefined ? 'Actualizar' : 'Registrar'}} captura</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+</div>
+@if(showModal()) {
+  <main-confirma-accion (confirm)="getConfirm($event)" (close)="getReset($event)"/>
+}

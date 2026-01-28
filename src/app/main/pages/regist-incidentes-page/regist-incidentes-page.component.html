@@ -1,0 +1,64 @@
+<h3>Registro de Incidencias</h3>
+<div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
+  <div class="col-6">
+    <shared-selector (anio)="getAnio($event)"/>
+  </div>
+  <div class="col-6 d-flex justify-content-end align-items-center">
+    @if(active()) {
+      <button class="btn btn-main-action" (click)="openModal()"><img src="assets/list-plus.svg" width="25" alt="plus"> Nuevo incidente</button>
+    } @else {
+      <button class="btn btn-main-action" disabled><i class="bi bi-plus-lg"></i> Nuevo incidente</button>
+    }
+  </div>
+</div>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+  <div class="col-12">
+    @if(listaIncidencias() !== undefined) {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave UT</th>
+            <th>Número de Mesa</th>
+            <th>Fecha - hora</th>
+            <th>Ver/Editar incidente</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(incidencia of listaIncidencias(); track i; let i = $index) {
+            <tr [class]="{'table-primary': id_incidente() == incidencia.id_incidente}">
+              <td>{{i+1}}</td>
+              <td>{{incidencia.nombre_colonia}}</td>
+              <td>{{incidencia.clave_colonia}}</td>
+              <td>M0{{incidencia.num_mro}} {{getTipoMesa(incidencia.tipo_mro)}}</td>
+              <td>{{incidencia.fecha | fecha}} - {{incidencia.hora | hora}}</td>
+              <td>
+                <button class="btn btn-main-action" (click)="openModal(incidencia.id_incidente)"><i class="bi bi-eye-fill"></i></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave UT</th>
+            <th>Número de Mesa</th>
+            <th>Fecha - hora</th>
+            <th>Ver/Editar incidente</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+@if(showModal()) {
+  <main-save-incidencias [anio_input]="anio()" [incidente]="incidente()" (resetModal)="getReset($event)" (reloadLista)="getReload($event)"/>
+}
+

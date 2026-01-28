@@ -1,0 +1,43 @@
+@if(lista_proyectos !== undefined) {
+  <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Número de proyecto</th>
+        <th>Nombre delegación</th>
+        <th>Nombre de proyecto</th>
+        <th>Folio</th>
+        <th>Borrar proyecto</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(proyecto of lista_proyectos; track i; let i = $index) {
+        <tr>
+          <td>{{proyecto.num_proyecto}}</td>
+          <td>{{proyecto.nombre_delegacion}}</td>
+          <td>{{proyecto.nom_proyecto}}</td>
+          <td>{{proyecto.folio}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="openModal(proyecto.id_proyecto!)"><i class="bi bi-trash-fill"></i></button>
+          </td>
+        </tr>
+      }
+    </tbody>
+    <tbody>
+    </tbody>
+  </table>
+} @else {
+  <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Número de proyecto</th>
+        <th>Nombre delegación</th>
+        <th>Nombre de proyecto</th>
+        <th>Folio</th>
+        <th>Borrar proyecto</th>
+      </tr>
+    </thead>
+  </table>
+}
+<shared-confirm-elimina [elimina_text]="'Eliminar Proyecto'" [text_change]="'eliminación del proyecto.'" (confirmar)="getDeleteConfirm($event)"/>
+
+

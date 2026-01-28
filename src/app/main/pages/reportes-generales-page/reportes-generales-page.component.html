@@ -1,0 +1,27 @@
+<h3>Listado de reportes generales</h3>
+<div class="container text-start">
+  <div class="row shadow-lg rounded-3 py-3 my-2 mx-0 fixed">
+    <div class="col-12 text-center">
+      <shared-selector (anio)="getAnio($event)"/>
+    </div>
+  </div>
+  <div class="row shadow-lg rounded-3 py-3 my-4 mx-0 text-start">
+    @for(reporte of lista_reportes; track $index) {
+      <div class="col-12">
+        <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
+          <div class="card" style="width: 100% !important;">
+            <div class="card-body" >
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="card-title">
+                    <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    }
+  </div>
+</div>

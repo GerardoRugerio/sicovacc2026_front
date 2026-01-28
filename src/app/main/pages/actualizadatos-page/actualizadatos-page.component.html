@@ -1,0 +1,65 @@
+<h3>Datos del distrito</h3>
+<div class="container shadow-lg pt-2 pb-3 px-4 my-2 rounded-3" >
+  <form [formGroup]="myForm" (submit)="guardar()">
+    <div class="row py-3">
+      <div class="col-6 pb-3">
+        <strong>Demarcación Territorial</strong>
+        <input type="text" class="form-control text-center" formControlName="nombre_delegacion" style="background-color: #FFFFFF;">
+      </div>
+      <div class="col-12 pb-3">
+        <strong>Domicilio *</strong>
+        <textarea class="form-control" formControlName="domicilio" [maxlength]="maxlength"></textarea>
+        <shared-warnings [maxlength]="maxlength" [form]="myForm" [field]="'domicilio'" [touched]="touched('domicilio')"/>
+      </div>
+      <h5>Persona titular del Órgano Desconcentrado</h5>
+      <div class="col-5 pb-3">
+        <strong>Nombre *</strong>
+        <input type="text" class="form-control text-center" formControlName="coordinador" [maxlength]="maxlength/2">
+        <shared-warnings [maxlength]="maxlength/2" [form]="myForm" [field]="'coordinador'" [touched]="touched('coordinador')"/>
+      </div>
+      <div class="col-5 pb-3">
+        <strong>Puesto *</strong>
+        <input type="text" class="form-control text-center" formControlName="coordinador_puesto" [maxlength]="maxlength/2">
+        <shared-warnings [maxlength]="maxlength/2" [form]="myForm" [field]="'coordinador_puesto'" [touched]="touched('coordinador_puesto')"/>
+      </div>
+      <div class="col-2 pb-3">
+        <strong>Género *</strong>
+        <select class="form-select text-center" formControlName="coordinador_genero">
+          <option value="">Seleccionar</option>
+          <option value="F">Femenino</option>
+          <option value="M">Masculino</option>
+          <option value="O">Otro</option>
+        </select>
+        @if(isValidField('coordinador_genero')) {
+          <span class="text-danger">{{ getFieldErrors('coordinador_genero') }}</span>
+        }
+      </div>
+      <h5>Persona secretario/a del Órgano Desconcentrado</h5>
+      <div class="col-5 pb-3">
+        <strong>Nombre *</strong>
+        <input type="text" class="form-control text-center" formControlName="secretario" [maxlength]="maxlength/2">
+        <shared-warnings [maxlength]="maxlength/2" [form]="myForm" [field]="'secretario'" [touched]="touched('secretario')"/>
+      </div>
+      <div class="col-5 pb-3">
+        <strong>Puesto *</strong>
+        <input type="text" class="form-control text-center" formControlName="secretario_puesto" [maxlength]="maxlength/2">
+        <shared-warnings [maxlength]="maxlength/2" [form]="myForm" [field]="'secretario_puesto'" [touched]="touched('secretario_puesto')"/>
+      </div>
+      <div class="col-2 pb-3">
+        <strong>Género *</strong>
+        <select class="form-select text-center" formControlName="secretario_genero">
+          <option value="">Seleccionar</option>
+          <option value="F">Femenino</option>
+          <option value="M">Masculino</option>
+          <option value="O">Otro</option>
+        </select>
+        @if(isValidField('secretario_genero')) {
+          <span class="text-danger">{{ getFieldErrors('coordinador_genero') }}</span>
+        }
+      </div>
+      <div class="col-12 d-flex justify-content-end align-items-center py-0 m-0">
+        <button class="btn btn-main-action" type="submit"><i class="bi bi-floppy-fill"></i> Guardar cambios</button>
+      </div>
+    </div>
+  </form>
+</div>

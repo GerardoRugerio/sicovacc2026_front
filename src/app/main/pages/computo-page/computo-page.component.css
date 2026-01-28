@@ -1,0 +1,11 @@
+.integrantes {
+  width: 50% !important;
+}
+
+.registro {
+  width: 900px;
+}
+
+input[type=text] {
+  width: 200px !important;
+}

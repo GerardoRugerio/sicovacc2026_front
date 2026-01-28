@@ -1,0 +1,22 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Unidad Territorial</th>
+      <th>Número de mesa</th>
+      <th>Eliminar Acta</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(acta of lista_actas; track i; let i = $index) {
+      <tr>
+        <td>{{acta.clave_colonia}}</td>
+        <td>{{acta.num_mro}} {{acta.tipo}} {{acta.tipo_mro < 2 ? '' : (acta.tipo_mro == 3 ? '(MECPEP)' : '(MECPPP)')}}</td>
+        <td><button class="btn btn-danger" (click)="emitIdActa(acta.id_acta)"><i class="bi bi-trash-fill"></i></button></td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="3">No hay información para mostrar.</td>
+      </tr>
+    }
+  </tbody>
+</table>

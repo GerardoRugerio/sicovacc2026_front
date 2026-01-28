@@ -1,0 +1,25 @@
+.container-fluid {
+  min-height: 100vh;
+}
+
+/* style="" */
+
+.login {
+  width: 430px;
+  background-color: rgb(238, 238, 238);
+  border-top: 3px solid #522A78;
+  border-radius: 3px;
+}
+
+.btn-log {
+  width: 100% !important;
+}
+
+.btn-light {
+  width: 100% !important;
+}
+
+textarea, input {
+  text-transform: none !important;
+}
+

@@ -1,0 +1,242 @@
+<!-- <h3>Captura de Resultados de la Consulta por Mesa</h3>
+<div class="row d-flex justify-content-center align-items-center shadow-lg rounded-3 py-2 mx-0 my-3">
+  <div class="col-6">
+    <main-buscadores (anio)="getAnio($event)"/>
+  </div>
+  <div class="col-6">
+    <table class="table table-responsive border-3 table-bordered table-striped row-border hover rounded-5">
+      <thead>
+        <tr>
+          <th colspan="2">Unidades Territoriales</th>
+          <th colspan="2">Actas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Por Validar</td>
+          <td>Validadas</td>
+          <td>Por Capturar</td>
+          <td>Capturadas</td>
+        </tr>
+        <tr>
+          <td>{{porValidar ?? 0}}</td>
+          <td>{{validadas ?? 0}}</td>
+          <td>{{porCapturar ?? 0}}</td>
+          <td>{{capturadas ?? 0}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+  <div class="col-12 d-flex justify-content-end align-content-center">
+    <button class="btn btn-main-action" (click)="openModal()"><i class="bi bi-plus-lg"></i> Capturar nueva acta</button>
+  </div>
+  <div class="col-12">
+    @if(lista_actas !== undefined) {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver/editar acta</th>
+          </tr>
+        </thead>
+         <tbody>
+          @for(acta of lista_actas; track i; let i = $index) {
+            <tr>
+              <td>{{i + 1}}</td>
+              <td>{{acta.nombre_colonia}}</td>
+              <td>{{acta.clave_colonia}}</td>
+              <td>{{acta.num_mro}} {{getTipoMesa(acta.tipo)}}</td>
+              <td>
+                <button class="btn btn-main-action" (click)="openModal(acta.id_acta)"><i class="bi bi-eye-fill"></i></button>
+              </td>
+            </tr>
+          }
+         </tbody>
+      </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver/editar acta</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+@if(showModal) {
+  <main-captura-actas [id_acta]="id_acta" [primerActa]="primerActa" (resetModal)="getReset($event)" (rechargeLista)="getReload($event)"/>
+} -->
+
+<!-- <h3>Captura de Resultados de la Consulta por Mesa</h3>
+<div class="row d-flex justify-content-center align-items-center shadow-lg rounded-3 py-2 mx-0 my-3">
+  <div class="col-6">
+    <main-buscadores (anio)="getAnio($event)"/>
+  </div>
+  <div class="col-6">
+    <table class="table table-bordered table-striped row-border hover">
+      <thead>
+        <tr>
+          <th colspan="2">Unidades Territoriales</th>
+          <th colspan="2">Actas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Por Validar</td>
+          <td>Validadas</td>
+          <td>Por Capturar</td>
+          <td>Capturadas</td>
+        </tr>
+        <tr>
+          <td>{{datos()?.UTPorValidar ?? 0}}</td>
+          <td>{{datos()?.UTValidadas ?? 0}}</td>
+          <td>{{datos()?.actasPorCapturar ?? 0}}</td>
+          <td>{{datos()?.actasCapturadas ?? 0}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+  <div class="col-12 d-flex justify-content-end align-content-center">
+    <button class="btn btn-main-action" (click)="navigateActa()"><i class="bi bi-plus-lg"></i> Capturar acta</button>
+  </div>
+  <div class="col-12">
+    @if(lista_actas() !== undefined) {
+      <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver más</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(acta of lista_actas(); track i; let i = $index) {
+            <tr>
+              <td>{{i + 1}}</td>
+              <td>{{acta.nombre_colonia}}</td>
+              <td>{{acta.clave_colonia}}</td>
+              <td>{{acta.num_mro}} {{getTipoMesa(acta.tipo_mro)}} {{acta.tipo}}</td>
+              <td>
+                <button class="btn btn-main-action" (click)="navigateActa(acta.id_acta)"><i class="bi bi-eye-fill"></i></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions()" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver más</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    }
+  </div>
+</div> -->
+<h3>Captura de Resultados de la Consulta por Mesa</h3>
+<div class="row shadow-lg rounded-3 py-3 my-2 mx-0 d-flex justify-content-center align-items-center">
+  <div class="col-6">
+    <shared-selector (anio)="getAnio($event)"/>
+  </div>
+  <div class="col-6">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th colspan="2">Unidades Territoriales</th>
+          <th colspan="2">Actas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Por Validar</td>
+          <td>Validadas</td>
+          <td>Por Capturar</td>
+          <td>Capturadas</td>
+        </tr>
+        <tr>
+          <td>{{data()?.UTPorValidar ?? 0}}</td>
+          <td>{{data()?.UTValidadas ?? 0}}</td>
+          <td>{{data()?.actasPorCapturar ?? 0}}</td>
+          <td>{{data()?.actasCapturadas ?? 0}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0 d-flex justify-content-center align-items-center">
+  <div class="col-12 d-flex justify-content-end align-items-center">
+    <button class="btn btn-main-action" (click)="openModal()" [disabled]="dataStatus()?.datosSEI ? false : true">
+      <img src="assets/list-plus.svg" width="25" alt="plus"> Capturar acta
+    </button>
+  </div>
+  <div class="col-12">
+    @if(listaActas() !== undefined) {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver/editar acta</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(acta of listaActas(); track i; let i = $index) {
+            <tr [class]="{'table-primary': id_acta() == acta.id_acta}">
+              <td>{{i+1}}</td>
+              <td>{{acta.nombre_colonia}}</td>
+              <td>{{acta.clave_colonia}}</td>
+              <td>{{acta.num_mro}} {{getTextos(acta.tipo)}}</td>
+              <td>
+                <button class="btn btn-main-action" (click)="openModal(acta.id_acta)"><i class="bi bi-eye-fill"></i></button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Unidad Territorial</th>
+            <th>Clave de la UT</th>
+            <th>Número de Mesa</th>
+            <th>Ver/editar acta</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+@if(showModal()) {
+  <main-captura-actas [inputAnio]="anio()" [id_acta]="id_acta()" (reset)="getReset($event)" (reload)="getReload($event)"/>
+}
+
+

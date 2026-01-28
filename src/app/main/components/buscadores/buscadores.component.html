@@ -1,0 +1,12 @@
+<form [formGroup]="form">
+  <div class="text-center">
+    <strong>Año/Tipo de consulta</strong>
+    <select class="form-select text-center" (change)="getId()" formControlName="id" [disabled]="disabled()!">
+      <option value="">Seleccionar</option>
+      @for(anio of lista_anios(); track $index) {
+        <option [value]="anio.id">{{anio.nombre}}</option>
+      }
+    </select>
+  </div>
+</form>
+

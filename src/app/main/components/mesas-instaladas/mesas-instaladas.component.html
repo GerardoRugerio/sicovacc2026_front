@@ -1,0 +1,119 @@
+<!-- <h3>Marcado/desmarcado de Mesas no instaladas</h3>
+<h5>Indique las Mesas que no fueron instaladas</h5>
+<div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
+  <div class="col-6">
+    <main-buscadores (anio)="getAnio($event)"/>
+  </div>
+  <div class="col-6 d-flex justify-content-end align-items-center">
+    @if(db_data?.actasCapturadas == 0 && !cierreValidacion) {
+        <button class="btn btn-main-action" (click)="guardarNoInstaladas()"><i class="bi bi-floppy-fill"></i> Guardar cambios</button>
+      }
+  </div>
+</div>
+<form [formGroup]="myForm">
+  <div class="row shadow-lg rounded py-3 my-4 mx-0">
+    <div class="col-12">
+      @if(mesas_instaladas) {
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover" formArrayName="mesas">
+          <thead>
+            <tr>
+              <th>Unidad Territorial</th>
+              <th>Clave de la UT</th>
+              <th>Número de mesa</th>
+              <th>No instalada</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(mesa of mesas.controls; track i; let i = $index) {
+              <tr [formGroupName]="i">
+                <td>{{mesa.get('nombre_colonia')?.value}}</td>
+                <td>{{mesa.get('clave_colonia')?.value}}</td>
+                <td>M0{{mesa.get('num_mro')?.value}} {{getTipoMesa(mesa.get('tipo_mro')?.value)}}</td>
+                <td>
+                  <input type="checkbox" class="form-check-input" formControlName="noInstalada">
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+          <thead>
+            <tr>
+              <th>Unidad Territorial</th>
+              <th>Clave de la UT</th>
+              <th>Número de mesa</th>
+              <th>No instalada</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</form> -->
+
+<h3>Mesas instaladas</h3>
+<h5>Marcado/desmarcado de mesas no instaladas</h5>
+<div class="row shadow-lg rounded-3 py-3 my-2 mx-0 fixed">
+  <div class="col-6">
+    <shared-selector (anio)="getAnio($event)" (verify)="verifyLista($event)"/>
+  </div>
+  <div class="col-6 d-flex justify-content-end align-items-center">
+    @if(totalCapturadas() == 0) {
+      <button class="btn btn-main-action" (click)="saveMesas()"><i class="bi bi-floppy-fill"></i> Guardar mesas</button>
+    } @else {
+      <button class="btn btn-main-action" disabled><i class="bi bi-floppy-fill"></i> Guardar mesas</button>
+    }
+  </div>
+</div>
+<form [formGroup]="mesasForm">
+  <div class="row shadow-lg rounded-3 py-3 my-4 mx-0 bg-light">
+    <div class="col-12">
+      @if(listaMesas() !== undefined) {
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover" formArrayName="mesas">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Unidad Territorial</th>
+              <th>Clave de la UT</th>
+              <th>Número de mesa</th>
+              <th>No instalada</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(mesa of mesas.controls; track i; let i = $index) {
+              <tr [formGroupName]="i">
+                <td>{{i+1}}</td>
+                <td>{{mesa.get('nombre_colonia')?.value}}</td>
+                <td>{{mesa.get('clave_colonia')?.value}}</td>
+                <td>M0{{mesa.get('num_mro')?.value}} {{getTextos(mesa.get('tipo_mro')?.value)}}</td>
+                <td>
+                  <input type="checkbox" class="form-check-input" formControlName="noInstalada">
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Unidad Territorial</th>
+              <th>Clave de la UT</th>
+              <th>Número de mesa</th>
+              <th>No instalada</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</form>
+
+
+
