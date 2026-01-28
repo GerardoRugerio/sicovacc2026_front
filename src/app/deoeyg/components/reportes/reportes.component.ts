@@ -25,7 +25,7 @@ export class ReportesComponent implements OnInit {
   private downloadService = inject(DownloadService);
 
   public form = this.fb.group({
-    distrito:['1']
+    distrito:['0']
   });
 
   public reportes = [

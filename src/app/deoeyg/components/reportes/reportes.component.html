@@ -52,6 +52,7 @@
       <form [formGroup]="form">
       <strong>Distrito</strong>
       <select class="form-select text-center" formControlName="distrito">
+        <option value="0">TODOS</option>
         @for(distrito of distritos(); track $index) {
           <option [value]="distrito.id">{{distrito.nombre}}</option>
         }
