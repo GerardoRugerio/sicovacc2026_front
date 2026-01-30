@@ -6,22 +6,57 @@
     </div>
   </div>
   <div class="row shadow-lg rounded-3 py-3 my-4 mx-0 text-start">
-    @for(reporte of lista_reportes; track $index) {
-      <div class="col-12">
-        <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
-          <div class="card" style="width: 100% !important;">
-            <div class="card-body" >
-              <div class="row">
-                <div class="col-12">
-                  <h5 class="card-title">
-                    <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
-                  </h5>
-                </div>
+    <div class="col-12">
+      <a (click)="downloadReports('inicioCierreValidacion')">
+        <div class="card" style="width: 100% !important;">
+          <div class="card-body" >
+            <div class="row">
+              <div class="col-12">
+                <h5 class="card-title">
+                  <i class="bi bi-file-earmark-spreadsheet-fill"></i> Reporte de inicio y conclusión del Cómputo y Validación de la Elección y la Consulta.
+                </h5>
               </div>
             </div>
           </div>
-        </a>
-      </div>
+        </div>
+      </a>
+    </div>
+    @if(anio() > 1 ) {
+      @for(reporte of reportesConsulta; track $index) {
+        <div class="col-12">
+          <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
+            <div class="card" style="width: 100% !important;">
+              <div class="card-body" >
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="card-title">
+                      <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      }
+    } @else {
+      @for(reporte of reportesEleccion; track $index) {
+        <div class="col-12">
+          <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
+            <div class="card" style="width: 100% !important;">
+              <div class="card-body" >
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="card-title">
+                      <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      }
     }
   </div>
 </div>

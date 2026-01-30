@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ReportesGeneralesService } from '../../services/reportes-generales.service';
-import Swal from 'sweetalert2';
 import { Catalogo } from '../../interfaces/catalogo.inteface';
-import { forkJoin } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'main-reportes-generales-page',
@@ -12,15 +11,15 @@ import { forkJoin } from 'rxjs';
 export class ReportesGeneralesPageComponent {
   private reportesService = inject(ReportesGeneralesService);
 
-  public lista_reportes: Catalogo[] = [
+  public reportesConsulta: Catalogo[] = [
     {
       id:'proyectosOpinar',
       nombre:'Proyectos a Opinar.'
     },
-    {
-      id:'inicioCierreValidacion',
-      nombre:'Reporte de asistencia de inicio y cierre de la validación.'
-    },
+    // {
+    //   id:'inicioCierreValidacion',
+    //   nombre:'Reporte de inicio y conclusión del Cómputo y Validación de la Elección y la Consulta.'
+    // },
     {
       id:'UTValidadas',
       nombre:'Unidades Territoriales validadas.'
@@ -35,7 +34,7 @@ export class ReportesGeneralesPageComponent {
     },
     {
       id:'incidentesDistrito',
-      nombre:'F3. Incidentes presentados durante la validación de la Consulta.'
+      nombre:'F3. Incidentes presentados durante la Elección y la Consulta.',
     },
     {
       id:'validacionResultados',
@@ -75,17 +74,72 @@ export class ReportesGeneralesPageComponent {
       id:'levantadaDistrito',
       nombre:'Actas Levantadas en Dirección Distrital (causales de recuento).'
     },
+  ];
+
+  public reportesEleccion: Catalogo[] = [
+    {
+      id:'',
+      nombre:'Reporte de incidentes.'
+    },
+    {
+      id:'',
+      nombre:'Cómputo total de las Candidaturas por Unidades Territoriales.'
+    },
+    {
+      id:'',
+      nombre:'Resultados del Cómputo total por Mesa.'
+    },
+    {
+      id:'',
+      nombre:'Resultados del Cómputo total por Unidad Territorial.'
+    },
+    {
+      id:'',
+      nombre:'Concentrado de Candidaturas participantes.'
+    },
+    {
+      id:'',
+      nombre:'Candidaturas en las que se presenta empate.'
+    },
+    {
+      id:'',
+      nombre:'Resultados de votos por Mesa.'
+    },
+    {
+      id:'',
+      nombre:'Concentrado de Mesas computadas.'
+    },
+    {
+      id:'',
+      nombre:'Concentrado de Mesas que no han sido computadas.'
+    },
+    {
+      id:'',
+      nombre:'Unidades Territoriales con Cómputo capturado.'
+    },
+    {
+      id:'',
+      nombre:'Unidades Territoriales sin Cómputo capturado.'
+    },
+    {
+      id:'',
+      nombre:'Actas levantadas en Dirección Distrital (causales de recuento).'
+    },
+    {
+      id:'',
+      nombre:'Actas capturadas con alertas.'
+    },
   ]
 
-  private clave_colonia:string | undefined = undefined;
-  private anio:number = 0;
+  public claveColonia = signal<string | undefined>(undefined);
+  public anio = signal<number>(0);
 
   getAnio = (anio:number):void => {
-    this.anio = anio;
+    this.anio.set(anio);
   }
 
   downloadReports = (params:string, post:boolean | undefined = undefined):void => {
-    if(this.anio !== 0) {
+    if(this.anio() !== 0) {
       Swal.fire({
         title:'Espere un momento',
         text:'Obteniendo datos para generar el reporte...',
@@ -95,7 +149,7 @@ export class ReportesGeneralesPageComponent {
           Swal.showLoading();
         }
       });
-      this.reportesService.downloadReporte(this.anio,params, this.clave_colonia, post)
+      this.reportesService.downloadReporte(this.anio(),params, this.claveColonia(), post)
       .subscribe(res => {
         Swal.close();
         if(res.success) {

@@ -16,7 +16,7 @@ export class ReportesGeneralesService {
   private distrito = computed(() => this.authService.distrito());
 
   downloadReporte(anio:number, params:string, clave_colonia:string | undefined = undefined, post:boolean | undefined = undefined) {
-    if(!post)
+    if(!post) {
       return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}?anio=${anio}`)
       .pipe(
         catchError((res:HttpErrorResponse) => {
@@ -27,17 +27,18 @@ export class ReportesGeneralesService {
           }
         })
       )
-    else
+    } else {
       return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}`,{anio, clave_colonia})
       .pipe(
         catchError((res:HttpErrorResponse) => {
-          if(res.status == 0 || res.status == 500) {
+          if(res.status == 0) {
             return of({success:false,msg:'Se perdió la conexión', contentType:'',reporte:'',buffer:undefined})
           } else {
             return of(res.error as Reporte)
           }
         })
       )
+    }
   }
 
   downloadReporteUT(anio:number,path:string, clave_colonia:string | undefined = undefined) {
