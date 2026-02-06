@@ -1211,7 +1211,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
           icon:'warning',
           title:'¡Atención!',
           html:`El número de boletas sobrantes más los resultados de la ${this.anio() < 2 ? 'votación' : 'opinión'} en Mesa <b>"no es igual"</b> a las boletas entregadas.
-          (No Incluye Datos SEI),<br><b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
+          (No Incluye Datos SEI), <b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
           allowEscapeKey:false,
           allowOutsideClick:false,
           showCancelButton:true,

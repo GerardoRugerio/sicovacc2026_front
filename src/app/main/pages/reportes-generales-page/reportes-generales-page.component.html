@@ -1,11 +1,6 @@
 <h3>Listado de reportes generales</h3>
 <div class="container text-start">
-  <div class="row shadow-lg rounded-3 py-3 my-2 mx-0 fixed">
-    <div class="col-12 text-center">
-      <shared-selector (anio)="getAnio($event)"/>
-    </div>
-  </div>
-  <div class="row shadow-lg rounded-3 py-3 my-4 mx-0 text-start">
+  <div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
     <div class="col-12">
       <a (click)="downloadReports('inicioCierreValidacion')">
         <div class="card" style="width: 100% !important;">
@@ -20,6 +15,26 @@
           </div>
         </div>
       </a>
+    </div>
+    <div class="col-12">
+      <a (click)="downloadReports('incidentesDistrito')">
+        <div class="card" style="width: 100% !important;">
+          <div class="card-body" >
+            <div class="row">
+              <div class="col-12">
+                <h5 class="card-title">
+                  <i class="bi bi-file-earmark-spreadsheet-fill"></i> F3. Incidentes presentados durante la Elección y la Consulta.
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="row shadow-lg rounded-3 pb-3 my-4 mx-0 text-start">
+    <div class="col-12 text-center mb-3 mx-0 fixed rounded-3 shadow-lg py-3">
+      <shared-selector (anio)="getAnio($event)"/>
     </div>
     @if(anio() > 1 ) {
       @for(reporte of reportesConsulta; track $index) {

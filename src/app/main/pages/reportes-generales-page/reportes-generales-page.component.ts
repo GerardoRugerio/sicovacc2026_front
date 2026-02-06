@@ -16,10 +16,6 @@ export class ReportesGeneralesPageComponent {
       id:'proyectosOpinar',
       nombre:'Proyectos a Opinar.'
     },
-    // {
-    //   id:'inicioCierreValidacion',
-    //   nombre:'Reporte de inicio y conclusión del Cómputo y Validación de la Elección y la Consulta.'
-    // },
     {
       id:'UTValidadas',
       nombre:'Unidades Territoriales validadas.'
@@ -31,10 +27,6 @@ export class ReportesGeneralesPageComponent {
     {
       id:'listadoProyectos',
       nombre:'F2. Concentrado de Proyectos Participantes por Unidad Territorial.'
-    },
-    {
-      id:'incidentesDistrito',
-      nombre:'F3. Incidentes presentados durante la Elección y la Consulta.',
     },
     {
       id:'validacionResultados',
@@ -78,58 +70,54 @@ export class ReportesGeneralesPageComponent {
 
   public reportesEleccion: Catalogo[] = [
     {
-      id:'',
-      nombre:'Reporte de incidentes.'
-    },
-    {
-      id:'',
+      id:'computoTotalUT',
       nombre:'Cómputo total de las Candidaturas por Unidades Territoriales.'
     },
     {
-      id:'',
+      id:'resultadoComputoTotalMesa',
       nombre:'Resultados del Cómputo total por Mesa.'
     },
     {
-      id:'',
+      id:'resultadoComputoTotalUT',
       nombre:'Resultados del Cómputo total por Unidad Territorial.'
     },
     {
-      id:'',
+      id:'concentradoParticipantes',
       nombre:'Concentrado de Candidaturas participantes.'
     },
     {
-      id:'',
+      id:'candidaturasEmpate',
       nombre:'Candidaturas en las que se presenta empate.'
     },
     {
-      id:'',
+      id:'resultadosMesa',
       nombre:'Resultados de votos por Mesa.'
     },
     {
-      id:'',
+      id:'MesasComputadas',
       nombre:'Concentrado de Mesas computadas.'
     },
     {
-      id:'',
+      id:'MesasNoComputadas',
       nombre:'Concentrado de Mesas que no han sido computadas.'
     },
     {
-      id:'',
+      id:'UTConComputo',
       nombre:'Unidades Territoriales con Cómputo capturado.'
     },
     {
-      id:'',
+      id:'UTSinComputo',
       nombre:'Unidades Territoriales sin Cómputo capturado.'
     },
     {
-      id:'',
+      id:'levantadaDistrito',
       nombre:'Actas levantadas en Dirección Distrital (causales de recuento).'
     },
     {
-      id:'',
+      id:'actasAlerta',
       nombre:'Actas capturadas con alertas.'
     },
-  ]
+  ];
 
   public claveColonia = signal<string | undefined>(undefined);
   public anio = signal<number>(0);

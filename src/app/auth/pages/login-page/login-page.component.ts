@@ -45,7 +45,7 @@ export class LoginPageComponent {
     }
 
     this.loading.set(true);
-    this.authService.login(this.loginForm.value as User)
+    this.authService.login(this.loginForm.value as User) 
     .subscribe(res => {
       Swal.fire({
         icon:res.success ? 'success' : 'error',
@@ -54,9 +54,9 @@ export class LoginPageComponent {
         showConfirmButton:false,
         timer:2000
       }).then(() => {
+        this.loading.set(false);
         if(res.success) {
           this.loginForm.reset();
-          this.loading.set(false);
           switch(this.rol()) {
             case 1:
               this.router.navigate(['distrital']);

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { environments } from '../../../environments/environments';
-import { catchError, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Reporte } from '../interfaces/reportes.interface';
 
 @Injectable({
@@ -15,9 +15,22 @@ export class ReportesGeneralesService {
 
   private distrito = computed(() => this.authService.distrito());
 
-  downloadReporte(anio:number, params:string, clave_colonia:string | undefined = undefined, post:boolean | undefined = undefined) {
+  downloadReporte = (anio:number, params:string, clave_colonia:string | undefined = undefined, post:boolean | undefined = undefined) => {
+    // const body = {anio, clave_colonia,}
+    // const path = `${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}?anio=${anio}`;
+    // if(!post) {
+    //   return this.http.get<Reporte>(`${path}`)
+    //   .pipe(
+    //     catchError(res => of(res.error as Reporte))
+    //   )
+    // } else {
+    //   return this.http.post<Reporte>(`${this.baseUrl}`,{})
+    //   .pipe(
+    //     catchError(res => of(res.error as Reporte))
+    //   )
+    // }
     if(!post) {
-      return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}?anio=${anio}`)
+      return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}?anio=${anio}`)
       .pipe(
         catchError((res:HttpErrorResponse) => {
           if(res.status == 0) {
@@ -28,7 +41,7 @@ export class ReportesGeneralesService {
         })
       )
     } else {
-      return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}`,{anio, clave_colonia})
+      return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}`,{anio, clave_colonia})
       .pipe(
         catchError((res:HttpErrorResponse) => {
           if(res.status == 0) {
@@ -50,7 +63,7 @@ export class ReportesGeneralesService {
   }
 
   downloadProyectosP(anio:number, params:string, clave_colonia:string, tipo:string | undefined = undefined) {
-    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}`,{anio, clave_colonia, tipo})
+    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}`,{anio, clave_colonia, tipo})
     .pipe(
       catchError(res => of(res.error as Reporte))
     )
@@ -58,7 +71,7 @@ export class ReportesGeneralesService {
 
   downloadConstancias(anio:number, clave_colonia:string, tipo:string) {
     const body = {anio, clave_colonia,tipo}
-    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/constancia/${this.distrito()}`,body)
+    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${this.distrito()}`,body)
     .pipe(
       catchError(res => of(res.error as Reporte))
     )

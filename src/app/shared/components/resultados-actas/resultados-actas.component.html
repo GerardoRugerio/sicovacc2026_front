@@ -26,7 +26,7 @@
     </div>
   }
 </div>
-@if(active) {
+@if(active && anio() > 1) {
   <div class="row mx-0 shadow-lg rounded-3 py-3 my-4">
     @for(reporte of listaReportes; track $index) {
       <div class="col-3">
