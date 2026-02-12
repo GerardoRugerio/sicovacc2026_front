@@ -83,7 +83,7 @@ export class ResultadosActasComponent implements OnInit {
 
   //Obtención del valor del tipo/año de consulta proveniente del componente hijo "<shared-selector>".
   getAnio = (anio:number):void => {
-    this.anio.set(anio)
+    this.anio.set(+anio);
     if(this.anio() > 0) {
       this.getColonias();
     } else {
@@ -140,6 +140,18 @@ export class ResultadosActasComponent implements OnInit {
 
   download = (path:string):void => {
     const params = ['WORD','PDF'].includes(path) ? 'actaValidacion' : path;
+    if(this.anio() == 0) {
+      Swal.fire({
+        icon:'error',
+        title:'¡No permitido!',
+        text:'No se permite la descarga de ningún reporte sin haber seleccionado un tipo de consulta/eleccion.',
+        allowEscapeKey:false,
+        allowOutsideClick:false,
+        confirmButtonText:'Entendido'
+      });
+      return;
+    }
+
     Swal.fire({
       title:'Espere un momento',
       html:`Obteniendo datos para generar el <b>${params !== 'actaValidacion' ? 'reporte' : 'acta de validación'}</b>...`,

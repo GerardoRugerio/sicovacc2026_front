@@ -7,7 +7,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
         <button type="button" class="btn-close btn-close-white" (click)="closeModal(false)" autofocus="false" tabindex="-1"></button>
       </div>
       <div class="modal-body bg-body">
-        <form [formGroup]="actasForm">
+        <form [formGroup]="actasForm" [attr.autocomplete]="'off'">
           <div class="row shadow-lg rounded py-3 mt-1 mb-2 mx-0">
             <div class="col-3">
               <shared-selector [inputAnio]="inputAnio()" [disabled]="id_acta() !== undefined ? true : false" (anio)="getAnio($event)"/>

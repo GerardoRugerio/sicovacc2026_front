@@ -219,7 +219,7 @@
   <div class="row mx-0 pb-2 pt-4">
     <div class="col-12 d-flex justify-content-end align-items-center">
       <button class="btn" [class]="{'btn-main-action': !buttonStyle(), 'btn-warning': buttonStyle()}" (click)="sendDatos()"
-      [hidden]="computo() == 'conclusión' && totalCapturadas() > 0" [disabled]="computo() == 'inicio' && cierreValidacion()">
+      [hidden]="computo() == 'conclusión' && totalCapturadas() > 0">
         <i class="bi" [class]="{'bi-floppy-fill':!buttonStyle(), 'bi-pencil-fill': buttonStyle()}"></i> {{buttonStyle() ? 'Actualizar' : 'Guardar'}} datos
       </button>
     </div>

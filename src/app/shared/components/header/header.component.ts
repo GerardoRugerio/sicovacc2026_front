@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 
 
@@ -14,13 +14,13 @@ export class HeaderComponent {
   public nombre = computed(() => this.authService.nombre());
   public rol = computed(() => this.authService.rol());
 
-  public open: boolean = true;
+  public open = signal<boolean>(true);
 
   openNav = ():void => {
     const sideNav = document.getElementById('sidenav');
     const mainContent = document.getElementById('main');
 
-    if(!this.open) {
+    if(!this.open()) {
       mainContent!.style.paddingLeft = '240px';
       sideNav?.classList.remove('closed');
       mainContent?.classList.remove('shifted');
@@ -29,6 +29,6 @@ export class HeaderComponent {
       sideNav?.classList.add('closed');
       mainContent?.classList.add('shifted');
     }
-    this.open = !this.open;
+    this.open.set(!this.open());
   }
 }

@@ -12167,6 +12167,7 @@ textarea.form-control-lg {
 /* CSS personalizado */
 body {
   height: 100vh;
+  /* font-family: 'Montserrat', sans-serif; */
 }
 
 .btn-log:hover {

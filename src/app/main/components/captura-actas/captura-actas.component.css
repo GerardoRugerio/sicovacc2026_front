@@ -2,4 +2,7 @@ select {
   text-transform: none !important;
 }
 
-
+thead tr th {
+  position: sticky !important;
+  top: -23px !important;
+}

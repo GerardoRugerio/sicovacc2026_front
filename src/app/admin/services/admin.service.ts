@@ -12,11 +12,11 @@ export class AdminService {
   private http = inject(HttpClient);
   private baseUrl = environments.baseUrl;
 
-  private token = computed(() => localStorage.getItem('token'));
+  private get token():string {return localStorage.getItem('token') || ''};
 
   getUsuariosConectados() {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
 
     return this.http.get<Res>(`${this.baseUrl}/administrador/listaUsuarios`,{headers})
@@ -29,7 +29,7 @@ export class AdminService {
 
   import(anio:number, id_distrito:string, path:string) {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
 
     const body = {anio,id_distrito};
@@ -49,7 +49,7 @@ export class AdminService {
   getListaProyectos(anio:number, id_distrito:number, clave_colonia:string) {
     const body = {anio, id_distrito, clave_colonia}
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
 
     return this.http.post<Res>(`${this.baseUrl}/administrador/eliminarProyectos`,body,{headers})
@@ -60,7 +60,7 @@ export class AdminService {
 
   deleteProyectos(anio:number, id_proyecto:number) {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
 
     return this.http.delete<Res>(`${this.baseUrl}/administrador/eliminarProyectos`,{body:{anio, id_proyecto},headers})

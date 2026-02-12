@@ -26,41 +26,41 @@ export class ReportesGeneralesPageComponent {
     },
     {
       id:'listadoProyectos',
-      nombre:'F2. Concentrado de Proyectos Participantes por Unidad Territorial.'
+      nombre:'Concentrado de Proyectos Participantes por Unidad Territorial.'
     },
     {
       id:'validacionResultados',
-      nombre:'F4. Validación de Resultados de la Consulta por Unidad Territorial.',
+      nombre:'Validación de Resultados de la Consulta por Unidad Territorial.',
       tipo:1
     },
     {
       id:'validacionResultadosDetalle',
-      nombre:'F5. Validación de Resultados de la Consulta Detalle por Mesa.',
+      nombre:'Validación de Resultados de la Consulta Detalle por Mesa.',
       tipo:1
     },
     {
       id:'MesasConComputo',
-      nombre:'F8. Mesas Receptoras de Opinión con Cómputo Capturado.'
+      nombre:'Mesas Receptoras de Opinión con Cómputo Capturado.'
     },
     {
       id:'MesasSinComputo',
-      nombre:'F9. Mesas Receptoras de Opinión sin Cómputo Capturado.'
+      nombre:'Mesas Receptoras de Opinión sin Cómputo Capturado.'
     },
     {
       id:'resultadosOpiMesa',
-      nombre:'F10. Resultados de Opiniones por Mesa.'
+      nombre:'Resultados de Opiniones por Mesa.'
     },
     {
       id:'proyectosPrimerLugar',
-      nombre:'F11. Proyectos por Unidad Territorial que Obtuvieron el Primer Lugar.'
+      nombre:'Proyectos por Unidad Territorial que Obtuvieron el Primer Lugar.'
     },
     {
       id:'proyectosEmpatePrimerLugar',
-      nombre:'F13. Casos de empates de los proyectos que obtuvieron el primer lugar.'
+      nombre:'Casos de empates de los proyectos que obtuvieron el primer lugar.'
     },
     {
       id:'proyectosUTSinOpiniones',
-      nombre:'F15. Concentrado de Unidades Territoriales que no recibieron opiniones.'
+      nombre:'Concentrado de Unidades Territoriales que no recibieron opiniones.'
     },
     {
       id:'levantadaDistrito',
@@ -123,51 +123,54 @@ export class ReportesGeneralesPageComponent {
   public anio = signal<number>(0);
 
   getAnio = (anio:number):void => {
-    this.anio.set(anio);
+    this.anio.set(+anio);
   }
 
   downloadReports = (params:string, post:boolean | undefined = undefined):void => {
-    if(this.anio() !== 0) {
-      Swal.fire({
-        title:'Espere un momento',
-        text:'Obteniendo datos para generar el reporte...',
-        allowEscapeKey:false,
-        allowOutsideClick:false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });
-      this.reportesService.downloadReporte(this.anio(),params, this.claveColonia(), post)
-      .subscribe(res => {
-        Swal.close();
-        if(res.success) {
-          const blob = new Blob([new Uint8Array(res.buffer!.data)], { type: res.contentType });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = res.reporte;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        } else {
-          Swal.fire({
-            icon:'warning',
-            title:'¡No se realizó la descarga!',
-            text: res.msg,
-            confirmButtonText:'Entendido',
-          })
-        }
-      })
-    } else {
+    if(this.anio() == 0) {
       Swal.fire({
         icon:'error',
         title:'¡No permitido!',
-        text:'Para descargar algún reporte se requiere seleccionar el año de consulta.',
+        text:'No se permite la descarga de ningún reporte sin haber seleccionado un tipo de consulta/eleccion.',
         allowEscapeKey:false,
         allowOutsideClick:false,
         confirmButtonText:'Entendido'
-      })
+      });
+      return;
     }
+    
+    Swal.fire({
+      title:'Espere un momento',
+      text:'Obteniendo datos para generar el reporte...',
+      allowEscapeKey:false,
+      allowOutsideClick:false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    this.reportesService.downloadReporte(this.anio(),params, this.claveColonia(), post)
+    .subscribe(res => {
+      Swal.close();
+      if(res.success) {
+        const blob = new Blob([new Uint8Array(res.buffer!.data)], { type: res.contentType });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = res.reporte;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        console.log(res.msg);
+        Swal.fire({
+          icon:'warning',
+          title:'¡No se realizó la descarga!',
+          text: res.msg,
+          confirmButtonText:'Entendido',
+        })
+      }
+    })
   }
 }

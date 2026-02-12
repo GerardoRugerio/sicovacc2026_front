@@ -289,19 +289,20 @@ export class CapturaActasMesaPageComponent implements OnInit, AfterViewInit {
     this.getStatus();
   }
 
+  //Centralización de los mensajes de espera de la página principal.
   private message = (text:string):void => {
-  Swal.fire({
-    title:'Espere un momento',
-    html:text,
-    allowEscapeKey:false,
-    allowOutsideClick:false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-}
+    Swal.fire({
+      title:'Espere un momento',
+      html:text,
+      allowEscapeKey:false,
+      allowOutsideClick:false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  }
 
-  //Funciones de rtetorno de datos provenientes de los componentes hijos "<shared-selector>" y "<main-captura-actas>".
+  //Funciones de retorno de datos provenientes de los componentes hijos "<shared-selector>" y "<main-captura-actas>".
   getAnio = (anio:number):void => {
     this.anio.set(anio);
     this.listaActas.set(undefined);

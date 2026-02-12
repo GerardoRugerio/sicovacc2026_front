@@ -2,20 +2,17 @@
   <nav class="row p-0 m-0">
     <div class="col-2 d-flex justify-content-start align-items-center">
       @if(rol()! < 3) {
-        <abbr [title]="open ? 'Cerrar menú' : 'Abrir menú'">
-          <button class="btn btn-main-action toggle-menu px-2 py-1" [class]="{'fix-button': open}" (click)="openNav()"><i class="bi" [class]="{'bi-list': !open, 'bi-x-lg': open}"></i></button>
+        <abbr [title]="open() ? 'Cerrar menú' : 'Abrir menú'">
+          <button class="btn toggle-menu px-2 py-1" [class]="{'btn-primary': !open(), 'btn-secondary': open()}" (click)="openNav()"><i class="bi bi-list"></i></button>
         </abbr>
       }
       <img  src="assets/logo-header.png" alt="Logo IECM" height="100%" class="mx-2 py-2">
     </div>
     <div class="col-8 d-flex flex-column justify-content-center align-items-center">
       <h2>Sistema de Cómputos y Validaciones para las Consultas Ciudadanas</h2>
-      <h5>Jornada de consulta 2026 - 2027</h5>
+      <h5>Jornada de consulta y elección 2026 - 2027</h5>
     </div>
     <div class="col-2 d-flex justify-content-center align-items-end flex-column">
-      <div class="p-0 m-0 d-block">
-        <span><b></b></span>
-      </div>
       <div class="p-0 m-0 d-block">
         <span><b>Usuario: </b> {{nombre()}}</span>
       </div>

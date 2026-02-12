@@ -43,7 +43,8 @@
 .nav__link--inside-selected {
   background-color: #5900ac;
   color: #ffffff;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  /* font-family: 'Montserrat', sans-serif; */
 }
 
 .nav__link--inside:hover {

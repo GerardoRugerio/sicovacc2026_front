@@ -14,11 +14,11 @@ export class ComputoService {
   private baseUrl = environments.baseUrl;
   private authService = inject(AuthService);
 
-  private token = computed(() => localStorage.getItem('token'));
+  private get token():string {return localStorage.getItem('token') || ''};
 
   saveNoInstaladas(mesas:Mesa[], anio:number):Observable<Res> {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
 
     return this.http.put<Res>(`${this.baseUrl}/distrital/seguimiento/mesasInstaladas`,{mesas, anio},{headers})
@@ -29,7 +29,7 @@ export class ComputoService {
 
   getMesasInstaladas(anio:number) {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
     return this.http.get<Res>(`${this.baseUrl}/distrital/seguimiento/mesasInstaladas?anio=${anio}`,{headers})
     .pipe(
@@ -39,7 +39,7 @@ export class ComputoService {
 
   getDatosComputo(path:string) {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
      });
 
      return this.http.get<Res>(`${this.baseUrl}/distrital/seguimiento/${path}`,{headers})
@@ -50,7 +50,7 @@ export class ComputoService {
 
   setComputo(total:number , valores:Computo, option:number, path:string) {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
     const body = {...valores, total};
     if(option == 1) {

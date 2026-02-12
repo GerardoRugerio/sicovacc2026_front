@@ -23,7 +23,7 @@
             <div class="row">
               <div class="col-12">
                 <h5 class="card-title">
-                  <i class="bi bi-file-earmark-spreadsheet-fill"></i> F3. Incidentes presentados durante la Elección y la Consulta.
+                  <i class="bi bi-file-earmark-spreadsheet-fill"></i> Incidentes presentados durante la Elección y la Consulta.
                 </h5>
               </div>
             </div>
@@ -36,41 +36,43 @@
     <div class="col-12 text-center mb-3 mx-0 fixed rounded-3 shadow-lg py-3">
       <shared-selector (anio)="getAnio($event)"/>
     </div>
-    @if(anio() > 1 ) {
-      @for(reporte of reportesConsulta; track $index) {
-        <div class="col-12">
-          <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
-            <div class="card" style="width: 100% !important;">
-              <div class="card-body" >
-                <div class="row">
-                  <div class="col-12">
-                    <h5 class="card-title">
-                      <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
-                    </h5>
+    @if(anio() !== 0) {
+      @if(anio() > 1) {
+        @for(reporte of reportesConsulta; track $index) {
+          <div class="col-12">
+            <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
+              <div class="card" style="width: 100% !important;">
+                <div class="card-body" >
+                  <div class="row">
+                    <div class="col-12">
+                      <h5 class="card-title">
+                        <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
+                      </h5>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
-        </div>
-      }
-    } @else {
-      @for(reporte of reportesEleccion; track $index) {
-        <div class="col-12">
-          <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
-            <div class="card" style="width: 100% !important;">
-              <div class="card-body" >
-                <div class="row">
-                  <div class="col-12">
-                    <h5 class="card-title">
-                      <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
-                    </h5>
+            </a>
+          </div>
+        }
+      } @else {
+        @for(reporte of reportesEleccion; track $index) {
+          <div class="col-12">
+            <a (click)="downloadReports(reporte.id, reporte.tipo == 1 ? true : false)">
+              <div class="card" style="width: 100% !important;">
+                <div class="card-body" >
+                  <div class="row">
+                    <div class="col-12">
+                      <h5 class="card-title">
+                        <i class="bi bi-file-earmark-spreadsheet-fill"></i> {{reporte.nombre}}
+                      </h5>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </a>
-        </div>
+            </a>
+          </div>
+        }
       }
     }
   </div>

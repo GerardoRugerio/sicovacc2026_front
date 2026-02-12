@@ -969,7 +969,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
 
   sumaVotos = ():number => this.listaIntegraciones.controls.reduce((sum, group) => {
     const votos = +group.get('votos')?.value;
-    return sum + votos;
+    return sum + +votos;
   },0);
 
   sumaVotosSEI = ():number => this.listaIntegraciones.controls.reduce((sum, group) => {
@@ -1200,7 +1200,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
             this.levantadaDistrito.setValue(true);
             this.activaLevantadaDis(true);
           } else {
-            this.saveActa(true, 2, this.id_acta());
+            this.saveActa(true, 3, this.id_acta());
           }
         })
         return;
@@ -1249,7 +1249,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
           this.actasService.saveDatos(
               this.actasForm.value as Acta,
               this.anio(),
-              this.sumaVotos() + this.nulas,
+              this.sumaVotos() + +this.nulas,
               this.datos()?.opi_total_sei!,
               forzar,
               id_incidencia,
@@ -1337,7 +1337,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   activaEdit = ():void => {
     if(this.rol() !== 1) {
       Swal.fire({
-        icon:'info',
+        icon:'warning',
         title:'¡No permitido!',
         html:`Para actualizar la información de un acta se requieren permisos de la <b>Persona Titular de la Dirección Distrital,</b> ¿Desea acceder con su usuario y contraseña?`,
         allowEscapeKey:false,

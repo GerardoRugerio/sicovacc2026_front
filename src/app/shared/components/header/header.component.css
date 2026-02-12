@@ -4,3 +4,19 @@ header {
   border-bottom: solid 5px #a987ff;
   color:#2a004e;
 }
+
+.btn-primary {
+  background-color: #2a004e !important;
+}
+
+.btn-primary:hover {
+  background-color: #a987ff !important;
+}
+
+.btn-secondary {
+  background-color: #a987ff !important;
+}
+
+.btn-secondary:hover {
+  background-color: #2a004e !important;
+}

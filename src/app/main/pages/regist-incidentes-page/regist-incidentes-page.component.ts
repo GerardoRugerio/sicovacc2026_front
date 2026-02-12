@@ -37,7 +37,7 @@ export class RegistIncidentesPageComponent implements OnInit {
 
   //Obtención del estado del Inicio/Conclusión de la Validación para el control de los registros y edición de incidentes nuevos y existentes.
   private inicioValidacion = computed(() => this.authService.inicioValidacion());
-  private cierreValidacion = computed(() => this.authService.cierreValidacion());
+  public cierreValidacion = computed(() => this.authService.cierreValidacion());
 
   ngOnInit(): void {
     this.dtOptions = this.dtService.dtOptions;

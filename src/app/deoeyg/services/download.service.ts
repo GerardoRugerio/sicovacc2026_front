@@ -11,9 +11,9 @@ export class DownloadService {
   private http = inject(HttpClient);
   private baseUrl = environments.baseUrl;
 
-  downloadReportes(anio:number, path:string) {
-    const url = `${this.baseUrl}/central/reportes/${path}`;
-    return this.http.get<Reporte>(url,{params:{anio}})
+  downloadReportes(url:string) {
+    const path = `${this.baseUrl}/central/reportes/${url}`;
+    return this.http.get<Reporte>(path)
     .pipe(
       catchError(res => of(res.error as Reporte))
     )

@@ -470,15 +470,15 @@ export class ComputoPageComponent implements OnInit {
   }
 
   sendDatos = ():void => {
-    if(this.cierreValidacion() && this.computo().match('inicio')) {
-      Swal.fire({
-        icon:'error',
-        title:'¡No permitido!',
-        html:`Ya se ha realizado la conclusión de la validación, por lo tanto <b class="text-danger">no está permitido modificar los datos del inicio</b>.`,
-        confirmButtonText:'Entendido'
-      });
-      return;
-    }
+    // if(this.cierreValidacion() && this.computo().match('inicio')) {
+    //   Swal.fire({
+    //     icon:'error',
+    //     title:'¡No permitido!',
+    //     html:`Ya se ha realizado la conclusión de la validación, por lo tanto <b class="text-danger">no está permitido modificar los datos del inicio</b>.`,
+    //     confirmButtonText:'Entendido'
+    //   });
+    //   return;
+    // }
 
     if(this.computoForm.invalid) {
       this.computoForm.markAllAsTouched();

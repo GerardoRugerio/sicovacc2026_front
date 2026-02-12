@@ -16,30 +16,30 @@ export class ReportesGeneralesService {
   private distrito = computed(() => this.authService.distrito());
 
   downloadReporte = (anio:number, params:string, clave_colonia:string | undefined = undefined, post:boolean | undefined = undefined) => {
-    // const body = {anio, clave_colonia,}
-    // const path = `${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}?anio=${anio}`;
-    // if(!post) {
-    //   return this.http.get<Reporte>(`${path}`)
-    //   .pipe(
-    //     catchError(res => of(res.error as Reporte))
-    //   )
-    // } else {
-    //   return this.http.post<Reporte>(`${this.baseUrl}`,{})
-    //   .pipe(
-    //     catchError(res => of(res.error as Reporte))
-    //   )
-    // }
     if(!post) {
-      return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}?anio=${anio}`)
-      .pipe(
-        catchError((res:HttpErrorResponse) => {
-          if(res.status == 0) {
-            return of({success:false,msg:'Se perdió la conexión', contentType:'',reporte:'',buffer:undefined})
-          } else {
-            return of(res.error as Reporte)
-          }
-        })
-      )
+      if(params != 'inicioCierreValidacion' && params != 'incidentesDistrito') {
+        return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}?anio=${anio}`)
+        .pipe(
+          catchError((res:HttpErrorResponse) => {
+            if(res.status == 0) {
+              return of({success:false, msg:'Se perdió la conexión', contentType:'', reporte:'', buffer:undefined})
+            } else {
+              return of(res.error as Reporte)
+            }
+          })
+        )
+      } else {
+        return this.http.get<Reporte>(`${this.baseUrl}/distrital/reportes/${params}/${this.distrito()}?anio=${anio}`)
+        .pipe(
+          catchError((res:HttpErrorResponse) => {
+            if(res.status == 0) {
+              return of({success:false, msg:'Se perdió la conexión', contentType:'', reporte:'', buffer:undefined})
+            } else {
+              return of(res.error as Reporte)
+            }
+          })
+        )
+      }
     } else {
       return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}`,{anio, clave_colonia})
       .pipe(

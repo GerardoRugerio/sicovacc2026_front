@@ -1,55 +1,40 @@
-<!-- <div class="container">
-  <h3>Generar reportes</h3>
-  <div class="row pt-3">
-    <div class="col-12" style="position:sticky; top:100px; z-index: 10; background-color: #FFFFFF;">
-      <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-4">
-          <main-buscadores (anio)="getAnio($event)"/>
-        </div>
-        <div class="col-4">
-          <form [formGroup]="myForm">
-            <strong>Selección de distrito</strong>
-            <select class="form-select text-center border border-secondary" formControlName="distrito">
-              <option value="0">TODOS</option>
-              @for(distrito of distritos; track $index) {
-                <option [value]="distrito.id">{{distrito.nombre}}</option>
-              }
-            </select>
-          </form>
-        </div>
-      </div>
-      <hr class="my-2">
-    </div>
-    <div class="col-12">
-      <h5 >Lista de reportes</h5>
-      <div class="row text-start">
-        @for(reporte of reportes; track $index) {
-          <div class="col-12" (click)="download(reporte.id, reporte.distrito)">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
-                    <h5 class="card-title">
-                      <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                      {{reporte.nombre}}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            </div>
+<h3>Generar reportes</h3>
+<div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
+  <div class="col-12 text-start" (click)="download('inicioCierreValidacion', false)">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="card-title">
+              <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+              Reporte de asistencia de Inicio y Cierre de la Elección y la Validación.
+            </h5>
           </div>
-        }
+        </div>
       </div>
     </div>
   </div>
-</div> -->
-<h3>Generar reportes</h3>
+  <div class="col-12 text-start" (click)="download('incidentes', true)">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="card-title">
+              <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+              Incidentes presentados durante la elección y la validación.
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row shadow-lg rounded-3 py-3 my-2 mx-0 fixed">
   <div class="col-6">
     <shared-selector (anio)="getAnio($event)"/>
   </div>
   <div class="col-6">
-      <form [formGroup]="form">
+    <form [formGroup]="form">
       <strong>Distrito</strong>
       <select class="form-select text-center" formControlName="distrito">
         <option value="0">TODOS</option>
@@ -58,26 +43,45 @@
         }
       </select>
     </form>
-    </div>
   </div>
+</div>
 <div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
   <div class="col-12 pb-2">
     <h5>Lista de Reportes</h5>
   </div>
-  @for(reporte of reportes; track $index) {
-    <div class="col-12 text-start" (click)="download(reporte.id, reporte.distrito)">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <h5 class="card-title">
-                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                {{reporte.nombre}}
-              </h5>
+  @if(anio() > 1) {
+    @for(reporte of reportesConsulta; track $index) {
+      <div class="col-12 text-start" (click)="download(reporte.id, reporte.distrito)">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <h5 class="card-title">
+                  <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                  {{reporte.nombre}}
+                </h5>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    }
+  } @else {
+    @for(reporte of reportesEleccion; track $index) {
+      <div class="col-12 text-start" (click)="download(reporte.id, reporte.distrito)">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <h5 class="card-title">
+                  <i class="bi bi-file-earmark-spreadsheet-fill"></i>
+                  {{reporte.nombre}}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   }
 </div>

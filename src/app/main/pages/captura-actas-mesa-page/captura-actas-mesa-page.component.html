@@ -188,7 +188,7 @@
 </div>
 <div class="row shadow-lg rounded-3 py-3 my-4 mx-0 d-flex justify-content-center align-items-center">
   <div class="col-12 d-flex justify-content-end align-items-center">
-    <button class="btn btn-main-action" (click)="openModal()" [disabled]="dataStatus()?.datosSEI ? false : true">
+    <button class="btn btn-main-action" (click)="openModal()" [disabled]="cierreValidacion() ? true : (dataStatus()?.datosSEI ? false : true)">
       <img src="assets/list-plus.svg" width="25" alt="plus"> Capturar acta
     </button>
   </div>

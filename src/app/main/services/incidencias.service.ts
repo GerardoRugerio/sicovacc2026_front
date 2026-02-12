@@ -14,14 +14,12 @@ export class IncidenciasService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
-  // private get rol():number {return this.authService.rol!};
-  // private get token():string {return localStorage.getItem('token')!};
+  private get token():string {return localStorage.getItem('token')  || ''};
   private rol = computed(() => this.authService.rol());
-  private token = computed(() => localStorage.getItem('token'));
 
   getListaIncidencias(anio:number):Observable<Res> {
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
     return this.http.get<Res>(`${this.baseUrl}/distrital/seguimiento/Incidentes?anio=${anio}`,{headers})
     .pipe(
@@ -34,7 +32,7 @@ export class IncidenciasService {
     const tipo_mro = +incidencia.num_mro.split('-')[1];
     const body = {...incidencia, num_mro,tipo_mro, anio};
     const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.token()}`
+      'Authorization' : `Bearer ${this.token}`
     });
     if(incidencia.id_incidente !== undefined) {
       return this.http.put<Res>(`${this.baseUrl}/distrital/seguimiento/incidentes`,body,{headers})
@@ -52,7 +50,7 @@ export class IncidenciasService {
   deleteIncidente = (id_incidente:number):Observable<Res> => {
     const headers = new HttpHeaders({
       'Authorization' :
-      `Bearer ${this.rol() !== 1 ? this.authService.tokenTitular() : this.token()}`
+      `Bearer ${this.rol() !== 1 ? this.authService.tokenTitular() : this.token}`
     });
     return this.http.delete<Res>(`${this.baseUrl}/distrital/seguimiento/incidentes`,{body:{id_incidente},headers})
     .pipe(
