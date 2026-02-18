@@ -70,6 +70,11 @@ export class ReportesComponent implements OnInit {
       distrito: true
     },
     {
+      id:'proyectosEmpateSedundoLugar',
+      nombre:'Casos de Empates de los Proyectos que Obtuvieron el Segundo Lugar.',
+      distrito: true
+    },
+    {
       id:'proyectosSinOpiniones',
       nombre:'Concentrado de Unidades Territoriales que no recibieron opiniones.',
       distrito: true
@@ -219,11 +224,6 @@ export class ReportesComponent implements OnInit {
     const year = path.match('inicioCierreValidacion') ? '' : `?anio=${this.anio()}`;
     const url = distrito ? `${modo}${path}/${this.distrito}${year}` : `${modo}${path}${year}`;
 
-    this.downloadService.downloadReportes(url)
-    .subscribe(res => {
-      console.log(res)
-    })
-
     if(this.anio() == 0 && !path.match('inicioCierreValidacion')) {
       Swal.fire({
         icon:'error',
@@ -265,49 +265,6 @@ export class ReportesComponent implements OnInit {
         })
       }
     })
-
-
-    // if(this.anio() == 0 && path !== 'inicioCierreValidacion') {
-    //   Swal.fire({
-    //     icon:'error',
-    //     title:'¡No permitido!',
-    //     text:'No se permite la descarga de reportes sin un año/tipo de consulta seleccionado.',
-    //     confirmButtonText:'Entendido'
-    //   });
-    //   return;
-    // } else {
-    //   Swal.fire({
-    //     title:'Espere un momento',
-    //     text:'Obteniendo datos del reporte...',
-    //     didOpen:() => {
-    //       Swal.showLoading();
-    //     }
-    //   });
-
-      // this.downloadService.downloadReportes(this.anio(), url)
-      // .subscribe(res => {
-      //   Swal.close();
-      //   if(res.success) {
-      //     const blob = new Blob([new Uint8Array(res.buffer.data)], { type: res.contentType });
-      //     const url = window.URL.createObjectURL(blob);
-      //     const a = document.createElement('a');
-      //     a.href = url;
-      //     a.download = res.reporte;
-      //     document.body.appendChild(a);
-      //     a.click();
-      //     window.URL.revokeObjectURL(url);
-      //     document.body.removeChild(a);
-      //   } else {
-      //     Swal.fire({
-      //       icon:'error',
-      //       title:'¡Error en descarga!',
-      //       text: res.msg,
-      //       confirmButtonText:'Entendido',
-      //       timer:2300
-      //     })
-      //   }
-      // })
-    // }
   }
 }
 

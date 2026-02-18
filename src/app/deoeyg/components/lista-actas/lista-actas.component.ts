@@ -174,7 +174,7 @@ import { Acta } from '../../../main/interfaces/captura_resultados_actas.interfac
 import { CatalogosService } from '../../../main/services/catalogos.service';
 import Swal from 'sweetalert2';
 import { VerificaService } from '../../../auth/services/verifica.service';
-import { forkJoin } from 'rxjs';
+import { first, firstValueFrom, forkJoin } from 'rxjs';
 
 
 declare let $:any;
@@ -262,9 +262,9 @@ export class ListaActasComponent implements OnInit {
       verify: this.verifyService.checkAuthentication(),
       res: this.catalogosService.getCatalogo('coloniasConActas','',this.anio(),this.distrito)
     }).subscribe(({verify, res}) => {
-      if(!verify) return;
       Swal.close();
-      if(!res.success) {
+      if(!verify) return;
+      if((res.datos as Catalogo[]) == undefined) {
         Swal.fire({
           icon:'warning',
           title:'¡Atención!',
@@ -291,7 +291,6 @@ export class ListaActasComponent implements OnInit {
       if(!verify) return;
       Swal.close();
       this.listaActas.set(res.datos as Acta[]);
-
     })
   }
 
@@ -299,68 +298,55 @@ export class ListaActasComponent implements OnInit {
     Swal.fire({
       icon:'info',
       title:'¡Confirmación requerida!',
-      html:`La eliminación de un Acta, <b>es un proceso que no puede ser revertido, </b> al dar clic en el botón
-      <i class="text-primary">"Continuar"</i> se desplegará el formulario de confirmación del texto requerido.`,
+      html:`Se requiere la confirmación del texto requerido a continuación para realizar la eliminación del Acta seleccionada.`,
+      input:'text',
+      inputPlaceholder:'Eliminar Acta',
+      customClass:{input:'input-sweet'},
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar',
       allowEscapeKey:false,
       allowOutsideClick:false,
-      confirmButtonText:'Continuar'
-    }).then(() => {
-      Swal.fire({
-        icon:'warning',
-        title:'¡Atención!',
-        html:`Se requiere la confirmación del texto requerido en pantalla para realizar la eliminación del acta seleccionada.`,
-        input:'text',
-        inputPlaceholder:'Eliminar Acta',
-        customClass: {input:'input-sweet'},
-        showCancelButton:true,
-        cancelButtonText:'Cancelar',
-        confirmButtonText:'Confirmar',
-        allowEscapeKey:false,
-        allowOutsideClick:false,
-      }).then((result) => {
-        if(result.isConfirmed) {
-          if(result.value === 'Eliminar Acta') {
-            Swal.fire({
-              icon:'success',
-              title:'¡Confirmación exitosa!',
-              html: `La confirmación de la frase se ha realizado correctamente.`,
-              showConfirmButton:false,
-              timer:2300
-            }).then(() => {
-              this.message('Se está procesando la eliminación del acta...');
-              forkJoin({
-                verify: this.verifyService.checkAuthentication(),
-                res: this.centralService.deleteActas(idActa, this.anio())
-              }).subscribe(({verify, res}) => {
-                if(!verify) return;
-                Swal.close();
-                Swal.fire({
-                  icon:res.success ? 'success' : 'error',
-                  title:res.success ? '¡Correcto!' : '¡Error!',
-                  text:res.msg,
-                  showConfirmButton:false,
-                  timer:2400
-                }).then(() => {
-                  if(res.success) {
-                    this.getActas();
-                    if(this.listaActas().length == 0) {
-                      this.claveColonia.setValue('');
-                      this.claveColonia.disable();
-                    }
-                  }
-                })
-              })
-            })
-          } else {
-            Swal.fire({
-              icon:'error',
-              title:'¡Confirmación fallida!',
-              html:`La frase proporcionada: <i class="text-danger">${result.value}</i>, es incorrecta <b>¡intente de nuevo!</b>`,
-              confirmButtonText:'Entendido'
-            })
-          }
+      showLoaderOnConfirm:true,
+      preConfirm: async (value) => {
+        if(!value) {
+          Swal.showValidationMessage('Es necesario proporcionar la frase requerida para continuar.');
+          return false;
         }
-      })
+        if(value.trim() !== 'Eliminar Acta') {
+          Swal.showValidationMessage(`La frase <b class="text-danger">"${value}"</b> no coincide con la requerida.`);
+          return false;
+        }
+        const verify = await firstValueFrom(this.verifyService.checkAuthentication());
+        if(!verify) return;
+        const res = await firstValueFrom(this.centralService.deleteActas(
+          idActa,
+          this.anio()
+        ));
+        if(!res.success) {
+          Swal.showValidationMessage(res.msg || 'Ocurrió un error desconocido.');
+          return false;
+        }
+        return res;
+      }
+    }).then((result) => {
+      if(result.isConfirmed && result.value && result.value.success) {
+        Swal.fire({
+          icon:'success',
+          title:'¡Correcto!',
+          text:result.value.msg,
+          showConfirmButton:false,
+          timer:2000,
+          allowEscapeKey:false,
+          allowOutsideClick:false
+        }).then(() => {
+          this.getActas();
+          if(this.listaActas().length == 0) {
+            this.claveColonia.setValue('');
+            this.claveColonia.disable();
+          }
+        })
+      }
     })
   }
 }

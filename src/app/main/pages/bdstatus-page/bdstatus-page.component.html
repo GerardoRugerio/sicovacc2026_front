@@ -1,7 +1,7 @@
 <h3>Estado de la Base de Datos</h3>
 <div class="row shadow-lg rounded-3 py-3 my-2 mx-0">
   <div class="col-12 mb-2">
-    <h5>Datos generales de avance</h5>
+    <h5>Información general:</h5>
   </div>
   <div class="col-12">
     <table class="table table-bordered table-striped">
@@ -9,6 +9,7 @@
         <tr>
           <th>Importación de datos SEI</th>
           <th>Inicio del Cómputo y Validación</th>
+          <th>Mesas No Instaladas</th>
           <th>Conclusión del Cómputo y Validación</th>
         </tr>
       </thead>
@@ -16,6 +17,7 @@
         <tr>
           <td>{{data()?.datosSEI ? 'Sí.' : 'No.'}}</td>
           <td>{{data()?.inicioValidacion ? 'Sí.' : 'No.'}}</td>
+          <td>{{data()?.mesasNI}}</td>
           <td>{{data()?.cierreValidacion ? 'Sí.' : 'No.'}}</td>
         </tr>
       </tbody>
@@ -24,13 +26,13 @@
 </div>
 <div class="row shadow-lg rounded-3 py-3 my-4 mx-0">
   <div class="col-12 mb-2">
-    <h5>Datos de avance por año/tipo de consulta</h5>
+    <h5>Información de la Elección y las Consultas:</h5>
   </div>
   <div class="col-12">
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>Avance en:</th>
+          <th></th>
           <th>Comisión de Participación Comunitaria</th>
           <th>Presupuesto Participativo 2026</th>
           <th>Presupuesto Participativo 2027</th>
@@ -38,13 +40,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fw-bold">Número de Mesas no instaladas</td>
-          <td>{{data()?.mesasNI?.mesasNI_C ?? 0}}</td>
-          <td>{{data()?.mesasNI?.mesasNI_CC1 ?? 0}}</td>
-          <td>{{data()?.mesasNI?.mesasNI_CC2 ?? 0}}</td>
-        </tr>
-        <tr>
-          <td class="fw-bold">Cantidad de incidentes registrados</td>
+          <td class="fw-bold">Número de incidentes registrados</td>
           <td>{{data()?.incidentes?.incidentes_C ?? 0}}</td>
           <td>{{data()?.incidentes?.incidentes_CC1 ?? 0}}</td>
           <td>{{data()?.incidentes?.incidentes_CC2 ?? 0}}</td>
@@ -62,13 +58,13 @@
           <td>{{data()?.conteo?.conteo_CC2?.actasCapturadas ?? 0}}</td>
         </tr>
         <tr>
-          <td class="fw-bold">Unidades Territoriales por Validar</td>
+          <td class="fw-bold">Unidades Territoriales por Computar/Validar</td>
           <td>{{data()?.conteo?.conteo_C?.UTPorValidar ?? 0}}</td>
           <td>{{data()?.conteo?.conteo_CC1?.UTPorValidar ?? 0}}</td>
           <td>{{data()?.conteo?.conteo_CC2?.UTPorValidar ?? 0}}</td>
         </tr>
         <tr>
-          <td class="fw-bold">Unidades Territoriales Validadas</td>
+          <td class="fw-bold">Unidades Territoriales Computar/Validadas</td>
           <td>{{data()?.conteo?.conteo_C?.UTValidadas ?? 0}}</td>
           <td>{{data()?.conteo?.conteo_CC1?.UTValidadas ?? 0}}</td>
           <td>{{data()?.conteo?.conteo_CC2?.UTValidadas ?? 0}}</td>

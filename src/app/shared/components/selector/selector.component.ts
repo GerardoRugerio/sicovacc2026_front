@@ -48,7 +48,11 @@ export class SelectorComponent implements OnInit {
         if(this.inputAnio() !== undefined) {
           this.inputId.setValue(this.inputAnio());
         } else {
-          this.inputId.setValue('2');
+          if(this.filtrar()) {
+            this.inputId.setValue('2');
+          } else {
+            this.inputId.setValue('1');
+          }
         }
       } else {
         this.inputId.setValue('1');
@@ -70,10 +74,14 @@ export class SelectorComponent implements OnInit {
           if(this.inputAnio() !== undefined) {
             this.inputId.setValue(this.inputAnio());
           } else {
-            this.inputId.setValue('2');
+            if(this.filtrar()) {
+              this.inputId.setValue('2');
+            } else {
+              this.inputId.setValue('1');
+            }
           }
         } else {
-          this.inputId.setValue('1');
+          this.inputId.setValue('2');
         }
         this.anio.emit(this.id);
       })

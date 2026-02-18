@@ -311,7 +311,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { CloseElementsService } from '../../services/close-elements.service';
 import Swal from 'sweetalert2';
 import { ActualizaService } from '../../../main/services/actualiza.service';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin } from 'rxjs';
 import { VerificaService } from '../../../auth/services/verifica.service';
 
 interface ItemsLista {
@@ -386,7 +386,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
 					inicioValidacion: false
 				},
 				{
-					nombre: 'Inicio de la validación',
+					nombre: 'Inicio de los Cómputos y la Validación',
 					end_point: 'inicio_validacion',
 					inicioValidacion: false
 				},
@@ -396,12 +396,12 @@ export class SidebarUPDTComponent implements AfterViewInit {
 					inicioValidacion: true
 				},
 				{
-					nombre: 'Captura de resultados de la Consulta por Mesa',
+					nombre: 'Captura de resultados por Mesa',
 					end_point: 'captura_resultados',
 					inicioValidacion: true
 				},
 				{
-					nombre: 'Conclusión de la validación',
+					nombre: 'Conclusión de los Cómputos y la Validación',
 					end_point: 'conclusion_validacion',
 					inicioValidacion: true
 				}
@@ -437,7 +437,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
 			]
 		},
 		{
-			descripcion: 'Constancias',
+			descripcion: 'Actas de Cómputo total y Actas de validación',
 			modo: 'distrital',
 			path: 'reportes',
 			end_point: 'constancias',
@@ -508,9 +508,9 @@ export class SidebarUPDTComponent implements AfterViewInit {
       }
 
       if(id.match('seguimiento')) {
-        height =  inicioVal ? 230 : 80;
+        height =  inicioVal ? 275 : 78;
       } else {
-        height = this.opcion()! > 0 ? 110 : 68;
+        height = this.opcion()! > 0 ? 110 : 66;
       }
       let control = $(`#${id}`)[0];
       control.style.height = `${height}px`;
@@ -541,9 +541,9 @@ export class SidebarUPDTComponent implements AfterViewInit {
     if(this.userRole()! < 3) {
       if(control.clientHeight == 0) {
         if(id.match('seguimiento')) {
-          height = this.inicioValidacion() ? 228 : 80;
+          height = this.inicioValidacion() ? 275 : 78;
         } else {
-          height = this.opcion()! > 0 ? 110 : 68;
+          height = this.opcion()! > 0 ? 110 : 66;
         }
       }
       control.style.height = `${height}px`;
@@ -568,77 +568,57 @@ export class SidebarUPDTComponent implements AfterViewInit {
     Swal.fire({
       icon:'info',
       title:'¡Confirmación requerida!',
-      html:`La limpieza de la Base de Datos, <b>es un proceso que no puede ser revertido,</b> al dar clic en el botón
-      <i class="text-info">"Continuar"</i> se desplegará el formulario de confirmación del texto requerido.`,
+      html:`Se requiere la confirmación del texto requerido a continuación para realizar la <b>limpieza de la Base de Datos</b>, una vez confirmada la limpieza
+      todos los datos referentes al Cómputo y la Validación serán eliminados.`,
+      input:'text',
+      inputPlaceholder:'Confirmar Limpieza',
+      customClass:{input:'input-sweet'},
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar',
       allowEscapeKey:false,
       allowOutsideClick:false,
-      confirmButtonText:'Continuar'
-    }).then(() => {
-      Swal.fire({
-        icon:'warning',
-        title:'¡Atención!',
-        html:'Se requiere la confirmación del texto requerido en pantalla para realizar la limpieza de la Base de Datos.',
-        input:'text',
-        inputPlaceholder:'Confirmar Limpieza',
-        customClass: {input:'input-sweet'},
-        showCancelButton:true,
-        cancelButtonText:'Cancelar',
-        confirmButtonText:'Confirmar',
-        allowEscapeKey:false,
-        allowOutsideClick:false,
-      }).then((result) => {
-        if(result.isConfirmed) {
-          if(result.value === 'Confirmar Limpieza') {
-            Swal.fire({
-              icon:'success',
-              title:'¡Confirmación exitosa!',
-              html:`La confirmación de la frase se ha realizado correctamente.`,
-              showConfirmButton:false,
-              timer:2400
-            }).then(() => {
-              Swal.fire({
-                title:'Espere un momento',
-                text:'Se está procesando la limpieza de la Base de Datos...',
-                allowEscapeKey:false,
-                allowOutsideClick:false,
-                didOpen:() => {
-                  Swal.showLoading();
-                }
-              });
-
-              forkJoin({
-                verify:this.verifyService.checkAuthentication(),
-                res:this.actualizaService.deleteBD()
-              }).subscribe(({verify, res}) => {
-                Swal.close();
-                if(!verify) return;
-                Swal.fire({
-                  icon:res.success ? 'success' : 'error',
-                  title:res.success ? '¡Correcto!' : '¡Error!',
-                  text:res.msg,
-                  showConfirmButton:false,
-                  timer:2400
-                }).then(() => {
-                  if(this.location.path().match('data_base')) {
-                    location.reload();
-                  } else {
-                    this.closeElementsService.close();
-                    this.router.navigateByUrl('distrital');
-                  }
-                  $('#procesos')[0].style.height = '0px';
-                })
-              })
-            })
-          } else {
-            Swal.fire({
-              icon:'error',
-              title:'¡Confirmación fallida!',
-              html:`La frase proporcionada: <i class="text-danger">${result.value}</i>, es incorrecta <b>¡intente de nuevo!</b>`,
-              confirmButtonText:'Entendido'
-            })
-          }
+      showLoaderOnConfirm:true,
+      preConfirm: async (value) => {
+        if(!value) {
+          Swal.showValidationMessage('Es necesario proporcionar la frase requerida para continuar.');
+          return false;
         }
-      })
+        if(value.trim() !== 'Confirmar Limpieza') {
+          Swal.showValidationMessage(`La frase <b class="text-danger">"${value}"</b> no coincide con la requerida`);
+          return false;
+        }
+
+        const verify = await firstValueFrom(this.verifyService.checkAuthentication());
+        if(!verify) return false;
+        const res = await firstValueFrom(this.actualizaService.deleteBD());
+        if(!res.success) {
+          Swal.showValidationMessage(res.msg || 'Ocurrió un error desconocido.');
+          return false;
+        }
+        return res;
+      }
+    }).then((result) => {
+      if(result.isConfirmed && result.value && result.value.success) {
+        Swal.fire({
+          icon:'success',
+          title:'¡Correcto!',
+          text:result.value.msg,
+          showConfirmButton:false,
+          timer:2000,
+          allowEscapeKey:false,
+          allowOutsideClick:false
+        }).then(() => {
+          const height = $('#procesos')[0].style;
+          if(this.location.path().match('data_base')) {
+            location.reload();
+          } else {
+            this.closeElementsService.close();
+            this.router.navigateByUrl('distrital');
+          }
+          height.height = '0px';
+        })
+      }
     })
   }
 }

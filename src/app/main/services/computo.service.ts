@@ -27,11 +27,11 @@ export class ComputoService {
     )
   }
 
-  getMesasInstaladas(anio:number) {
+  getMesasInstaladas() {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.token}`
     });
-    return this.http.get<Res>(`${this.baseUrl}/distrital/seguimiento/mesasInstaladas?anio=${anio}`,{headers})
+    return this.http.get<Res>(`${this.baseUrl}/distrital/seguimiento/mesasInstaladas`,{headers})
     .pipe(
       catchError(res => of(res.error as Res)
     ))

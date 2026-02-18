@@ -12256,8 +12256,6 @@ input[type=checkbox] {
   border:solid 1px black !important;
 }
 
-
-
 td {
   text-align: center !important;
   /* border: solid 1px black; */
@@ -12274,7 +12272,7 @@ td {
 .card:hover {
   color: #000000 !important;
   top:5px !important;
-  background-color: #b4b2b2 !important;
+  background-color: #d6aff0 !important;
 }
 
 textarea {

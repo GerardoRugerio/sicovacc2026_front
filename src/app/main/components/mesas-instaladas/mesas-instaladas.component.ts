@@ -190,6 +190,7 @@ export class MesasInstaladasComponent implements OnInit {
 
   ngOnInit(): void {
     this.dtOptions = this.dtService.dtOptions;
+    this.getMesas();
   }
 
   getTextos = (tipo_mesa:number):string => {
@@ -200,14 +201,6 @@ export class MesasInstaladasComponent implements OnInit {
         return '(MECPPP)';
       default:
         return '';
-    }
-  }
-
-  getAnio = (anio:number):void => {
-    this.anio.set(anio);
-    this.listaMesas.set(undefined);
-    if(this.anio() > 0) {
-      this.getMesas();
     }
   }
 
@@ -227,10 +220,11 @@ export class MesasInstaladasComponent implements OnInit {
     forkJoin({
       verify: this.verifyService.checkAuthentication(),
       status: this.dbStatusService.getDatosStatus(),
-      res: this.computoService.getMesasInstaladas(this.anio())
+      res: this.computoService.getMesasInstaladas()
     }).subscribe(({verify, status, res}) => {
       if(!verify) return;
       Swal.close();
+      console.log(res);
       this.status.set(status.datos as Status);
       this.listaMesas.set(res.datos as Mesa[]);
       this.totalCapturadas.set(this.status()?.conteo.conteo_C.actasCapturadas! + this.status()?.conteo.conteo_CC1.actasCapturadas! +

@@ -2,7 +2,7 @@ export interface Status {
   datosSEI:         boolean;
   inicioValidacion: boolean;
   cierreValidacion: boolean;
-  mesasNI:          MesasNI;
+  mesasNI:          number;
   incidentes:       Incidentes;
   conteo:           Conteo;
 }
@@ -27,8 +27,3 @@ export interface Incidentes {
   incidentes_CC2: number;
 }
 
-export interface MesasNI {
-  mesasNI_C:   number;
-  mesasNI_CC1: number;
-  mesasNI_CC2: number;
-}

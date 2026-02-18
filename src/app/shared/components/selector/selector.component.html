@@ -1,5 +1,5 @@
 <form [formGroup]="selectorForm">
-  <strong class="text-center">Año/Tipo de consulta</strong>
+  <strong class="text-center">Elección/Consulta</strong>
   <select class="form-select text-center" formControlName="id" (change)="getId()" (click)="sendVerify()">
     <option value="">Seleccionar</option>
     @for(eleccion of listaEleccion(); track $index) {

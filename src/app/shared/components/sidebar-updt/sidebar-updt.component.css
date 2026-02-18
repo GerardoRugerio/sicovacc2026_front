@@ -43,8 +43,6 @@
 .nav__link--inside-selected {
   background-color: #5900ac;
   color: #ffffff;
-  font-weight: bold;
-  /* font-family: 'Montserrat', sans-serif; */
 }
 
 .nav__link--inside:hover {
@@ -115,6 +113,7 @@
 .list__show {
   width: 100%;
   margin-left: 10px;
+  padding-right: 10px;
   list-style: none;
   transition: height .2s;
   text-align: center;

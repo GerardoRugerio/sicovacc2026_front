@@ -193,7 +193,7 @@ export class SaveIncidenciasComponent implements OnInit, OnDestroy {
       message('Cargando lista de Unidades Territoriales disponibles...');
       forkJoin({
         verify: this.verifyService.checkAuthentication(),
-        res: this.catalogosService.getCatalogo('colonias',undefined,this.anio())
+        res: this.catalogosService.getCatalogo('coloniasSinActas',undefined,this.anio())
       }).subscribe(({verify, res}) => {
         if(!verify) return;
         Swal.close();

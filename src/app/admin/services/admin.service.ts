@@ -46,24 +46,27 @@ export class AdminService {
     );
   }
 
-  getListaProyectos(anio:number, id_distrito:number, clave_colonia:string) {
+  getListaProyectos(path:string, anio:number, id_distrito:number, clave_colonia:string) {
     const body = {anio, id_distrito, clave_colonia}
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.token}`
     });
 
-    return this.http.post<Res>(`${this.baseUrl}/administrador/eliminarProyectos`,body,{headers})
+    return this.http.post<Res>(`${this.baseUrl}/administrador/${path}`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     );
   }
 
-  deleteProyectos(anio:number, id_proyecto:number) {
+  deleteProyectos(path:string, anio:number, id:number) {
+    const id_proyecto = id;
+    const idFormulas = id;
+    const body = {anio, id_proyecto, idFormulas};
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.token}`
     });
 
-    return this.http.delete<Res>(`${this.baseUrl}/administrador/eliminarProyectos`,{body:{anio, id_proyecto},headers})
+    return this.http.delete<Res>(`${this.baseUrl}/administrador/${path}`,{body,headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )

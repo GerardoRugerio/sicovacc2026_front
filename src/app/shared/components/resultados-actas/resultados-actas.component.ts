@@ -139,7 +139,7 @@ export class ResultadosActasComponent implements OnInit {
   }
 
   download = (path:string):void => {
-    const params = ['WORD','PDF'].includes(path) ? 'actaValidacion' : path;
+    const params = ['WORD','PDF'].includes(path) ? (this.anio() == 1 ? 'actaComputoTotal' : 'actaValidacion') : path;
     if(this.anio() == 0) {
       Swal.fire({
         icon:'error',
@@ -154,7 +154,8 @@ export class ResultadosActasComponent implements OnInit {
 
     Swal.fire({
       title:'Espere un momento',
-      html:`Obteniendo datos para generar el <b>${params !== 'actaValidacion' ? 'reporte' : 'acta de validación'}</b>...`,
+      html:`Obteniendo datos para generar el <b>${params == 'actaValidacion' || params == 'actaComputoTotal' ?
+      (this.anio() == 1 ? 'acta de Cómputo Total' : 'acta de Validación') : 'reporte'}</b>.`,
       allowEscapeKey:false,
       allowOutsideClick:false,
       didOpen: () => {

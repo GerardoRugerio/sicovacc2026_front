@@ -55,10 +55,9 @@
 </form> -->
 
 <h3>Mesas instaladas</h3>
-<h5>Marcado/desmarcado de mesas no instaladas</h5>
 <div class="row shadow-lg rounded-3 py-3 my-2 mx-0 fixed">
   <div class="col-6">
-    <shared-selector (anio)="getAnio($event)" (verify)="verifyLista($event)"/>
+    <h5>Marcado/desmarcado de mesas no instaladas</h5>
   </div>
   <div class="col-6 d-flex justify-content-end align-items-center">
     @if(totalCapturadas() == 0) {

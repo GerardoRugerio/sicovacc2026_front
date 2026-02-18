@@ -1,5 +1,5 @@
 thead tr:first-child th {
-  top: 193px;
+  top: 168px;
   position:sticky;
   background-color: #32215C !important;
   color: white !important;
@@ -9,7 +9,7 @@ thead tr:first-child th {
   z-index: 10;
 }
 
-table{
+table {
   border: solid 1px #522A78 !important;
 }
 

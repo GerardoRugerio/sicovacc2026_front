@@ -39,29 +39,29 @@ export class ProjectsTableComponent implements OnInit {
   }
 
   getDeleteConfirm = (confirm:boolean):void => {
-    if(confirm) {
-      Swal.fire({
-        title:'Espere un momento',
-        text:'Eliminando proyecto, por favor, espere...',
-        didOpen:() => {
-          Swal.showLoading();
-        }
-      });
+    // if(confirm) {
+    //   Swal.fire({
+    //     title:'Espere un momento',
+    //     text:'Eliminando proyecto, por favor, espere...',
+    //     didOpen:() => {
+    //       Swal.showLoading();
+    //     }
+    //   });
 
-      this.adminService.deleteProyectos(this.anio, this.id_proyecto)
-      .subscribe(res => {
-        Swal.close();
-        Swal.fire({
-          icon:res.success ? 'success' : 'error',
-          title:res.success ? '¡Correcto!' : '¡Error!',
-          text:res.msg,
-          showConfirmButton:false,
-          timer:2300
-        }).then(() => {
-          this.confirm.emit(true);
-        })
-      })
-    }
+    //   this.adminService.deleteProyectos(this.anio, this.id_proyecto)
+    //   .subscribe(res => {
+    //     Swal.close();
+    //     Swal.fire({
+    //       icon:res.success ? 'success' : 'error',
+    //       title:res.success ? '¡Correcto!' : '¡Error!',
+    //       text:res.msg,
+    //       showConfirmButton:false,
+    //       timer:2300
+    //     }).then(() => {
+    //       this.confirm.emit(true);
+    //     })
+    //   })
+    // }
   }
 
 }

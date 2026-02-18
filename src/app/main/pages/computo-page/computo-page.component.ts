@@ -470,16 +470,6 @@ export class ComputoPageComponent implements OnInit {
   }
 
   sendDatos = ():void => {
-    // if(this.cierreValidacion() && this.computo().match('inicio')) {
-    //   Swal.fire({
-    //     icon:'error',
-    //     title:'¡No permitido!',
-    //     html:`Ya se ha realizado la conclusión de la validación, por lo tanto <b class="text-danger">no está permitido modificar los datos del inicio</b>.`,
-    //     confirmButtonText:'Entendido'
-    //   });
-    //   return;
-    // }
-
     if(this.computoForm.invalid) {
       this.computoForm.markAllAsTouched();
       Swal.fire({
@@ -528,7 +518,7 @@ export class ComputoPageComponent implements OnInit {
     Swal.fire({
       icon:'question',
       title:`¿Confirmar ${this.buttonStyle() ? 'actualización' : 'registro'} de${this.computo().match('inicio') ? 'l inicio' : ' la conclusión'}
-      de la validación?`,
+      de los cómputos y la validación?`,
       html:`${this.computo().match('conclusión') && !this.cierreValidacion() ? 'Al realizar el cierre de la validación el acceso a algunas secciones se verá límitado, ¿Desea confirmar?' : ''}`,
       showCancelButton:true,
       cancelButtonText:'Cancelar',

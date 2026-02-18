@@ -55,8 +55,16 @@ export class ReportesGeneralesPageComponent {
       nombre:'Proyectos por Unidad Territorial que Obtuvieron el Primer Lugar.'
     },
     {
+      id:'proyectosSegundoLugar',
+      nombre:'Proyectos por Unidad Territorial que Obtuvieron el Segundo Lugar.'
+    },
+    {
       id:'proyectosEmpatePrimerLugar',
       nombre:'Casos de empates de los proyectos que obtuvieron el primer lugar.'
+    },
+    {
+      id:'proyectosEmpateSegundoLugar',
+      nombre:'Casos de empates de los proyectos que obtuvieron el segundo lugar.'
     },
     {
       id:'proyectosUTSinOpiniones',
@@ -138,7 +146,7 @@ export class ReportesGeneralesPageComponent {
       });
       return;
     }
-    
+
     Swal.fire({
       title:'Espere un momento',
       text:'Obteniendo datos para generar el reporte...',
@@ -163,7 +171,6 @@ export class ReportesGeneralesPageComponent {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       } else {
-        console.log(res.msg);
         Swal.fire({
           icon:'warning',
           title:'¡No se realizó la descarga!',
