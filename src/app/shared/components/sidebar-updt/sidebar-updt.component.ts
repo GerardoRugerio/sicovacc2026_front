@@ -508,7 +508,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
       }
 
       if(id.match('seguimiento')) {
-        height =  inicioVal ? 275 : 78;
+        height =  inicioVal ? 253 : 105;
       } else {
         height = this.opcion()! > 0 ? 110 : 66;
       }
@@ -541,7 +541,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
     if(this.userRole()! < 3) {
       if(control.clientHeight == 0) {
         if(id.match('seguimiento')) {
-          height = this.inicioValidacion() ? 275 : 78;
+          height = this.inicioValidacion() ? 253 : 105;
         } else {
           height = this.opcion()! > 0 ? 110 : 66;
         }

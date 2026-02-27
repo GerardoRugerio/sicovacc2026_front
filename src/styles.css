@@ -12227,7 +12227,7 @@ body {
 section {
   height: 100vh !important;
   padding-top: 100px !important;
-  padding-left: 240px;
+  padding-left: 270px;
   transition: padding-left 0.5s ease-in-out;
 }
 

@@ -4,7 +4,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
     <div class="modal-content">
       <div class="modal-header bg-header">
         <h5 class="text-white">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de Acta de Escrutinio y Cómputo {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
-        <button type="button" class="btn-close btn-close-white" (click)="closeModal(false)" autofocus="false" tabindex="-1"></button>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()" autofocus="false" tabindex="-1"></button>
       </div>
       <div class="modal-body bg-body">
         <form [formGroup]="actasForm" [attr.autocomplete]="'off'">
@@ -19,7 +19,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
             <div class="col-3">
               <strong>Unidad Territorial *</strong>
               @if(id_acta() !== undefined) {
-                <input type="text" class="form-select text-center" [value]="datos()?.nombre_colonia+' ('+datos()?.clave_colonia+')'" disabled>
+                <input type="text" class="form-select text-center" [value]="datos()?.clave_colonia !== undefined ? datos()?.nombre_colonia+' ('+datos()?.clave_colonia+')' : cColonia()" disabled>
               } @else {
                 <select class="form-select text-center" formControlName="clave_colonia"
                 [class]="{'border-2':isValid('clave_colonia'), 'border-danger':isValid('clave_colonia')}" (change)="getMesas()">
@@ -32,7 +32,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
             <div class="col-3">
               <strong>Número de Mesa *</strong>
               @if(id_acta() !== undefined) {
-                <input type="text" class="form-select text-center" [value]="datos()?.mro! + getTextos(datos()?.tipo_mro!)[2]" disabled>
+                <input type="text" class="form-select text-center" [value]="datos()?.num_mro !== undefined ? datos()?.mro! + getTextos(datos()?.tipo_mro!)[2] : nMesa()" disabled>
               } @else {
                 <select class="form-select text-center" formControlName="num_mro"
                 [class]="{'border-2':isValid('num_mro'), 'border-danger':isValid('num_mro')}" (change)="getIntegraciones()">

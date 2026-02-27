@@ -19,23 +19,7 @@ export interface Res {
   delegacion: string;
   datos:Data;
   usuarios:string[];
-
-  // delegacion?:string;
-  // colonias?: Catalogo[];
-  // proyectos?: Proyects[];
-  // incidencias?: Incidencia[];
-  // mesas?: Catalogo[] | Mesa[];
-  // acta?: Acta;
-  // actas?:Acta[];
-  // datos?:Datos | Computo | Actualiza;
-  // votos?:Votos;
-  // datosSEI: boolean;
-  // mesasNI: number;
-  // incidentes: number;
-  // actasCapturadas: number;
-  // actasPorCapturar: number;
-  // UTValidadas: number;
-  // UTPorValidar: number;
+  id_acta?:string;
 }
 
 

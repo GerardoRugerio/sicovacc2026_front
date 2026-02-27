@@ -1,4 +1,4 @@
-<h3>Captura de Resultados de la Consulta por Mesa</h3>
+<h3>Captura de Resultados por Mesa</h3>
 <div class="row shadow-lg rounded-3 py-3 my-2 mx-0 d-flex justify-content-center align-items-center">
   <div class="col-6">
     <shared-selector (anio)="getAnio($event)"/>
@@ -78,7 +78,7 @@
   </div>
 </div>
 @if(showModal()) {
-  <main-captura-actas [inputAnio]="anio()" [id_acta]="id_acta()" (reset)="getReset($event)" (reload)="getReload($event)"/>
+  <main-captura-actas [inputAnio]="anio()" [id]="id_acta()" (reset)="getReset($event)" (reload)="getReload($event)"/>
 }
 
 

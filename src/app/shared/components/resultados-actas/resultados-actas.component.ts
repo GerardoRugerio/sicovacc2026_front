@@ -41,22 +41,19 @@ export class ResultadosActasComponent implements OnInit {
   public listaReportes: Catalogo[] = [
     {
       id: 'validacionResultados',
-      nombre:
-        'F4. Validación de Resultados de la Consulta por Unidad Territorial.',
+      nombre: 'Validación de Resultados de la Consulta por Unidad Territorial.',
     },
     {
       id: 'validacionResultadosDetalle',
-      nombre: 'F5. Validación de Resultados de la Consulta Detalle Mesa.',
+      nombre: 'Validación de Resultados de la Consulta Detalle Mesa.',
     },
     {
       id: 'validacionResultadosNombre',
-      nombre:
-        'F6. Validación de Resultados de la Consulta por Nombre de Proyecto.',
+      nombre: 'Validación de Resultados de la Consulta por Nombre de Proyecto.',
     },
     {
       id: 'validacionResultadosNombreDetalle',
-      nombre:
-        'F7. Validación de Resultados de la Consulta por Nombre de Proyecto (Detalle por Mesa).',
+      nombre: 'Validación de Resultados de la Consulta por Nombre de Proyecto (Detalle por Mesa).',
     },
   ];
 

@@ -7,10 +7,10 @@
 .container-fixed {
   padding-top: 100px;
   height: 100vh;
-  width: 240px;
+  width: 270px;
   position: fixed;
   z-index: 100 !important;
-  transform: translateX(240);
+  transform: translateX(270);
   transition: transform 0.5s ease-in-out;
 }
 

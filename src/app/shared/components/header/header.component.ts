@@ -10,7 +10,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class HeaderComponent {
   private authService = inject(AuthService);
 
-  public usuario = computed(() => this.authService.user())
+  // public usuario = computed(() => this.authService.user())
   public nombre = computed(() => this.authService.nombre());
   public rol = computed(() => this.authService.rol());
 
@@ -21,7 +21,7 @@ export class HeaderComponent {
     const mainContent = document.getElementById('main');
 
     if(!this.open()) {
-      mainContent!.style.paddingLeft = '240px';
+      mainContent!.style.paddingLeft = '270px';
       sideNav?.classList.remove('closed');
       mainContent?.classList.remove('shifted');
     } else {
