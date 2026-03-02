@@ -425,7 +425,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
 			rol: [1, 2],
 			items: [
 				{
-					nombre: 'Actualización de datos del distrito',
+					nombre: 'Actualización de Datos del Distrito',
 					end_point: 'actualizacion_datos',
 					inicioValidacion: false
 				},
@@ -437,7 +437,7 @@ export class SidebarUPDTComponent implements AfterViewInit {
 			]
 		},
 		{
-			descripcion: 'Actas de Cómputo total y Actas de validación',
+			descripcion: 'Actas de Cómputo Total y Actas de Validación',
 			modo: 'distrital',
 			path: 'reportes',
 			end_point: 'constancias',

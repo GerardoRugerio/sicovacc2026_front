@@ -193,6 +193,7 @@ export class MesasInstaladasComponent implements OnInit {
     this.getMesas();
   }
 
+  //Se obtienen los textos correspondientes al tipo de Mesa si esta es especial o común.
   getTextos = (tipo_mesa:number):string => {
     switch(tipo_mesa) {
       case 3:
@@ -204,6 +205,7 @@ export class MesasInstaladasComponent implements OnInit {
     }
   }
 
+  //Se dispara esta función al iniciar el componente, para obtener la lista de las Mesas disponibles por Unidad Territorial.
   getMesas = ():void => {
     Swal.fire({
       title:'Espere un momento',
@@ -224,7 +226,6 @@ export class MesasInstaladasComponent implements OnInit {
     }).subscribe(({verify, status, res}) => {
       if(!verify) return;
       Swal.close();
-      console.log(res);
       this.status.set(status.datos as Status);
       this.listaMesas.set(res.datos as Mesa[]);
       this.totalCapturadas.set(this.status()?.conteo.conteo_C.actasCapturadas! + this.status()?.conteo.conteo_CC1.actasCapturadas! +
@@ -257,6 +258,7 @@ export class MesasInstaladasComponent implements OnInit {
     })
   }
 
+  //Construcción del formulario con los datos obtenidos en el arreglo.
   patchListaMesas = (lista_mesas:Mesa[]) => lista_mesas.forEach(mesa => this.mesas.push(this.fb.group({
     nombre_colonia: [mesa.nombre_colonia],
     clave_colonia: [mesa.clave_colonia],
@@ -273,6 +275,7 @@ export class MesasInstaladasComponent implements OnInit {
     })
   }
 
+  //Se verifica que ambas listas (formulario y guardada en arreglo), sean completamente iguales, si se detecta algún cambio no se permite el cambio del tipo de elección/consulta.
   verifyLista = (verify:boolean):void => {
     const mesasOrigen = this.listaMesas()!;
     const mesasForm = this.mesas.value;
@@ -289,6 +292,7 @@ export class MesasInstaladasComponent implements OnInit {
     }
   }
 
+  //Función principal de guardado de los datos de las mesas que no serán instaladas.
   saveMesas = ():void => {
     if(this.cierreValidacion()) {
       Swal.fire({

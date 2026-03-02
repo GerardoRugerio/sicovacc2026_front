@@ -364,7 +364,6 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
         this.actasForm.enable();
         this.numIntegrantes.disable();
         this.datos.set(res.datos as Acta);
-        console.log(this.datos());
         this.patchIntegraciones(this.datos()?.integraciones as Integraciones[]);
       })
     }
@@ -493,8 +492,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
             const textCol = this.listaColonias()?.find(col => col.id == this.clave);
             this.cColonia.set(`${textCol?.nombre} (${this.clave})`);
             const textMesa = this.listaMesas()?.find(mesa => mesa.id == String(this.numMesa));
-            this.nMesa.set(`${textMesa?.nombre} ${this.getTextos(+textMesa?.tipo!)[2]}`)
-            console.log(this.nMesa());
+            this.nMesa.set(`${textMesa?.nombre} ${this.getTextos(this.tipoMesa)[2]}`)
             this.editForm.set(false);
           }
         })
