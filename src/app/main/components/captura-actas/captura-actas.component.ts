@@ -414,27 +414,27 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      if(+this.recibidas + +this.adicionales !== +this.sobrantes + +this.nulas + +this.sumaVotos()) {
-        Swal.fire({
-          icon:'warning',
-          title:'¡Atención!',
-          html:`El número de boletas sobrantes más los resultados de la ${this.anio() < 2 ? 'votación' : 'opinión'} en Mesa <b>"no es igual"</b> a las boletas entregadas.
-          (No Incluye Datos SEI), <b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
-          allowEscapeKey:false,
-          allowOutsideClick:false,
-          showCancelButton:true,
-          cancelButtonText:'No',
-          confirmButtonText:'Sí',
-        }).then((result) => {
-          if(result.isConfirmed) {
-            this.levantadaDistrito.setValue(true);
-            this.activaLevantadaDis(true);
-          } else {
-            this.saveActa(true, 2, this.id_acta());
-          }
-        })
-        return;
-      }
+      // if(+this.recibidas + +this.adicionales !== +this.sobrantes + +this.nulas + +this.sumaVotos()) {
+      //   Swal.fire({
+      //     icon:'warning',
+      //     title:'¡Atención!',
+      //     html:`El número de boletas sobrantes más los resultados de la ${this.anio() < 2 ? 'votación' : 'opinión'} en Mesa <b>"no es igual"</b> a las boletas entregadas.
+      //     (No Incluye Datos SEI), <b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
+      //     allowEscapeKey:false,
+      //     allowOutsideClick:false,
+      //     showCancelButton:true,
+      //     cancelButtonText:'No',
+      //     confirmButtonText:'Sí',
+      //   }).then((result) => {
+      //     if(result.isConfirmed) {
+      //       this.levantadaDistrito.setValue(true);
+      //       this.activaLevantadaDis(true);
+      //     } else {
+      //       this.saveActa(true, 2, this.id_acta());
+      //     }
+      //   })
+      //   return;
+      // }
     }
 
     this.saveActa(false, undefined, this.id_acta());

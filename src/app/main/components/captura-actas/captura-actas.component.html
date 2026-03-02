@@ -3,7 +3,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-header">
-        <h5 class="text-white">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de Acta de Escrutinio y Cómputo {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
+        <h5 class="text-white">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de{{id_acta() !== undefined ? 'l Acta' : ' Actas'}} {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
         <button type="button" class="btn-close btn-close-white" (click)="closeModal()" autofocus="false" tabindex="-1"></button>
       </div>
       <div class="modal-body bg-body">
