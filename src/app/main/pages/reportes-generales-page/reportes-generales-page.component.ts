@@ -40,11 +40,11 @@ export class ReportesGeneralesPageComponent {
     },
     {
       id:'MesasConComputo',
-      nombre:'Mesas Receptoras de Opinión con Cómputo Capturado.'
+      nombre:'Mesas Receptoras de Votación y Opinión con Cómputo Capturado.'
     },
     {
       id:'MesasSinComputo',
-      nombre:'Mesas Receptoras de Opinión sin Cómputo Capturado.'
+      nombre:'Mesas Receptoras de Votación y Opinión sin Cómputo Capturado.'
     },
     {
       id:'resultadosOpiMesa',

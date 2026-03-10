@@ -70,7 +70,7 @@ export class ReportesComponent implements OnInit {
       distrito: true
     },
     {
-      id:'proyectosEmpateSedundoLugar',
+      id:'proyectosEmpateSegundoLugar',
       nombre:'Casos de Empates de los Proyectos que Obtuvieron el Segundo Lugar.',
       distrito: true
     },
@@ -86,12 +86,12 @@ export class ReportesComponent implements OnInit {
     },
     {
       id:'MesasConComputo',
-      nombre:'Mesas Receptoras de Opinión con Cómputo Capturado.',
+      nombre:'Mesas Receptoras de Votación y Opinión con Cómputo Capturado.',
       distrito: true
     },
     {
       id:'MesasSinComputo',
-      nombre:'Mesas Receptoras de Opinión sin Cómputo Capturado.',
+      nombre:'Mesas Receptoras de Votación y Opinión sin Cómputo Capturado.',
       distrito: true
     },
     {

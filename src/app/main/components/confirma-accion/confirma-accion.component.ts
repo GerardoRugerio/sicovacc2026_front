@@ -102,7 +102,7 @@ export class ConfirmaAccionComponent implements OnInit {
   //   if(this.myForm.invalid) {
   //     this.myForm.markAllAsTouched();
   //     Swal.fire({
-  //       icon:'warning',
+  //       icon:'warning',1
   //       title:'¡Formulario inválido!',
   //       text:'Ambos campos del formulario deben contener los datos solicitados.',
   //       showConfirmButton:false,
