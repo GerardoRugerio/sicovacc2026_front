@@ -36,7 +36,7 @@ export interface Integraciones {
   votos:        string;
   votos_sei:    string;
   nom_p: string;
-  rubro_general?:string;
+  destino_recursos?:string;
 }
 
 export interface Votos {

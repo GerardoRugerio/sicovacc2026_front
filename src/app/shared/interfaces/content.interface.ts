@@ -7,7 +7,7 @@ export interface Proyects {
   costo_aproximado:   string;
   folio_proy_web:     string;
   folio?:             string;
-  rubro_general:      string;
+  destino_recursos:   string;
   nom_proyecto:       string;
   nombre?:            string;
   ciudadano_presenta: string;

@@ -297,7 +297,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
           text:'No se encontraron Unidades Territoriales disponibles para este año/tipo de consulta',
           confirmButtonText:'Entendido'
         });
-         this.claveColonia.disable();
+        this.claveColonia.disable();
         return;
       }
       this.listaColonias.set(res.datos as Catalogo[]);
@@ -329,7 +329,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
             text:'No se encontraron Unidades Territoriales disponibles para este año/tipo de consulta',
             confirmButtonText:'Entendido'
           });
-           this.numMro.disable();
+          this.numMro.disable();
           return;
         }
         this.delegacion.set(delegacion.delegacion);
@@ -372,7 +372,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   patchIntegraciones = (integraciones:Integraciones[]) => integraciones.forEach(integracion => this.listaIntegraciones.push(this.fb.group({
     secuencial:[integracion.secuencial],
     nom_p:[integracion.nom_p],
-    rubro_general:[integracion.rubro_general],
+    rubro_general:[integracion.destino_recursos],
     votos:[integracion.votos, [Validators.required]],
     votos_sei:[integracion.votos_sei]
   })));
@@ -409,28 +409,6 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
             this.activaLevantadaDis(true);
           } else {
             this.saveActa(true, 3, this.id_acta());
-          }
-        })
-        return;
-      }
-
-      if(+this.recibidas + +this.adicionales !== +this.sobrantes + +this.nulas + +this.sumaVotos()) {
-        Swal.fire({
-          icon:'warning',
-          title:'¡Atención!',
-          html:`El número de boletas sobrantes más los resultados de la ${this.anio() < 2 ? 'votación' : 'opinión'} en Mesa <b>"no es igual"</b> a las boletas entregadas.
-          (No Incluye Datos SEI), <b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
-          allowEscapeKey:false,
-          allowOutsideClick:false,
-          showCancelButton:true,
-          cancelButtonText:'No',
-          confirmButtonText:'Sí',
-        }).then((result) => {
-          if(result.isConfirmed) {
-            this.levantadaDistrito.setValue(true);
-            this.activaLevantadaDis(true);
-          } else {
-            this.saveActa(true, 2, this.id_acta());
           }
         })
         return;

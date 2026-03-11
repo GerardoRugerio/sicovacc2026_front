@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarUPDTComponent } from './components/sidebar-updt/sidebar-updt.component';
+import { SideMenuComponent } from './components/sidebar-updt/side-menu.component';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
@@ -18,7 +18,7 @@ import { HoraPipe } from './pipes/hora.pipe';
 
 @NgModule({
   declarations: [
-    SidebarUPDTComponent,
+    SideMenuComponent,
     HeaderComponent,
     ScrollTopComponent,
     FechaPipe,
@@ -38,7 +38,7 @@ import { HoraPipe } from './pipes/hora.pipe';
     ReactiveFormsModule,
   ],
   exports: [
-    SidebarUPDTComponent,
+    SideMenuComponent,
     HeaderComponent,
     ScrollTopComponent,
     FechaPipe,

@@ -12,10 +12,10 @@ export class ReportesGeneralesPageComponent {
   private reportesService = inject(ReportesGeneralesService);
 
   public reportesConsulta: Catalogo[] = [
-    {
-      id:'proyectosOpinar',
-      nombre:'Proyectos a Opinar.'
-    },
+    // {
+    //   id:'proyectosOpinar',
+    //   nombre:'Proyectos a Opinar.'
+    // },
     {
       id:'UTValidadas',
       nombre:'Unidades Territoriales validadas.'
