@@ -170,8 +170,10 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                         <th>Destino de los recursos</th>
                       }
                       <th>{{anio() < 2 ? 'Total de Votos' : 'Resultados del Escrutinio y Cómputo'}} *</th>
-                      <th>{{anio() < 2 ? 'SEI' : 'Opinión SEI'}}</th>
-                      <th>{{anio() < 2 ? 'Total' : 'Total (SEI+Mesa)'}}</th>
+                      @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
+                        <th>{{anio() < 2 ? 'SEI' : 'Opinión SEI'}}</th>
+                        <th>{{anio() < 2 ? 'Total' : 'Total (SEI+Mesa)'}}</th>
+                      }
                     </tr>
                   </thead>
                   <tbody>
@@ -188,8 +190,10 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                           (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, (i+1) == listaIntegraciones.length ? 'nulas' : (i+1).toString())">
                           @if(isValidVotosField('integraciones',i,'votos')) {<span class="text-danger">{{getVotosFieldErrors('integraciones',i,'votos')}}</span>}
                         </td>
-                        <td>{{integracion.get('votos_sei')?.value}}</td>
-                        <td>{{+integracion.get('votos_sei')?.value + +integracion.get('votos')?.value}}</td>
+                        @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
+                          <td>{{integracion.get('votos_sei')?.value}}</td>
+                          <td>{{+integracion.get('votos_sei')?.value + +integracion.get('votos')?.value}}</td>
+                        }
                       </tr>
                     }
                   </tbody>
