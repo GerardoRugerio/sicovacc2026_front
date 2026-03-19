@@ -84,22 +84,8 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
             <div class="row d-flex justify-content-end align-items-center shadow-lg rounded-3 py-3 my-3 mx-0">
               @if(!levDistrito) {
                 @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
-                  <!-- <div class="col-3">
-                    <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong>
-                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
-                    [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}"
-                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'adicionales')">
-                    @if(isValid('bol_recibidas')) {<span class="text-danger">{{getFieldErrors('bol_recibidas')}}</span>}
-                  </div>
-                  <div class="col-3">
-                    <strong>{{anio() > 1 ? 'Boletas de Opinión Adicionales' : 'Boletas adicionales'}} *</strong>
-                    <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="adicionales" formControlName="bol_adicionales"
-                    [class]="{'border-2':isValid('bol_adicionales'), 'border-danger':isValid('bol_adicionales')}"
-                    (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'sobrantes')">
-                    @if(isValid('bol_adicionales')) {<span class="text-danger">{{getFieldErrors('bol_adicionales')}}</span>}
-                  </div> -->
                   <div class="col-6">
-                    <strong>{{anio() > 1 ? 'Boletas de Opinión sobrantes inutilizadas' : 'Boletas sobrantes'}} *</strong>
+                    <strong>Boletas sobrantes *</strong>
                     <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="sobrantes" formControlName="bol_sobrantes"
                     [class]="{'border-2':isValid('bol_sobrantes'), 'border-danger':isValid('bol_sobrantes')}"
                     (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'total')">
@@ -108,7 +94,8 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                 }
               }
               <div class="col-6">
-                <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[0] : 'Número total de ciudadanos que votaron/opinaron'}} *</strong>
+                <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[0] : (tipoMesa < 3 || datos()?.tipo_mro! < 3 ? 'Total de personas que votaron' :
+                'Número total de ciudadanos que votaron/opinaron') }} *</strong>
                 <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="total" formControlName="total_ciudadanos"
                 [class]="{'border-2':isValid('total_ciudadanos'), 'border-danger':isValid('total_ciudadanos')}"
                 (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, tipoMesa == 4 || datos()?.tipo_mro! == 4 || tipoMesa == 3 || datos()?.tipo_mro! == 3 ? 'recibidas' : '0')">
@@ -116,8 +103,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
               </div>
               @if(tipoMesa > 2 || datos()?.tipo_mro! > 2) {
                 <div class="col-6">
-                    <!-- <strong>{{anio() > 2 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong> -->
-                    <strong>Sobres recibidos para depositar votos/opiniones*</strong>
+                    <strong>Sobres para depositar votos/opiniones*</strong>
                     <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
                     [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}" [disabled]="tipoMesa !== 4 ? true : false"
                     (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, '0')">
