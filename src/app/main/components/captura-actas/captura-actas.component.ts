@@ -54,8 +54,8 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
     levantada_distrito: [false],
     coordinador_sino: [false],
     observador_sino: [false],
-    bol_recibidas: ['', [Validators.required]],
-    bol_adicionales: ['', [Validators.required]],
+    bol_recibidas: ['0'],
+    bol_adicionales: ['0'],
     bol_sobrantes: ['', [Validators.required]],
     total_ciudadanos: ['', [Validators.required]],
     bol_nulas: ['', [Validators.required]],
@@ -100,7 +100,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   get totalEmitida():number {return +this.sumaVotos() + +this.nulas};
   get totalEmitidaMesaSEI():number {return +this.totalEmitida + +this.datos()?.opi_total_sei!};
   get totalVotosMesaSEI():number {return this.sumaVotos()};
-  get totalEfectivaMesaSEI():number {return +this.sumaVotos() + +this.sumaVotosSEI()};
+  // get totalEfectivaMesaSEI():number {return +this.sumaVotos() + +this.sumaVotosSEI()};
 
   //Declaración de inputs y outputs de datos que se moverán entre el componente padre y el componente hijo.
   //Entrada de datos.
@@ -161,7 +161,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
     return true;
   }
 
-  next = (event:any, id:string):void => {   0
+  next = (event:any, id:string):void => {
     const key = event.keyCode;
     if(key == 13) {
       if(id !== 'submit') {
@@ -175,12 +175,12 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   sumaVotos = ():number => this.listaIntegraciones.controls.reduce((sum, group) => {
     const votos = +group.get('votos')?.value;
     return sum + +votos;
-  },0);
+  }, 0);
 
   sumaVotosSEI = ():number => this.listaIntegraciones.controls.reduce((sum, group) => {
     const votos = +group.get('votos_sei')?.value;
     return sum + votos;
-  },0);
+  }, 0);
 
   getTextos = (tipo:number):string[] => {
     switch(+tipo) {
@@ -200,14 +200,17 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   patchFieldsTipoMesa = (tipo:number | undefined = undefined):void => {
     switch(+this.tipoMesa || tipo) {
       case 3:
+        this.bolRecibidas.addValidators([Validators.required]);
         this.bolAdicionales.setValue('0');
         this.bolSobrantes.setValue('0');
       break;
       case 4:
+        this.bolRecibidas.addValidators([Validators.required]);
         this.bolAdicionales.setValue('0');
         this.bolSobrantes.setValue('0');
       break;
       default:
+        this.bolRecibidas.clearValidators();
         this.bolRecibidas.setValue('');
         this.bolAdicionales.setValue('');
         this.bolSobrantes.setValue('');
@@ -271,6 +274,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
       if(!verify) return;
       Swal.close();
       this.datos.set(res.datos as Acta);
+      console.log(this.datos());
       this.actasForm.patchValue(this.datos()!);
       this.patchIntegraciones(this.datos()?.integraciones as Integraciones[]);
       this.listaIntegraciones.disable();

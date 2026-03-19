@@ -12202,14 +12202,14 @@ body {
 .btn-main-action:focus {
   color: #FFFFFF;
   background-color: #350072;
-  transition: ease-in 0.1s !important;
-  border: solid 2px rgb(208, 108, 255) !important;
+  transition: ease-in 0.3s !important;
+  border: solid 1px rgb(75, 0, 110) !important;
 }
 
 .btn-main-action:hover {
   color: #FFFFFF;
   background-color: #3423a7;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .btn-logout {
@@ -12284,15 +12284,51 @@ textarea {
 }
 
 .bg-header {
-  background-color: #5E4587 !important;
+  /* background-color: #5E4587 !important; */
+  background: #7143B5 !important;
+  /* background: linear-gradient(190deg,rgba(94, 69, 135, 1) 0%, rgba(48, 0, 97, 1) 100%); */
+  /* background: radial-gradient(circle,rgba(94, 69, 135, 1) 0%, rgba(48, 0, 97, 1) 100%); */
+  /* background: radial-gradient(circle,rgba(191, 159, 237, 1) 0%, rgba(94, 69, 135, 1) 100%); */
+
 }
 
 .bg-body {
-  background-color: #E8E0EC !important;
+  background-color: #F1E8FC !important;
+  /* background: radial-gradient(circle,rgba(232, 224, 236, 1) 0%, rgba(217, 168, 247, 1) 100%); */
 }
 
 .bg-head {
   background-color: #9E8BB6 !important;
+}
+
+.header-1 {
+  background: #bd9cff;
+  background: radial-gradient(circle,rgba(189, 156, 255, 1) 0%, rgba(120, 94, 171, 1) 100%);
+}
+
+.header-2 {
+  background: #a1f7ff;
+  background: radial-gradient(circle,rgba(161, 247, 255, 1) 0%, rgba(25, 164, 178, 1) 100%);
+}
+
+.header-3 {
+  background: #ffead6;
+  background: radial-gradient(circle,rgba(255, 234, 214, 1) 0%, rgba(228, 180, 137, 1) 100%);
+}
+
+.bg-1 {
+  background: #ffffff;
+  background: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(241, 230, 255, 1) 100%);
+}
+
+.bg-2 {
+  background: #ffffff;
+  background: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(212, 252, 255, 1) 100%);
+}
+
+.bg-3 {
+  background: #ffffff;
+  background: radial-gradient(circle,rgba(255, 255, 255, 1) 0%, rgba(252, 239, 225, 1) 100%);
 }
 
 .form-control:focus, .form-select:focus, .form-check-input:focus, .form-check-input:checked {
@@ -12316,7 +12352,7 @@ input, textarea, select {
 div.dt-container .dt-search input {
   text-align: center !important;
   border: 2px solid #aaa !important;
-  border-radius: 25px !important;
+  border-radius: 7px !important;
   padding: 5px !important;
   background-color: transparent !important;
   color: inherit !important;

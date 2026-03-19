@@ -2,11 +2,11 @@
 aria-labelledby="capturaActasLabel" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <div class="modal-header bg-header">
-        <h5 class="text-white">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de{{id_acta() !== undefined ? 'l Acta' : ' Actas'}} {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
-        <button type="button" class="btn-close btn-close-white" (click)="closeModal()" autofocus="false" tabindex="-1"></button>
+      <div class="modal-header" [class]="{'header-1':anio() == 1, 'header-2':anio() == 2, 'header-3': anio() == 3}">
+        <h5 [class]="{'text-white':anio() == 1}">{{id_acta() !== undefined ? 'Actualización' : 'Captura'}} de{{id_acta() !== undefined ? 'l Acta' : ' Actas'}} {{getTextos(tipoMesa || datos()?.tipo_mro!)[3]}}</h5>
+        <button type="button" class="btn-close" [class]="{'btn-close-white':anio() == 1}" (click)="closeModal()" autofocus="false" tabindex="-1"></button>
       </div>
-      <div class="modal-body bg-body">
+      <div class="modal-body" [class]="{'bg-1':anio() == 1, 'bg-2':anio() == 2, 'bg-3': anio() == 3}">
         <form [formGroup]="actasForm" [attr.autocomplete]="'off'">
           <div class="row shadow-lg rounded py-3 mt-1 mb-2 mx-0">
             <div class="col-3">
@@ -84,7 +84,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
             <div class="row d-flex justify-content-end align-items-center shadow-lg rounded-3 py-3 my-3 mx-0">
               @if(!levDistrito) {
                 @if(tipoMesa < 3 || datos()?.tipo_mro! < 3) {
-                  <div class="col-3">
+                  <!-- <div class="col-3">
                     <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong>
                     <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
                     [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}"
@@ -97,8 +97,8 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                     [class]="{'border-2':isValid('bol_adicionales'), 'border-danger':isValid('bol_adicionales')}"
                     (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, 'sobrantes')">
                     @if(isValid('bol_adicionales')) {<span class="text-danger">{{getFieldErrors('bol_adicionales')}}</span>}
-                  </div>
-                  <div class="col-3">
+                  </div> -->
+                  <div class="col-6">
                     <strong>{{anio() > 1 ? 'Boletas de Opinión sobrantes inutilizadas' : 'Boletas sobrantes'}} *</strong>
                     <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="sobrantes" formControlName="bol_sobrantes"
                     [class]="{'border-2':isValid('bol_sobrantes'), 'border-danger':isValid('bol_sobrantes')}"
@@ -107,16 +107,17 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                   </div>
                 }
               }
-              <div class="col-3">
-                <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[0] : 'Total ciudadanos'}} *</strong>
+              <div class="col-6">
+                <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[0] : 'Número total de ciudadanos que votaron/opinaron'}} *</strong>
                 <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="total" formControlName="total_ciudadanos"
                 [class]="{'border-2':isValid('total_ciudadanos'), 'border-danger':isValid('total_ciudadanos')}"
                 (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, tipoMesa == 4 || datos()?.tipo_mro! == 4 || tipoMesa == 3 || datos()?.tipo_mro! == 3 ? 'recibidas' : '0')">
                 @if(isValid('total_ciudadanos')) {<span class="text-danger">{{getFieldErrors('total_ciudadanos')}}</span>}
               </div>
               @if(tipoMesa > 2 || datos()?.tipo_mro! > 2) {
-                <div class="col-3" [class]="{'pt-4': anio() > 1 && datos()?.tipo_mro == 4 || anio() > 1 && this.tipoMesa == 4 || anio() > 1 && datos()?.tipo_mro == 3 || anio() > 1 && this.tipoMesa == 3}">
-                    <strong>{{anio() > 1 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong>
+                <div class="col-6">
+                    <!-- <strong>{{anio() > 2 ? getTextos(tipoMesa || datos()?.tipo_mro!)[1] : 'Boletas recibidas'}} *</strong> -->
+                    <strong>Sobres recibidos para depositar votos/opiniones*</strong>
                     <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="recibidas" formControlName="bol_recibidas"
                     [class]="{'border-2':isValid('bol_recibidas'), 'border-danger':isValid('bol_recibidas')}" [disabled]="tipoMesa !== 4 ? true : false"
                     (keydown)="block($event)" (keypress)="limitNumbers($event)" (keyup)="next($event, '0')">
@@ -221,12 +222,6 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                       <td>{{anio() < 2 ? 'Votación' : 'Opinión'}} total emitida</td>
                       <td><input type="text" class="form-control text-center" [value]="totalEmitida" disabled></td>
                     </tr>
-                    @if(anio() < 2) {
-                      <tr>
-                        <td>Votación total efectiva</td>
-                        <td><input type="text" class="form-control text-center" [value]="sumaVotos()" disabled></td>
-                      </tr>
-                    }
                   </tbody>
                 </table>
               </div>
@@ -247,12 +242,6 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                         <td>{{anio() < 2 ? 'Votación total emitida' : 'Total de opiniones computadas'}}</td>
                         <td><input type="text" class="form-control text-center" [value]="datos()?.opi_total_sei" disabled></td>
                       </tr>
-                      @if(anio() < 2) {
-                        <tr>
-                          <td>Votación total efectiva</td>
-                          <td><input type="text" class="form-control text-center" [value]="sumaVotosSEI()" disabled></td>
-                        </tr>
-                      }
                     </tbody>
                   </table>
                 </div>
@@ -272,12 +261,6 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
                         <td>{{anio() < 2 ? 'Votación total emitida' : 'Total de opiniones (Emitidas/Computadas)'}}</td>
                         <td><input type="text" class="form-control text-center" [value]="totalEmitidaMesaSEI" disabled></td>
                       </tr>
-                      @if(anio() < 2) {
-                        <tr>
-                          <td>Votación total efectiva</td>
-                          <td><input type="text" class="form-control text-center" [value]="totalEfectivaMesaSEI" disabled></td>
-                        </tr>
-                      }
                     </tbody>
                   </table>
                 </div>
@@ -288,7 +271,7 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
       </div>
       @if(numMro.value !== '' && datos() !== undefined) {
         @if(!cierreValidacion()) {
-          <div class="modal-footer bg-body">
+          <div class="modal-footer" [class]="{'bg-1':anio() == 1, 'bg-2':anio() == 2, 'bg-3': anio() == 3}">
             <div class="container-fluid p-0 m-0">
               <div class="row">
                 <div class="col-4 d-flex justify-content-start align-items-center">

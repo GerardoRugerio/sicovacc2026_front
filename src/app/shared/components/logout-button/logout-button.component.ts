@@ -19,7 +19,9 @@ export class LogoutButtonComponent {
       cancelButtonText:'Cancelar',
       confirmButtonText:'Continuar',
       cancelButtonColor:'#6A5ACD',
-      confirmButtonColor:'#32215C'
+      confirmButtonColor:'#32215C',
+      allowEscapeKey:false,
+      allowOutsideClick:false
     }).then((result) => {
       if(result.isConfirmed) {
         this.authService.logout();

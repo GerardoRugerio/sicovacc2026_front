@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActualizaService } from '../../services/actualiza.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Actualiza } from '../../interfaces/actualiza-datos.interface';
@@ -24,14 +24,15 @@ export class ActualizadatosPageComponent implements OnInit {
     codigo_postal:[0],
     coordinador:['', [Validators.maxLength(100)]],
     coordinador_puesto:['', [Validators.maxLength(100)]],
-    coordinador_genero:[''],
     secretario:['', [Validators.maxLength(100)]],
     secretario_puesto:['', [Validators.maxLength(100)]],
-    secretario_genero:['']
   })
 
-  public datos?:Actualiza;
+  // public datos?:Actualiza;
   public maxlength:number = 200;
+
+  public datos = signal<Actualiza | undefined>(undefined);
+
 
   ngOnInit(): void {
     this.getDatosDistrito();
@@ -50,13 +51,13 @@ export class ActualizadatosPageComponent implements OnInit {
     });
 
     forkJoin({
-      // verify: this.verificaService.checkAuthentication(),
+      verify: this.verificaService.checkAuthentication(),
       res: this.actualizaService.getDatosDistrito()
-    // }).subscribe(({verify, res}) => {
-    }).subscribe(({res}) => {
-      // if(!verify) return;
-      this.datos = res.datos as Actualiza;
-      this.myForm.patchValue(this.datos);
+    }).subscribe(({verify, res}) => {
+      if(!verify) return;
+      console.log(this.datos());
+      this.datos.set(res.datos as Actualiza);
+      this.myForm.patchValue(this.datos()!);
       Swal.close();
     })
   }
@@ -85,8 +86,7 @@ export class ActualizadatosPageComponent implements OnInit {
 
     Swal.fire({
       icon:'question',
-      title:'¿Confirmar?',
-      text:'Está a punto de actualizar los datos del distrito, ¿Confirmar?',
+      title:'¿Confirmar actualización de datos?',
       showCancelButton:true,
       cancelButtonText:'Cancelar',
       confirmButtonText:'Confirmar',
@@ -94,8 +94,8 @@ export class ActualizadatosPageComponent implements OnInit {
       allowOutsideClick:false,
       showLoaderOnConfirm:true,
       preConfirm: async () => {
-        // const isValid = await firstValueFrom(this.verificaService.checkAuthentication());
-        // if(!isValid) return;
+        const isValid = await firstValueFrom(this.verificaService.checkAuthentication());
+        if(!isValid) return;
         const result = await firstValueFrom(this.actualizaService.actualizaDatosDistrito(this.myForm.value as Actualiza));
         if(!result.success) {
           Swal.showValidationMessage(result.msg || 'Ocurrió un error en el proceso');
