@@ -274,7 +274,6 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
       if(!verify) return;
       Swal.close();
       this.datos.set(res.datos as Acta);
-      console.log(this.datos());
       this.actasForm.patchValue(this.datos()!);
       this.patchIntegraciones(this.datos()?.integraciones as Integraciones[]);
       this.listaIntegraciones.disable();

@@ -55,7 +55,6 @@ export class ActualizadatosPageComponent implements OnInit {
       res: this.actualizaService.getDatosDistrito()
     }).subscribe(({verify, res}) => {
       if(!verify) return;
-      console.log(this.datos());
       this.datos.set(res.datos as Actualiza);
       this.myForm.patchValue(this.datos()!);
       Swal.close();

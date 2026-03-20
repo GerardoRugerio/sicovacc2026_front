@@ -56,7 +56,6 @@ export class ActasService {
   }
 
   saveDatos(acta: Acta, anio:number, bol_total_emitidas:number, opi_total_sei:number, forzar:boolean, id_incidencia:number | undefined = undefined, id_acta:number | undefined = undefined):Observable<Res> {
-    console.log(acta);
     const num_mro = acta.num_mro.split('-')[0];
     const tipo_mro = acta.num_mro.split('-')[1];
     const num_integrantes = acta.coordinador_sino ? acta.num_integrantes : 0;
