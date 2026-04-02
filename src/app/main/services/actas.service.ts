@@ -56,11 +56,12 @@ export class ActasService {
   }
 
   saveDatos(acta: Acta, anio:number, bol_total_emitidas:number, opi_total_sei:number, forzar:boolean, id_incidencia:number | undefined = undefined, id_acta:number | undefined = undefined):Observable<Res> {
-    const num_mro = acta.num_mro.split('-')[0];
-    const tipo_mro = acta.num_mro.split('-')[1];
+    const num_mro = id_acta !== undefined ? undefined : acta.num_mro.split('-')[0];
+    const tipo_mro = id_acta !== undefined ? undefined : acta.num_mro.split('-')[1];
     const num_integrantes = acta.coordinador_sino ? acta.num_integrantes : 0;
 
     const body = {...acta, anio, num_mro, tipo_mro, num_integrantes, bol_total_emitidas, opi_total_sei, forzar, id_incidencia, id_acta};
+    console.log(body);
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.rol == 1 || id_acta == undefined ? this.token : this.authService.tokenTitular()}`
     });

@@ -1,6 +1,6 @@
 thead tr:first-child th {
   position: sticky;
-  top:99px;
+  top:270px;
   background-color: #32215C !important;
   color: white !important;
   font-weight: bold !important;
@@ -12,4 +12,11 @@ table{
 }
 table td {
   border:solid 1px #32215c88 !important;
+}
+
+.fixed {
+  position: sticky !important;
+  top:100px !important;
+  background-color: #FFFFFF !important;
+  z-index: 150;
 }

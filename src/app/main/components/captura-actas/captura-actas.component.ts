@@ -185,13 +185,13 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   getTextos = (tipo:number):string[] => {
     switch(+tipo) {
       case 1:
-        return ['Total de personas que emitieron su opinión','Boletas de opinión recibidas','',''];
+        return ['Total de personas que emitieron su opinión', 'Boletas de opinión recibidas', '', ''];
       case 2:
-        return ['Total de personas que emitieron su opinión','Boletas de opinión recibidas','',''];
+        return ['Total de personas que emitieron su opinión', 'Boletas de opinión recibidas', '', ''];
       case 3:
-        return ['Total de personas en estado de postración que emitieron su opinión','Número de sobres recibidos','(MECPEP)','(Personas en Estado de Postración)'];
+        return ['Total de personas en estado de postración que emitieron su opinión', 'Número de sobres recibidos', '(MECPEP)', '(Personas en Estado de Postración)'];
       case 4:
-        return ['Total de personas en prisión preventiva que emitieron su opinión','Número de sobres recibidos','(MECPPP)','(Personas en Prisión Preventiva)'];
+        return ['Total de personas en prisión preventiva que emitieron su opinión', 'Número de sobres recibidos', '(MECPPP)', '(Personas en Prisión Preventiva)'];
       default:
         return [''];
     }
@@ -236,9 +236,13 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
       this.editForm.set(false);
     }
     this.anio.set(anio);
-    this.resetFields();
     if(this.anio() > 0 && this.id_acta() == undefined) {
       this.getColonias();
+    }
+
+    if(this.clave !== '' && this.numMro.value !== '') {
+      this.numMro.enable();
+      this.getIntegraciones();
     }
   }
 
@@ -274,7 +278,12 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
       if(!verify) return;
       Swal.close();
       this.datos.set(res.datos as Acta);
+      const lista = [{id:this.datos()?.clave_colonia!, nombre:this.datos()?.nombre_colonia!}];
+      const mesa = [{id: this.datos()?.num_mro!, tipo: this.datos()?.tipo_mro!, nombre: this.datos()?.mro!}];
+      this.listaColonias.set(lista);
+      this.listaMesas.set(mesa);
       this.actasForm.patchValue(this.datos()!);
+      this.numMro.setValue(`${this.listaMesas()![0].id}-${this.listaMesas()![0].tipo}`);
       this.patchIntegraciones(this.datos()?.integraciones as Integraciones[]);
       this.listaIntegraciones.disable();
     })
@@ -283,7 +292,6 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   getColonias = ():void => {
     this.resetForm();
     message('Cargando lista de Unidades Territoriales disponibles para el año/tipo de consulta seleccionado...');
-    this.claveColonia.setValue('');
     this.claveColonia.disable();
     this.claveColonia.markAsUntouched();
     this.listaIntegraciones.clear();
@@ -348,7 +356,7 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
     this.patchFieldsTipoMesa();
     if(this.numMesa > 0) {
       this.activaIntegrantes();
-      message('Cargando lista de integraciones para esta acta...');
+      message(`Cargando lista de ${this.anio() > 1 ? 'personas candidatas' : 'proyectos'}  esta Acta...`);
       forkJoin({
         verify: this.verifyService.checkAuthentication(),
         res: this.actasService.getDatos(this.anio(),this.clave, this.numMesa, this.tipoMesa)
@@ -356,12 +364,13 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
         if(!verify) return;
         Swal.close();
         if(!res.success) {
-          Swal.fire({
-            icon:'warning',
-            title:'¡Atención!',
-            text:'No se encontraron datos para el acta seleccionada.',
-            confirmButtonText:'Entendido'
-          });
+          this.claveColonia.setValue('');
+          this.numMro.setValue('');
+          this.levantadaDistrito.setValue('');
+          this.levantadaDistrito.markAsUntouched();
+          this.numMro.disable();
+          this.listaMesas.set(undefined);
+          this.datos.set(undefined);
           return;
         };
         this.actasForm.enable();
@@ -485,7 +494,9 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
     this.editForm.set(!this.editForm());
     if(this.editForm()) {
       Object.keys(this.actasForm.controls).forEach(key => {
-        this.actasForm.get(key)?.enable();
+        if(!['num_mro', 'clave_colonia'].includes(key)) {
+          this.actasForm.get(key)?.enable();
+        }
       })
     } else {
       Object.keys(this.actasForm.controls).forEach(key => {
@@ -573,6 +584,9 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
     this.totalCiudadanos.setValue('');
     this.bolNulas.setValue('');
     this.actasForm.markAsUntouched();
+    this.razonDistrital.setValue('');
+    this.razonDistrital.markAsUntouched();
+    this.razonDistrital.clearValidators();
   }
 
   closeModal = ():void => {

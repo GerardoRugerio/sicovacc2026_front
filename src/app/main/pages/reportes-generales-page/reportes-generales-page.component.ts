@@ -165,7 +165,7 @@ export class ReportesGeneralesPageComponent {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = res.reporte;
+        a.download = res.reporte!;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);

@@ -57,8 +57,7 @@ export class ResultadosActasComponent implements OnInit {
     },
   ];
 
-  //Atributos para los botones de descarga de constancias/reporte de proyectos.
-  public listaConstancias: Catalogo[] = [
+  private mockConstancias: Catalogo[] = [
     {
       id: 'proyectosParticipantes',
       nombre: 'Proyectos participantes dictaminados favorablemente',
@@ -71,7 +70,18 @@ export class ResultadosActasComponent implements OnInit {
       id: 'PDF',
       nombre: 'Acta',
     },
+    {
+      id: 'actasComputoTotalZip',
+      nombre: 'Descargar todo (.zip)'
+    },
+    {
+      id: 'actasValidacionZip',
+      nombre: 'Descargar todo (.zip)'
+    },
   ];
+
+  //Atributos para los botones de descarga de constancias/reporte de proyectos.
+  public listaConstancias: Catalogo[] = [];
 
 
   ngOnInit(): void {
@@ -83,6 +93,9 @@ export class ResultadosActasComponent implements OnInit {
     this.anio.set(+anio);
     if(this.anio() > 0) {
       this.getColonias();
+      this.anio() == 1 ?
+      this.listaConstancias = this.mockConstancias.filter(constancia => constancia.id !== 'actasValidacionZip') :
+      this.listaConstancias = this.mockConstancias.filter(constancia => constancia.id !== 'actasComputoTotalZip')
     } else {
       this.listaColonias.set([]);
       this.claveColonia.setValue('');
@@ -152,7 +165,7 @@ export class ResultadosActasComponent implements OnInit {
     Swal.fire({
       title:'Espere un momento',
       html:`Obteniendo datos para generar el <b>${params == 'actaValidacion' || params == 'actaComputoTotal' ?
-      (this.anio() == 1 ? 'acta de Cómputo Total' : 'acta de Validación') : 'reporte'}</b>.`,
+      (this.anio() == 1 ? 'acta de Cómputo Total' : 'acta de Validación') : (params == 'actasComputoTotalZip' || params == 'actasValidacionZip'? 'ZIP de las Actas de '+(this.anio() == 1 ? 'Cómputo Total' : 'Validación') : 'reporte')}</b>.`,
       allowEscapeKey:false,
       allowOutsideClick:false,
       didOpen: () => {
@@ -168,7 +181,7 @@ export class ResultadosActasComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = res.reporte;
+        a.download = res.reporte! ?? res.archivo!;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);

@@ -19,11 +19,16 @@
   <div class="row mx-0 shadow-lg rounded-3 py-3 my-4">
     @for(constancia of listaConstancias; track $index) {
       @if(anio() > 1 || constancia.id !== 'proyectosParticipantes') {
-        <div [class]="{'col-4': anio() > 1, 'col-6': anio() == 1}">
-          <button class="btn" [class]="{'btn-main-action':constancia.id == 'proyectosParticipantes', 'btn-primary': constancia.id == 'WORD', 'btn-danger': constancia.id == 'PDF'}"
-          (click)="download(constancia.id)" [disabled]="!active">
-            <i class="bi" [class]="{'bi-filetype-pdf': constancia.id == 'PDF', 'bi-file-earmark-word': constancia.id == 'WORD', 'bi-file-earmark-spreadsheet-fill': constancia.id == 'proyectosParticipantes'}"></i>
-            {{constancia.nombre}} @if(constancia.id !== 'proyectosParticipantes'){ {{getTipo()}} }
+        <div [class]="{'col-3': anio() > 1, 'col-4': anio() == 1}">
+          <button class="btn" [class]="{'btn-main-action':constancia.id == 'proyectosParticipantes', 'btn-primary': constancia.id == 'WORD', 'btn-danger':
+          constancia.id == 'PDF', 'btn-warning':['actasComputoTotalZip','actasValidacionZip'].includes(constancia.id)}"
+          (click)="download(constancia.id)" [disabled]="!active &&
+          (!['actasComputoTotalZip','actasValidacionZip'].includes(constancia.id))!">
+            <i class="bi" [class]="{'bi-filetype-pdf': constancia.id == 'PDF', 'bi-file-earmark-word': constancia.id == 'WORD',
+            'bi-file-earmark-spreadsheet-fill': constancia.id == 'proyectosParticipantes',
+            'bi-file-zip': ['actasComputoTotalZip','actasValidacionZip'].includes(constancia.id)}"></i>
+            {{constancia.nombre}} @if(constancia.id !== 'proyectosParticipantes'){ {{constancia.id == 'actasComputoTotalZip' ||
+            constancia.id == 'actasValidacionZip' ? '' : getTipo()}} }
           </button>
         </div>
       }

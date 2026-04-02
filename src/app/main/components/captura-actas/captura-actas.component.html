@@ -18,30 +18,24 @@ aria-labelledby="capturaActasLabel" aria-hidden="true">
             </div>
             <div class="col-3">
               <strong>Unidad Territorial *</strong>
-              @if(id_acta() !== undefined) {
-                <input type="text" class="form-select text-center" [value]="datos()?.clave_colonia !== undefined ? datos()?.nombre_colonia+' ('+datos()?.clave_colonia+')' : cColonia()" disabled>
-              } @else {
-                <select class="form-select text-center" formControlName="clave_colonia"
-                [class]="{'border-2':isValid('clave_colonia'), 'border-danger':isValid('clave_colonia')}" (change)="getMesas()">
-                  <option value="">Seleccionar</option>
-                  @for(colonia of listaColonias(); track $index) {<option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>}
-                </select>
-              }
+              <select class="form-select text-center" formControlName="clave_colonia"
+              [class]="{'border-2':isValid('clave_colonia'), 'border-danger':isValid('clave_colonia')}" (change)="getMesas()">
+                <option value="">Seleccionar</option>
+                @for(colonia of listaColonias(); track $index) {
+                  <option [value]="colonia.id">{{colonia.nombre}} ({{colonia.id}})</option>
+                }
+              </select>
               @if(isValid('clave_colonia')) {<span class="text-danger">{{getFieldErrors('clave_colonia')}}</span>}
             </div>
             <div class="col-3">
               <strong>Número de Mesa *</strong>
-              @if(id_acta() !== undefined) {
-                <input type="text" class="form-select text-center" [value]="datos()?.num_mro !== undefined ? datos()?.mro! + getTextos(datos()?.tipo_mro!)[2] : nMesa()" disabled>
-              } @else {
-                <select class="form-select text-center" formControlName="num_mro"
-                [class]="{'border-2':isValid('num_mro'), 'border-danger':isValid('num_mro')}" (change)="getIntegraciones()">
-                  <option value="">Seleccionar</option>
-                  @for(mesa of listaMesas(); track $index) {
-                    <option [value]="mesa.id+'-'+mesa.tipo">{{mesa.nombre}} {{getTextos(mesa.tipo!)[2]}}</option>
-                  }
-                </select>
-              }
+              <select class="form-select text-center" formControlName="num_mro"
+              [class]="{'border-2':isValid('num_mro'), 'border-danger':isValid('num_mro')}" (change)="getIntegraciones()">
+                <option value="">Seleccionar</option>
+                @for(mesa of listaMesas(); track $index) {
+                  <option [value]="mesa.id+'-'+mesa.tipo">{{mesa.nombre}} {{getTextos(mesa.tipo!)[2]}}</option>
+                }
+              </select>
               @if(isValid('num_mro')) {<span class="text-danger">{{getFieldErrors('num_mro')}}</span>}
             </div>
             @if(numMro.value !== '' && datos() !== undefined) {

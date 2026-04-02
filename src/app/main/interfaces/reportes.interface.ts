@@ -2,7 +2,8 @@ export interface Reporte {
   success: boolean;
   msg: string;
   contentType: string;
-  reporte: string;
+  reporte?: string;
+  archivo?: string;
   buffer: Buffer;
 }
 
