@@ -425,6 +425,29 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
         })
         return;
       }
+
+      if(+this.ciudadanos !== +this.totalEmitida) {
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          html:`El número total de personas que ${this.anio() < 2 ? 'votaron' : 'emitieron su opinión'} no es igual
+          al total de ${this.anio() < 2 ? 'votación' : 'opinión'} emitida en Mesa (MRVyO)
+          ,<br><b>¿Desea Levantar el Acta en Dirección Distrital?</b>`,
+          allowEscapeKey:false,
+          allowOutsideClick:false,
+          showCancelButton:true,
+          cancelButtonText:'No',
+          confirmButtonText:'Sí',
+        }).then((result) => {
+          if(result.isConfirmed) {
+            this.levantadaDistrito.setValue(true);
+            this.activaLevantadaDis(true);
+          } else {
+            this.saveActa(true, 2, this.id_acta());
+          }
+        })
+        return;
+      }
     }
 
     this.saveActa(false, undefined, this.id_acta());
