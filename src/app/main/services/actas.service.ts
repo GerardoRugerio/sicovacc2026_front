@@ -61,7 +61,6 @@ export class ActasService {
     const num_integrantes = acta.coordinador_sino ? acta.num_integrantes : 0;
 
     const body = {...acta, anio, num_mro, tipo_mro, num_integrantes, bol_total_emitidas, opi_total_sei, forzar, id_incidencia, id_acta};
-    console.log(body);
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.rol == 1 || id_acta == undefined ? this.token : this.authService.tokenTitular()}`
     });

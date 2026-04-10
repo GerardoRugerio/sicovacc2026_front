@@ -1,6 +1,6 @@
 <form [formGroup]="selectorForm">
   <strong class="text-center">Elección/Consulta</strong>
-  <select class="form-select text-center" formControlName="id" (change)="getId()" (click)="sendVerify()">
+  <select class="form-select text-center" formControlName="id" id="selector" (change)="getId()" (click)="sendVerify()" #selectorInput>
     <option value="">Seleccionar</option>
     @for(eleccion of listaEleccion(); track $index) {
       <option [value]="eleccion.id">{{eleccion.nombre}}</option>

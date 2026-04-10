@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, input, OnInit, output, signal, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActasService } from '../../services/actas.service';
@@ -15,6 +15,7 @@ import { Status } from '../../../auth/interfaces/database-status.interface';
 
 import { firstValueFrom, forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
+import { SelectorComponent } from '../../../shared/components/selector/selector.component';
 
 declare let $:any;
 
@@ -44,6 +45,8 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
   private authService = inject(AuthService);
   private dbStatusService = inject(DbStatusService);
   private encryptService = inject(EncryptService);
+
+  @ViewChild(SelectorComponent) selectorComp!: SelectorComponent;
 
   //Declaración del formulario reactivo para el funcionamiento del componente.
   public actasForm:FormGroup = this.fb.group({
@@ -468,15 +471,15 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
         if(!verify) return;
         const res = await firstValueFrom(
           this.actasService.saveDatos(
-              this.actasForm.value as Acta,
-              this.anio(),
-              this.sumaVotos() + +this.nulas,
-              this.datos()?.opi_total_sei!,
-              forzar,
-              id_incidencia,
-              id_acta
-            )
-          );
+            this.actasForm.value as Acta,
+            this.anio(),
+            this.sumaVotos() + +this.nulas,
+            this.datos()?.opi_total_sei!,
+            forzar,
+            id_incidencia,
+            id_acta
+          )
+        );
         if(!res.success) {
           Swal.showValidationMessage(res.msg || 'Ocurrió un error en el proceso.');
           return false;
@@ -495,6 +498,9 @@ export class CapturaActasComponent implements OnInit, AfterViewInit {
           showConfirmButton:false,
           timer:2300
         }).then(() => {
+          setTimeout(() => {
+            this.selectorComp.focus();
+          }, 100);
           if(result.value.success) {
             const total = this.dbStatusService.status()?.conteo.conteo_C.actasCapturadas! + this.dbStatusService.status()?.conteo.conteo_CC1.actasCapturadas! +
             this.dbStatusService.status()?.conteo.conteo_CC2.actasCapturadas!;

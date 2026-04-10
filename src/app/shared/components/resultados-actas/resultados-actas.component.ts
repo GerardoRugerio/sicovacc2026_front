@@ -9,6 +9,7 @@ import { Catalogo } from '../../../main/interfaces/catalogo.inteface';
 import { forkJoin } from 'rxjs';
 
 import Swal from 'sweetalert2';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'shared-resultados-actas',
@@ -20,6 +21,7 @@ export class ResultadosActasComponent implements OnInit {
   private verifyService = inject(VerificaService);
   private catalogosService = inject(CatalogosService);
   private reportesService = inject(ReportesGeneralesService);
+  private webSocketService = inject(WebsocketService);
 
   //Declaración del formulario principal.
   public constanciasForm: FormGroup = this.fb.group({
@@ -86,6 +88,13 @@ export class ResultadosActasComponent implements OnInit {
 
   ngOnInit(): void {
     this.claveColonia.disable();
+    this.webSocketService.listen('descarga-zip')
+    .subscribe(res => {
+      const { fase, porcentaje } = res as {fase: 'generando' | 'comprimiendo', porcentaje: number};
+      document.getElementById('progress-title')!.innerHTML = fase == 'generando' ? `Generando las <b>Actas de ${this.anio() == 1 ? 'Cómputo Total' : 'Validación'}</b>` : `Comprimiendo el ZIP`;
+      document.getElementById('progress-bar')!.style.width = `${porcentaje}%`;
+      document.getElementById('progress-text')!.innerHTML = `${porcentaje}%`;
+    })
   }
 
   //Obtención del valor del tipo/año de consulta proveniente del componente hijo "<shared-selector>".
@@ -162,16 +171,32 @@ export class ResultadosActasComponent implements OnInit {
       return;
     }
 
-    Swal.fire({
-      title:'Espere un momento',
-      html:`Obteniendo datos para generar el <b>${params == 'actaValidacion' || params == 'actaComputoTotal' ?
-      (this.anio() == 1 ? 'acta de Cómputo Total' : 'acta de Validación') : (params == 'actasComputoTotalZip' || params == 'actasValidacionZip'? 'ZIP de las Actas de '+(this.anio() == 1 ? 'Cómputo Total' : 'Validación') : 'reporte')}</b>.`,
-      allowEscapeKey:false,
-      allowOutsideClick:false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
+    if(!params.includes('Zip'))
+      Swal.fire({
+          title: 'Espera un momento',
+          html: `Obteniendo datos para generar el <b>${['actaValidacion', 'actaComputoTotal'].includes(params) ? (this.anio() == 1 ? 'Acta de Cómputo Total' : 'Acta de Validación') : 'reporte'}</b>`,
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+      });
+    else
+      Swal.fire({
+          title: 'Espere un momento',
+          html: `<span id="progress-title"></span>
+          <div style="width: 100%; background: #eee; border-radius: 15px;">
+            <div id="progress-bar" style="
+              width: 0%;
+              height: 20px;
+              background: #350072;
+              border-radius: 15px;
+              transition: width 0.2s;
+            "></div>
+          </div>
+          <p id="progress-text">0%</p>`,
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading()
+      });
 
     this.reportesService.downloadProyectosP(this.anio(), params, this.clave, ['WORD','PDF'].includes(path) ? path : undefined)
     .subscribe(res => {

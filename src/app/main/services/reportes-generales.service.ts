@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { computed, inject, Injectable } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { environments } from '../../../environments/environments';
@@ -14,6 +14,10 @@ export class ReportesGeneralesService {
   private baseUrl = environments.baseUrl;
 
   private distrito = computed(() => this.authService.distrito());
+
+  get token():string {
+    return localStorage.getItem('token') ?? '';
+  }
 
   downloadReporte = (anio:number, params:string, clave_colonia:string | undefined = undefined, post:boolean | undefined = undefined) => {
     if(!post) {
@@ -63,7 +67,11 @@ export class ReportesGeneralesService {
   }
 
   downloadProyectosP(anio:number, params:string, clave_colonia:string, tipo:string | undefined = undefined) {
-    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}`,{anio, clave_colonia, tipo})
+    const headers = new HttpHeaders({
+      'Authorization' : `Bearer ${this.token}`
+    });
+
+    return this.http.post<Reporte>(`${this.baseUrl}/distrital/reportes/${anio > 1 ? 'consulta' : 'eleccion'}/${params}/${this.distrito()}`,{anio, clave_colonia, tipo},{headers})
     .pipe(
       catchError(res => of(res.error as Reporte))
     )

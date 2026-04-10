@@ -12,7 +12,7 @@
       <div class="col-6">Asistencia de los MSPEN</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="MSPEN" formControlName="MSPEN"
-        (keydown)="limitNumbers($event, 1)" (keyup)="nextField($event, 'COPACO')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'COPACO')">
         @if(isValid('MSPEN')) {
           <span class="text-danger">{{getFieldErrors('MSPEN')}}</span>
         }
@@ -22,7 +22,7 @@
       <div class="col-6">Asistencia de las personas integrantes de la COPACO</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="COPACO" formControlName="COPACO"
-        (keydown)="limitNumbers($event, 3)" (keyup)="nextField($event, 'observadoras')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'observadoras')">
         @if(isValid('COPACO')) {
           <span class="text-danger">{{getFieldErrors('COPACO')}}</span>
         }
@@ -32,7 +32,7 @@
       <div class="col-6">Asistencia de las personas observadoras</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center"  id="observadoras" formControlName="personasObservadoras"
-        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'presentaron')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'presentaron')">
         @if(isValid('personasObservadoras')) {
           <span class="text-danger">{{getFieldErrors('personasObservadoras')}}</span>
         }
@@ -42,7 +42,7 @@
       <div class="col-6">Asistencia de las personas que presentaron proyecto</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="presentaron" formControlName="presentaronProyecto"
-        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'medios')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'medios')">
         @if(isValid('presentaronProyecto')) {
           <span class="text-danger">{{getFieldErrors('presentaronProyecto')}}</span>
         }
@@ -52,7 +52,7 @@
       <div class="col-6">Asistencia de medios de comunicación</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="medios" formControlName="mediosComunicacion"
-        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'otros')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'otros')">
         @if(isValid('mediosComunicacion')) {
           <span class="text-danger">{{getFieldErrors('mediosComunicacion')}}</span>
         }
@@ -62,7 +62,7 @@
       <div class="col-6">Otros</div>
       <div class="col-6 d-flex justify-content-center align-items-center flex-column">
         <input type="text" inputmode="numeric" pattern="\d*" class="form-control text-center" id="otros" formControlName="otros"
-        (keydown)="limitNumbers($event, 2)" (keyup)="nextField($event, 'fecha')">
+        (keydown)="limitNumbers($event)" (keyup)="nextField($event, 'fecha')">
         @if(isValid('otros')) {
           <span class="text-danger">{{getFieldErrors('otros')}}</span>
         }

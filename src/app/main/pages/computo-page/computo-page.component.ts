@@ -590,9 +590,11 @@ export class ComputoPageComponent implements OnInit {
     }
   }
 
-  limitNumbers = (event:KeyboardEvent, limit:number):boolean => {
+  limitNumbers = (event:KeyboardEvent):boolean => {
+    let max = 0;
     const key = event.target as HTMLInputElement;
-    const max = limit;
+    if(key.id !== 'MSPEN') max = 3
+    else max = 1
 
     const keysAllowed = ['Backspace','Delete','ArrowLeft','ArrowRight','Home','End','Tab'];
 

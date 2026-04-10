@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, output, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CatalogosService } from '../../../main/services/catalogos.service';
 import { Catalogo } from '../../../main/interfaces/catalogo.inteface';
@@ -16,6 +16,8 @@ import { EleccionesService } from '../../../main/services/elecciones.service';
 export class SelectorComponent implements OnInit {
   private fb = inject(FormBuilder);
   private catalogosService = inject(CatalogosService);
+
+  @ViewChild('selectorInput') public selector!: ElementRef;
 
   //Declaración del formulario reactivo para el funcionamiento del selector del tipo/año de elección.
   public selectorForm:FormGroup = this.fb.group({
@@ -98,5 +100,9 @@ export class SelectorComponent implements OnInit {
 
   sendVerify = ():void => {
     this.verify.emit(true);
+  }
+
+  focus() {
+    this.selector.nativeElement.focus();
   }
 }
